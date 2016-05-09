@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 //        configureVideoBackground();
 
         CameraDevice.getInstance().selectVideoMode(
-                CameraDevice.MODE.MODE_DEFAULT)
+                CameraDevice.MODE.MODE_DEFAULT);
 
         CameraDevice.getInstance().start();
 
