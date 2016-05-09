@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 
+import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
 import com.vuforia.ObjectTracker;
+import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
@@ -38,10 +40,13 @@ public class MainActivity extends AppCompatActivity {
             Log.e(LOGTAG, logMessage);
         }
 
+        initTracker();
+
         int depthSize = 16;
         int stencilSize = 0;
         boolean translucent = Vuforia.requiresAlpha();
 
+        //Todo: Implement own opengl implementation
 //        mGlView = new SampleGLView(this);
 //        mGlView.init(translucent, depthSize, stencilSize);
 //
@@ -50,6 +55,23 @@ public class MainActivity extends AppCompatActivity {
 
 //        addContentView(mGlView, new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,
 //                LinearLayoutCompat.LayoutParams.MATCH_PARENT));
+
+//        CameraDevice.getInstance().init(camera);
+
+//        configureVideoBackground();
+
+        CameraDevice.getInstance().selectVideoMode(
+                CameraDevice.MODE.MODE_DEFAULT)
+
+        CameraDevice.getInstance().start();
+
+        Vuforia.setFrameFormat(PIXEL_FORMAT.RGB565, true);
+
+// Start the tracker
+        TrackerManager tman = TrackerManager.getInstance();
+        Tracker tracker = tman.getTracker(ObjectTracker.getClassType());
+        tracker.start();
+
     }
 
     private void initTracker(){
