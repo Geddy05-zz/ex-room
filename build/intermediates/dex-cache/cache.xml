@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ea73e92c73cbfe49c5e23c19d4f4992b15b9f783">
+        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_96615724a85f5bd9d5c9b5819dc597a774fb2ca6/classes.dex" />
+    </item>
+
+</items>
