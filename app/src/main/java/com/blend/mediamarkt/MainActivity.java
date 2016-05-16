@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.DisplayMetrics;
 import android.util.EventLog;
 import android.util.Log;
@@ -19,9 +18,7 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
 import com.blend.mediamarkt.utils.Texture;
@@ -30,7 +27,6 @@ import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
 import com.vuforia.Matrix44F;
 import com.vuforia.ObjectTracker;
-import com.vuforia.PIXEL_FORMAT;
 import com.vuforia.Renderer;
 import com.vuforia.STORAGE_TYPE;
 import com.vuforia.State;
@@ -98,7 +94,6 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         mDatasetStrings.add("StonesAndChips.xml");
 
         vuforiaAppSession.initAR(this,ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         mGestureDetector = new GestureDetector(this, new GestureListener());
 
         mTextures = new Vector<Texture>();
@@ -175,7 +170,6 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
             mGlView.setVisibility(View.VISIBLE);
             mGlView.onResume();
         }
-
     }
 
     // Callback for configuration changes the activity handles itself
