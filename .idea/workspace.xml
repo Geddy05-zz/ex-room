@@ -10,7 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b8b7636b-8d51-4b32-9c24-cadcbbe4bbe0" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java" />
     </list>
     <ignored path="ex-room.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,40 +45,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-15.0">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="-8.0">
+              <caret line="399" column="5" selection-start-line="399" selection-start-column="5" selection-end-line="399" selection-end-column="5" />
               <folding>
-                <element signature="e#14689#14690#0" expanded="true" />
-                <element signature="e#14744#14745#0" expanded="true" />
-                <element signature="e#14787#14788#0" expanded="true" />
-                <element signature="e#14829#14830#0" expanded="true" />
-                <element signature="e#16965#16966#0" expanded="true" />
-                <element signature="e#17005#17006#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SampleApplicationControl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationControl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.875">
-              <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-              <folding>
-                <element signature="e#739#757#0" expanded="true" />
+                <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+                <element signature="class#GestureListener#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onSingleTapUp#0;class#GestureListener#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onConfigurationChanged#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#loadTextures#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#startLoadingAnimation#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#doInitTrackers#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#doLoadTrackersData#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#doStartTrackers#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#doStopTrackers#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#doUnloadTrackersData#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#doDeinitTrackers#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#initApplicationAR#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onTouchEvent#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onInitARDone#0;class#MainActivity#0" expanded="false" />
+                <element signature="method#onVuforiaUpdate#0;class#MainActivity#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -80,41 +78,37 @@
       <file leaf-file-name="ImageTargetRenderer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.0740743">
-              <caret line="72" column="34" selection-start-line="72" selection-start-column="15" selection-end-line="72" selection-end-column="34" />
+            <state vertical-scroll-proportion="-46.0">
+              <caret line="153" column="31" selection-start-line="153" selection-start-column="31" selection-end-line="153" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#onDrawFrame#0;class#ImageTargetRenderer#0" expanded="false" />
+                <element signature="method#onSurfaceCreated#0;class#ImageTargetRenderer#0" expanded="false" />
+                <element signature="method#onSurfaceChanged#0;class#ImageTargetRenderer#0" expanded="false" />
+                <element signature="method#initRendering#0;class#ImageTargetRenderer#0" expanded="false" />
+                <element signature="method#renderFrame#0;class#ImageTargetRenderer#0" expanded="false" />
+                <element signature="method#printUserData#0;class#ImageTargetRenderer#0" expanded="false" />
+                <element signature="method#setTextures#0;class#ImageTargetRenderer#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Buildings.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/assets/ImageTargets/Buildings.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SampleApplicationSession.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SampleApplicationSession.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5185184">
-              <caret line="478" column="0" selection-start-line="478" selection-start-column="0" selection-end-line="478" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.29680365">
+              <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#17772#17833#0" expanded="true" />
-                <element signature="e#17905#17962#0" expanded="true" />
-                <element signature="e#18043#18103#0" expanded="true" />
-                <element signature="e#18184#18244#0" expanded="true" />
-                <element signature="e#18334#18403#0" expanded="true" />
-                <element signature="e#18493#18562#0" expanded="true" />
-                <element signature="e#18644#18705#0" expanded="true" />
-                <element signature="e#18796#18866#0" expanded="true" />
-                <element signature="e#18910#18972#0" expanded="true" />
+                <element signature="e#16982#17043#0" expanded="true" />
+                <element signature="e#17115#17172#0" expanded="true" />
+                <element signature="e#17253#17313#0" expanded="true" />
+                <element signature="e#17394#17454#0" expanded="true" />
+                <element signature="e#17544#17613#0" expanded="true" />
+                <element signature="e#17703#17772#0" expanded="true" />
+                <element signature="e#17854#17915#0" expanded="true" />
+                <element signature="e#18006#18076#0" expanded="true" />
+                <element signature="e#18120#18182#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1747,10 +1741,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationException.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationControl.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java" />
       </list>
     </option>
   </component>
@@ -2191,7 +2185,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40870786" sideWeight="0.18597998" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40870786" sideWeight="0.81402004" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40870786" sideWeight="0.81402004" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286517" sideWeight="0.49713877" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2261,48 +2255,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>472</line>
+          <line>223</line>
           <properties />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>473</line>
-          <properties />
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>478</line>
-          <properties />
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>480</line>
-          <properties />
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>517</line>
-          <properties />
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>508</line>
-          <properties />
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java</url>
-          <line>509</line>
-          <properties />
-          <option name="timeStamp" value="16" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="20" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -2312,12 +2270,25 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="54" column="34" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="34" />
           <folding>
-            <element signature="e#14689#14690#0" expanded="true" />
-            <element signature="e#14744#14745#0" expanded="true" />
-            <element signature="e#14787#14788#0" expanded="true" />
-            <element signature="e#14829#14830#0" expanded="true" />
-            <element signature="e#16965#16966#0" expanded="true" />
-            <element signature="e#17005#17006#0" expanded="true" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="class#GestureListener#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSingleTapUp#0;class#GestureListener#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onConfigurationChanged#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#loadTextures#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#startLoadingAnimation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doInitTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doLoadTrackersData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doStartTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doStopTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doUnloadTrackersData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doDeinitTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#initApplicationAR#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onTouchEvent#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onInitARDone#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onVuforiaUpdate#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2338,6 +2309,13 @@
           <caret line="100" column="16" selection-start-line="100" selection-start-column="12" selection-end-line="100" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#onDrawFrame#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#onSurfaceCreated#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#onSurfaceChanged#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#initRendering#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#renderFrame#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#printUserData#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#setTextures#0;class#ImageTargetRenderer#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2355,16 +2333,15 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="73" column="11" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#17772#17833#0" expanded="true" />
-            <element signature="e#17905#17962#0" expanded="true" />
-            <element signature="e#18043#18103#0" expanded="true" />
-            <element signature="e#18184#18244#0" expanded="true" />
-            <element signature="e#18334#18403#0" expanded="true" />
-            <element signature="e#18493#18562#0" expanded="true" />
-            <element signature="e#18644#18705#0" expanded="true" />
-            <element signature="e#18796#18866#0" expanded="true" />
-            <element signature="e#18910#18972#0" expanded="true" />
+            <element signature="e#16982#17043#0" expanded="true" />
+            <element signature="e#17115#17172#0" expanded="true" />
+            <element signature="e#17253#17313#0" expanded="true" />
+            <element signature="e#17394#17454#0" expanded="true" />
+            <element signature="e#17544#17613#0" expanded="true" />
+            <element signature="e#17703#17772#0" expanded="true" />
+            <element signature="e#17854#17915#0" expanded="true" />
+            <element signature="e#18006#18076#0" expanded="true" />
+            <element signature="e#18120#18182#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2431,12 +2408,25 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14689#14690#0" expanded="true" />
-            <element signature="e#14744#14745#0" expanded="true" />
-            <element signature="e#14787#14788#0" expanded="true" />
-            <element signature="e#14829#14830#0" expanded="true" />
-            <element signature="e#16965#16966#0" expanded="true" />
-            <element signature="e#17005#17006#0" expanded="true" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="class#GestureListener#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSingleTapUp#0;class#GestureListener#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onConfigurationChanged#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#loadTextures#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#startLoadingAnimation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doInitTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doLoadTrackersData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doStartTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doStopTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doUnloadTrackersData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doDeinitTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#initApplicationAR#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onTouchEvent#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onInitARDone#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onVuforiaUpdate#0;class#MainActivity#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2507,6 +2497,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2593,16 +2584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.0740743">
-          <caret line="72" column="34" selection-start-line="72" selection-start-column="15" selection-end-line="72" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3607306">
@@ -2629,25 +2610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5185184">
-          <caret line="478" column="0" selection-start-line="478" selection-start-column="0" selection-end-line="478" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#17772#17833#0" expanded="true" />
-            <element signature="e#17905#17962#0" expanded="true" />
-            <element signature="e#18043#18103#0" expanded="true" />
-            <element signature="e#18184#18244#0" expanded="true" />
-            <element signature="e#18334#18403#0" expanded="true" />
-            <element signature="e#18493#18562#0" expanded="true" />
-            <element signature="e#18644#18705#0" expanded="true" />
-            <element signature="e#18796#18866#0" expanded="true" />
-            <element signature="e#18910#18972#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/assets/StonesAndChips.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.040650405">
@@ -2656,17 +2618,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/Library/androidsdk/extras/android/m2repository/com/android/support/appcompat-v7/23.3.0/appcompat-v7-23.3.0-sources.jar!/android/support/v7/app/AppCompatActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="158" column="0" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.0">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="-8.0">
+          <caret line="399" column="5" selection-start-line="399" selection-start-column="5" selection-end-line="399" selection-end-column="5" />
           <folding>
-            <element signature="e#14689#14690#0" expanded="true" />
-            <element signature="e#14744#14745#0" expanded="true" />
-            <element signature="e#14787#14788#0" expanded="true" />
-            <element signature="e#14829#14830#0" expanded="true" />
-            <element signature="e#16965#16966#0" expanded="true" />
-            <element signature="e#17005#17006#0" expanded="true" />
+            <element signature="method#onCreate#0;class#MainActivity#0" expanded="false" />
+            <element signature="class#GestureListener#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onSingleTapUp#0;class#GestureListener#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onResume#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onConfigurationChanged#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onPause#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onDestroy#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#loadTextures#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#startLoadingAnimation#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doInitTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doLoadTrackersData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doStartTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doStopTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doUnloadTrackersData#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#doDeinitTrackers#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#initApplicationAR#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onTouchEvent#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onInitARDone#0;class#MainActivity#0" expanded="false" />
+            <element signature="method#onVuforiaUpdate#0;class#MainActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/ImageTargetRenderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-46.0">
+          <caret line="153" column="31" selection-start-line="153" selection-start-column="31" selection-end-line="153" selection-end-column="31" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#onDrawFrame#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#onSurfaceCreated#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#onSurfaceChanged#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#initRendering#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#renderFrame#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#printUserData#0;class#ImageTargetRenderer#0" expanded="false" />
+            <element signature="method#setTextures#0;class#ImageTargetRenderer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/blend/mediamarkt/SampleApplicationSession.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29680365">
+          <caret line="36" column="43" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
+          <folding>
+            <element signature="e#16982#17043#0" expanded="true" />
+            <element signature="e#17115#17172#0" expanded="true" />
+            <element signature="e#17253#17313#0" expanded="true" />
+            <element signature="e#17394#17454#0" expanded="true" />
+            <element signature="e#17544#17613#0" expanded="true" />
+            <element signature="e#17703#17772#0" expanded="true" />
+            <element signature="e#17854#17915#0" expanded="true" />
+            <element signature="e#18006#18076#0" expanded="true" />
+            <element signature="e#18120#18182#0" expanded="true" />
           </folding>
         </state>
       </provider>

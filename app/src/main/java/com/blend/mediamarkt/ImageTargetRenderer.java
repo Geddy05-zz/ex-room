@@ -9,16 +9,8 @@ import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import java.io.IOException;
-import java.util.Vector;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
-import android.util.Log;
 
 import com.vuforia.Matrix44F;
 import com.vuforia.Renderer;
@@ -28,7 +20,6 @@ import com.vuforia.Trackable;
 import com.vuforia.TrackableResult;
 import com.vuforia.VIDEO_BACKGROUND_REFLECTION;
 import com.vuforia.Vuforia;
-import com.blend.mediamarkt.SampleApplicationSession;
 import com.blend.mediamarkt.utils.CubeShaders;
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
 import com.blend.mediamarkt.utils.SampleApplication3DModel;
@@ -47,15 +38,10 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
         private Vector<Texture> mTextures;
 
         private int shaderProgramID;
-
         private int vertexHandle;
-
         private int normalHandle;
-
         private int textureCoordHandle;
-
         private int mvpMatrixHandle;
-
         private int texSampler2DHandle;
 
         private Teapot mTeapot;
@@ -69,7 +55,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
 
     private static final float OBJECT_SCALE_FLOAT = 3.0f;
 
-
         public ImageTargetRenderer(MainActivity activity,
                                    SampleApplicationSession session , Vector<Texture> texture)
         {
@@ -77,8 +62,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             vuforiaAppSession = session;
             mTextures = texture;
         }
-
-
 
         // Called to draw the current frame.
         @Override
@@ -90,7 +73,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             // Call our function to render content
             renderFrame();
         }
-
 
         // Called when the surface is created or recreated.
         @Override
@@ -105,7 +87,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             vuforiaAppSession.onSurfaceCreated();
         }
 
-
         // Called when the surface changed size.
         @Override
         public void onSurfaceChanged(GL10 gl, int width, int height)
@@ -115,7 +96,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             // Call Vuforia function to handle render surface size changes:
             vuforiaAppSession.onSurfaceChanged(width, height);
         }
-
 
         // Function for initializing the renderer.
         private void initRendering()
@@ -170,7 +150,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
                     .sendEmptyMessage(LoadingDialogHandler.HIDE_LOADING_DIALOG);
 
         }
-
 
         // The render function.
         private void renderFrame()
@@ -299,13 +278,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             mRenderer.end();
         }
 
-
         private void printUserData(Trackable trackable)
         {
             String userData = (String) trackable.getUserData();
             Log.d(LOGTAG, "UserData:Retreived User Data	\"" + userData + "\"");
         }
-
 
         public void setTextures(Vector<Texture> textures)
         {
