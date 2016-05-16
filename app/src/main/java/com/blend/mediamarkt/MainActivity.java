@@ -1,17 +1,27 @@
 package com.blend.mediamarkt;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.DisplayMetrics;
+import android.util.EventLog;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
 import com.blend.mediamarkt.utils.Texture;
@@ -45,6 +55,8 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
 
     private boolean mSwitchDatasetAsap = false;
     private SampleApplicationSession vuforiaAppSession;
+    private int mVuforiaFlags = 0;
+
 
     private Vector<Texture> mTextures;
 
@@ -62,6 +74,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
     private boolean mExtendedTracking = false;
     private ImageTargetRenderer mRenderer;
+    private GestureDetector mGestureDetector;
 
     // Display size of the device:
     private int mScreenWidth = 0;
@@ -72,58 +85,237 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
     // Stores orientation
     private boolean mIsPortrait = false;
 
+    boolean mIsDroidDevice = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
         vuforiaAppSession = new SampleApplicationSession(this);
-        try
-        {
-            mInitVuforiaTask = new InitVuforiaTask();
-            mInitVuforiaTask.execute();
-        } catch (Exception e)
-        {
-            String logMessage = "Initializing Vuforia SDK failed";
-            Log.e(LOGTAG, logMessage);
-        }
 
-        // Load any sample specific textures:
+        startLoadingAnimation();
+        mDatasetStrings.add("StonesAndChips.xml");
+
+        vuforiaAppSession.initAR(this,ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        mGestureDetector = new GestureDetector(this, new GestureListener());
+
         mTextures = new Vector<Texture>();
         loadTextures();
 
-        int depthSize = 16;
-        int stencilSize = 0;
-        boolean translucent = Vuforia.requiresAlpha();
-
-        //Todo: Implement own opengl implementation
-        mGlView = new ExRoomGL(this);
-        mGlView.init(translucent, depthSize, stencilSize);
-//
-
-        mRenderer = new ImageTargetRenderer(this,vuforiaAppSession,mTextures);
-        mGlView.setRenderer(mRenderer);
-
-        addContentView(mGlView, new LinearLayoutCompat.LayoutParams(LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-                LinearLayoutCompat.LayoutParams.MATCH_PARENT));
-
-        CameraDevice.getInstance().init(mCamera);
-
-        storeScreenDimensions();
-
-        configureVideoBackground();
-
-//        CameraDevice.getInstance().selectVideoMode(
-//                CameraDevice.MODE.MODE_DEFAULT);
-
-        CameraDevice.getInstance().start();
-
-        startLoadingAnimation();
         try {
-            this.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
+            vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
             doStartTrackers();
         }catch (Exception e){
-
+            EventLog.writeEvent(500,"dotracker failed");
         }
+    }
+
+    // Process Single Tap event to trigger autofocus
+    private class GestureListener extends
+            GestureDetector.SimpleOnGestureListener
+    {
+        // Used to set autofocus one second after a manual focus is triggered
+        private final Handler autofocusHandler = new Handler();
+
+
+        @Override
+        public boolean onDown(MotionEvent e)
+        {
+            return true;
+        }
+
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e)
+        {
+            // Generates a Handler to trigger autofocus
+            // after 1 second
+            autofocusHandler.postDelayed(new Runnable()
+            {
+                public void run()
+                {
+                    boolean result = CameraDevice.getInstance().setFocusMode(
+                            CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);
+
+                    if (!result)
+                        Log.e("SingleTapUp", "Unable to trigger focus");
+                }
+            }, 1000L);
+
+            return true;
+        }
+    }
+
+    @Override
+    protected void onResume()
+    {
+        Log.d(LOGTAG, "onResume");
+        super.onResume();
+
+        // This is needed for some Droid devices to force portrait
+        if (mIsDroidDevice)
+        {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
+        try
+        {
+            vuforiaAppSession.resumeAR();
+        } catch (SampleApplicationException e)
+        {
+            Log.e(LOGTAG, e.getString());
+        }
+
+        // Resume the GL view:
+        if (mGlView != null)
+        {
+            mGlView.setVisibility(View.VISIBLE);
+            mGlView.onResume();
+        }
+
+    }
+
+    // Callback for configuration changes the activity handles itself
+    @Override
+    public void onConfigurationChanged(Configuration config)
+    {
+        Log.d(LOGTAG, "onConfigurationChanged");
+        super.onConfigurationChanged(config);
+
+        vuforiaAppSession.onConfigurationChanged();
+    }
+
+
+    // Called when the system is about to start resuming a previous activity.
+    @Override
+    protected void onPause()
+    {
+        Log.d(LOGTAG, "onPause");
+        super.onPause();
+
+        if (mGlView != null)
+        {
+            mGlView.setVisibility(View.INVISIBLE);
+            mGlView.onPause();
+        }
+
+        // Turn off the flash
+
+        try
+        {
+            vuforiaAppSession.pauseAR();
+        } catch (SampleApplicationException e)
+        {
+            Log.e(LOGTAG, e.getString());
+        }
+    }
+
+    // The final call you receive before your activity is destroyed.
+    @Override
+    protected void onDestroy()
+    {
+        Log.d(LOGTAG, "onDestroy");
+        super.onDestroy();
+
+        try
+        {
+            vuforiaAppSession.stopAR();
+        } catch (SampleApplicationException e)
+        {
+            Log.e(LOGTAG, e.getString());
+        }
+
+        // Unload texture:
+        mTextures.clear();
+        mTextures = null;
+
+        System.gc();
+    }
+
+
+
+    public void initAR(Activity activity, int screenOrientation)
+    {
+        SampleApplicationException vuforiaException = null;
+        mActivity = activity;
+
+        if ((screenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
+                && (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO))
+            screenOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
+
+        // Use an OrientationChangeListener here to capture all orientation changes.  Android
+        // will not send an Activity.onConfigurationChanged() callback on a 180 degree rotation,
+        // ie: Left Landscape to Right Landscape.  Vuforia needs to react to this change and the
+        // SampleApplicationSession needs to update the Projection Matrix.
+        OrientationEventListener orientationEventListener = new OrientationEventListener(mActivity) {
+            @Override
+            public void onOrientationChanged(int i) {
+                int activityRotation = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+                if(mLastRotation != activityRotation)
+                {
+                    // Signal the ApplicationSession to refresh the projection matrix
+                    setProjectionMatrix();
+                    mLastRotation = activityRotation;
+                }
+            }
+
+            int mLastRotation = -1;
+        };
+
+        if(orientationEventListener.canDetectOrientation())
+            orientationEventListener.enable();
+
+        // Apply screen orientation
+        mActivity.setRequestedOrientation(screenOrientation);
+
+        updateActivityOrientation();
+
+        // Query display dimensions:
+        storeScreenDimensions();
+
+        // As long as this window is visible to the user, keep the device's
+        // screen turned on and bright:
+        mActivity.getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        mVuforiaFlags = Vuforia.GL_20;
+
+        // Initialize Vuforia SDK asynchronously to avoid blocking the
+        // main (UI) thread.
+        //
+        // NOTE: This task instance must be created and invoked on the
+        // UI thread and it can be executed only once!
+        if (mInitVuforiaTask != null)
+        {
+            String logMessage = "Cannot initialize SDK twice";
+            vuforiaException = new SampleApplicationException(
+                    SampleApplicationException.VUFORIA_ALREADY_INITIALIZATED,
+                    logMessage);
+//            Log.e(LOGTAG, logMessage);
+        }
+
+        if (vuforiaException == null)
+        {
+            try
+            {
+                mInitVuforiaTask = new InitVuforiaTask();
+                mInitVuforiaTask.execute();
+            } catch (Exception e)
+            {
+                String logMessage = "Initializing Vuforia SDK failed";
+                vuforiaException = new SampleApplicationException(
+                        SampleApplicationException.INITIALIZATION_FAILURE,
+                        logMessage);
+//                Log.e(LOGTAG, logMessage);
+            }
+        }
+
+        if (vuforiaException != null)
+            this.onInitARDone(vuforiaException);
     }
 
     public void startAR(int camera) throws SampleApplicationException
@@ -266,6 +458,17 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         mScreenHeight = metrics.heightPixels;
     }
 
+    public void onSurfaceChanged(int width, int height)
+    {
+        Vuforia.onSurfaceChanged(width, height);
+    }
+
+
+    public void onSurfaceCreated()
+    {
+        Vuforia.onSurfaceCreated();
+    }
+
     // Configures the video mode and sets offsets for the camera's image
     private void configureVideoBackground()
     {
@@ -352,8 +555,10 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         return result;
     }
 
+    // Methods to load and destroy tracking data.
     @Override
-    public boolean doLoadTrackersData() {
+    public boolean doLoadTrackersData()
+    {
         TrackerManager tManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) tManager
                 .getTracker(ObjectTracker.getClassType());
@@ -470,9 +675,20 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
 
         mRenderer = new ImageTargetRenderer(this, vuforiaAppSession,mTextures);
         mRenderer.setTextures(mTextures);
-        mGlView.setRenderer(mRenderer);
+        mGlView.setRenderer(mRenderer);;
 
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+//        // Process the Gestures
+//        if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
+//            return true;
+
+        return mGestureDetector.onTouchEvent(event);
+    }
+
 
     @Override
     public void onInitARDone(SampleApplicationException exception) {
@@ -495,6 +711,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
 
             // Sets the layout background to transparent
             mUILayout.setBackgroundColor(Color.TRANSPARENT);
+
 
             try
             {
