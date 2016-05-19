@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/nimbus/IdeaProjects/exRoom/libuvccamera/build/intermediates/res/merged/androidTest/debug/xml/device_filter.xml",
+        "source": "/Users/nimbus/IdeaProjects/exRoom/libuvccamera/build/intermediates/bundles/debug/res/xml/device_filter.xml"
+    },
+    {
+        "merged": "/Users/nimbus/AndroidStudioProjects/UVCCamera/UVCCamera/libuvccamera/build/intermediates/res/merged/androidTest/debug/xml/device_filter.xml",
+        "source": "/Users/nimbus/AndroidStudioProjects/UVCCamera/UVCCamera/libuvccamera/build/intermediates/bundles/debug/res/xml/device_filter.xml"
+    }
+]

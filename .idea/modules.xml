@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ex-room.iml" filepath="$PROJECT_DIR$/ex-room.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exRoom.iml" filepath="$PROJECT_DIR$/exRoom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libuvccamera/libuvccamera.iml" filepath="$PROJECT_DIR$/libuvccamera/libuvccamera.iml" />
+      <module fileurl="file://$PROJECT_DIR$/usbcamera/usbcamera.iml" filepath="$PROJECT_DIR$/usbcamera/usbcamera.iml" />
     </modules>
   </component>
 </project>

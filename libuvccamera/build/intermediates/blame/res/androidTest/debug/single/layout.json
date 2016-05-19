@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/nimbus/AndroidStudioProjects/UVCCamera/UVCCamera/libuvccamera/build/intermediates/res/merged/androidTest/debug/layout/listitem_device.xml",
+        "source": "/Users/nimbus/AndroidStudioProjects/UVCCamera/UVCCamera/libuvccamera/build/intermediates/bundles/debug/res/layout/listitem_device.xml"
+    },
+    {
+        "merged": "/Users/nimbus/IdeaProjects/exRoom/libuvccamera/build/intermediates/res/merged/androidTest/debug/layout/listitem_device.xml",
+        "source": "/Users/nimbus/IdeaProjects/exRoom/libuvccamera/build/intermediates/bundles/debug/res/layout/listitem_device.xml"
+    },
+    {
+        "merged": "/Users/nimbus/AndroidStudioProjects/UVCCamera/UVCCamera/libuvccamera/build/intermediates/res/merged/androidTest/debug/layout/dialog_camera.xml",
+        "source": "/Users/nimbus/AndroidStudioProjects/UVCCamera/UVCCamera/libuvccamera/build/intermediates/bundles/debug/res/layout/dialog_camera.xml"
+    },
+    {
+        "merged": "/Users/nimbus/IdeaProjects/exRoom/libuvccamera/build/intermediates/res/merged/androidTest/debug/layout/dialog_camera.xml",
+        "source": "/Users/nimbus/IdeaProjects/exRoom/libuvccamera/build/intermediates/bundles/debug/res/layout/dialog_camera.xml"
+    }
+]
