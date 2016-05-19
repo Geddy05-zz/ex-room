@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
 import com.blend.mediamarkt.utils.Texture;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
 import com.vuforia.ObjectTracker;
@@ -28,7 +32,9 @@ import com.vuforia.Vuforia;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity  implements ExRoomControl {
+import com.blend.mediamarkt.utils.AudioPlayer;
+
+public class MainActivity extends AppCompatActivity implements ExRoomControl {
 
     private static final String LOGTAG = "Media_Markt_Room";
 
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
     // Stores the projection matrix to use for rendering purposes
     private RelativeLayout mUILayout;
     private Activity mActivity;
-    private Object mShutdownLock = new Object();
+    //    private Object mShutdownLock = new Object();
     private ExRoomGL mGlView;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
@@ -53,7 +59,14 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
     private ImageTargetRenderer mRenderer;
     private GestureDetector mGestureDetector;
 
+    public AudioPlayer mAudio;
+
     boolean mIsDroidDevice = false;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -62,10 +75,12 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
         mActivity = this;
         vuforiaAppSession = new ExRoomSession(this);
 
+        mAudio = new AudioPlayer(this.getApplicationContext());
         startLoadingAnimation();
         mDatasetStrings.add("StonesAndChips.xml");
+        mDatasetStrings.add("Tarmac.xml");
 
-        vuforiaAppSession.initAR(this,ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        vuforiaAppSession.initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mGestureDetector = new GestureDetector(this, new GestureListener());
 
         mTextures = new Vector<Texture>();
@@ -74,35 +89,75 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
         try {
             vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
             doStartTrackers();
-        }catch (Exception e){
-            EventLog.writeEvent(500,"dotracker failed");
+        } catch (Exception e) {
+            EventLog.writeEvent(500, "dotracker failed");
         }
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.blend.mediamarkt/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        mAudio.pauseAudio();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.blend.mediamarkt/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 
     // Process Single Tap event to trigger autofocus
     private class GestureListener extends
-            GestureDetector.SimpleOnGestureListener
-    {
+            GestureDetector.SimpleOnGestureListener {
         // Used to set autofocus one second after a manual focus is triggered
         private final Handler autofocusHandler = new Handler();
 
 
         @Override
-        public boolean onDown(MotionEvent e)
-        {
+        public boolean onDown(MotionEvent e) {
             return true;
         }
 
 
         @Override
-        public boolean onSingleTapUp(MotionEvent e)
-        {
+        public boolean onSingleTapUp(MotionEvent e) {
             // Generates a Handler to trigger autofocus
             // after 1 second
-            autofocusHandler.postDelayed(new Runnable()
-            {
-                public void run()
-                {
+            autofocusHandler.postDelayed(new Runnable() {
+                public void run() {
                     boolean result = CameraDevice.getInstance().setFocusMode(
                             CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);
 
@@ -116,29 +171,25 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         Log.d(LOGTAG, "onResume");
         super.onResume();
+        mAudio.resumeAudio();
 
         // This is needed for some Droid devices to force portrait
-        if (mIsDroidDevice)
-        {
+        if (mIsDroidDevice) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        try
-        {
+        try {
             vuforiaAppSession.resumeAR();
-        } catch (ExRoomException e)
-        {
+        } catch (ExRoomException e) {
             Log.e(LOGTAG, e.getString());
         }
 
         // Resume the GL view:
-        if (mGlView != null)
-        {
+        if (mGlView != null) {
             mGlView.setVisibility(View.VISIBLE);
             mGlView.onResume();
         }
@@ -146,8 +197,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
     // Callback for configuration changes the activity handles itself
     @Override
-    public void onConfigurationChanged(Configuration config)
-    {
+    public void onConfigurationChanged(Configuration config) {
         Log.d(LOGTAG, "onConfigurationChanged");
         super.onConfigurationChanged(config);
 
@@ -156,40 +206,34 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
     // Called when the system is about to start resuming a previous activity.
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         Log.d(LOGTAG, "onPause");
         super.onPause();
+        mAudio.pauseAudio();
 
-        if (mGlView != null)
-        {
+        if (mGlView != null) {
             mGlView.setVisibility(View.INVISIBLE);
             mGlView.onPause();
         }
 
         // Turn off the flash
 
-        try
-        {
+        try {
             vuforiaAppSession.pauseAR();
-        } catch (ExRoomException e)
-        {
+        } catch (ExRoomException e) {
             Log.e(LOGTAG, e.getString());
         }
     }
 
     // The final call you receive before your activity is destroyed.
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         Log.d(LOGTAG, "onDestroy");
         super.onDestroy();
 
-        try
-        {
+        try {
             vuforiaAppSession.stopAR();
-        } catch (ExRoomException e)
-        {
+        } catch (ExRoomException e) {
             Log.e(LOGTAG, e.getString());
         }
 
@@ -200,8 +244,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
         System.gc();
     }
 
-    private void loadTextures()
-    {
+    private void loadTextures() {
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
                 getAssets()));
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
@@ -212,8 +255,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
                 getAssets()));
     }
 
-    private void startLoadingAnimation()
-    {
+    private void startLoadingAnimation() {
         mUILayout = (RelativeLayout) View.inflate(this, R.layout.camera_overlay,
                 null);
 
@@ -234,8 +276,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
     }
 
-    boolean isExtendedTrackingActive()
-    {
+    boolean isExtendedTrackingActive() {
         return mExtendedTracking;
     }
 
@@ -249,14 +290,12 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
         // Trying to initialize the image tracker
         tracker = tManager.initTracker(ObjectTracker.getClassType());
-        if (tracker == null)
-        {
+        if (tracker == null) {
             Log.e(
                     LOGTAG,
                     "Tracker not initialized. Tracker already initialized or the camera is already started");
             result = false;
-        } else
-        {
+        } else {
             Log.i(LOGTAG, "Tracker successfully initialized");
         }
         return result;
@@ -264,8 +303,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
     // Methods to load and destroy tracking data.
     @Override
-    public boolean doLoadTrackersData()
-    {
+    public boolean doLoadTrackersData() {
         TrackerManager tManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) tManager
                 .getTracker(ObjectTracker.getClassType());
@@ -287,11 +325,9 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
             return false;
 
         int numTrackables = mCurrentDataset.getNumTrackables();
-        for (int count = 0; count < numTrackables; count++)
-        {
+        for (int count = 0; count < numTrackables; count++) {
             Trackable trackable = mCurrentDataset.getTrackable(count);
-            if(isExtendedTrackingActive())
-            {
+            if (isExtendedTrackingActive()) {
                 trackable.startExtendedTracking();
             }
 
@@ -341,14 +377,11 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
         if (objectTracker == null)
             return false;
 
-        if (mCurrentDataset != null && mCurrentDataset.isActive())
-        {
+        if (mCurrentDataset != null && mCurrentDataset.isActive()) {
             if (objectTracker.getActiveDataSet().equals(mCurrentDataset)
-                    && !objectTracker.deactivateDataSet(mCurrentDataset))
-            {
+                    && !objectTracker.deactivateDataSet(mCurrentDataset)) {
                 result = false;
-            } else if (!objectTracker.destroyDataSet(mCurrentDataset))
-            {
+            } else if (!objectTracker.destroyDataSet(mCurrentDataset)) {
                 result = false;
             }
 
@@ -370,8 +403,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
     }
 
     // Initializes AR application components.
-    private void initApplicationAR()
-    {
+    private void initApplicationAR() {
         // Create OpenGL ES view:
         int depthSize = 16;
         int stencilSize = 0;
@@ -380,15 +412,14 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
         mGlView = new ExRoomGL(this);
         mGlView.init(translucent, depthSize, stencilSize);
 
-        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession,mTextures);
+        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
         mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
 
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
 //        // Process the Gestures
 //        if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
 //            return true;
@@ -399,8 +430,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
     @Override
     public void onInitARDone(ExRoomException exception) {
 
-        if (exception == null)
-        {
+        if (exception == null) {
             initApplicationAR();
 
             mRenderer.mIsActive = true;
@@ -419,11 +449,9 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
             mUILayout.setBackgroundColor(Color.TRANSPARENT);
 
 
-            try
-            {
+            try {
                 vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
-            } catch (ExRoomException e)
-            {
+            } catch (ExRoomException e) {
                 Log.e(LOGTAG, e.getString());
             }
 
@@ -439,8 +467,7 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 //                    mGlView, mUILayout, null);
 //            setSampleAppMenuSettings();
 
-        } else
-        {
+        } else {
             Log.e(LOGTAG, exception.getString());
 //            showInitializationErrorMessage(exception.getString());
         }
@@ -448,15 +475,13 @@ public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
     @Override
     public void onVuforiaUpdate(State state) {
-        if (mSwitchDatasetAsap)
-        {
+        if (mSwitchDatasetAsap) {
             mSwitchDatasetAsap = false;
             TrackerManager tm = TrackerManager.getInstance();
             ObjectTracker ot = (ObjectTracker) tm.getTracker(ObjectTracker
                     .getClassType());
             if (ot == null || mCurrentDataset == null
-                    || ot.getActiveDataSet() == null)
-            {
+                    || ot.getActiveDataSet() == null) {
                 Log.d(LOGTAG, "Failed to swap datasets");
                 return;
             }

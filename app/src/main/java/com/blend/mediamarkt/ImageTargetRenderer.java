@@ -26,9 +26,11 @@ import com.blend.mediamarkt.utils.SampleApplication3DModel;
 import com.blend.mediamarkt.utils.SampleUtils;
 import com.blend.mediamarkt.utils.Teapot;
 import com.blend.mediamarkt.utils.Texture;
+
 /**
  * Created by geddy on 12/05/16.
  */
+
 public class ImageTargetRenderer implements GLSurfaceView.Renderer{
         private static final String LOGTAG = "ImageTargetRenderer";
 
@@ -157,6 +159,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
             State state = mRenderer.begin();
+
             mRenderer.drawVideoBackground();
 
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
@@ -174,9 +177,11 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             else
                 GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
 
+            boolean findTrackable = false;
             // did we find any trackables this frame?
             for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
             {
+                findTrackable = true;
                 TrackableResult result = state.getTrackableResult(tIdx);
                 Trackable trackable = result.getTrackable();
                 printUserData(trackable);
@@ -186,6 +191,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
 
                 int textureIndex = trackable.getName().equalsIgnoreCase("stones") ? 0
                         : 1;
+
                 textureIndex = trackable.getName().equalsIgnoreCase("tarmac") ? 2
                         : textureIndex;
 
@@ -269,8 +275,10 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
                     SampleUtils.checkGLError("Renderer DrawBuildings");
                 }
 
+                if(findTrackable){
+                    mActivity.mAudio.startAudio();
+                }
                 SampleUtils.checkGLError("Render Frame");
-
             }
 
             GLES20.glDisable(GLES20.GL_DEPTH_TEST);
@@ -289,5 +297,4 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             mTextures = textures;
 
         }
-
 }
