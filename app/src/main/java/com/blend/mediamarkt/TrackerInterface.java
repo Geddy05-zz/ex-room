@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
  * Created by geddy on 09/05/16.
  */
 public interface TrackerInterface  {
-    //  Interface to be implemented by the activity which uses SampleApplicationSession
+    //  Interface to be implemented by the activity which uses ExRoomSession
     public interface SampleApplicationControl
     {
 

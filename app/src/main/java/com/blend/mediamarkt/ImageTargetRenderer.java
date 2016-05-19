@@ -32,7 +32,7 @@ import com.blend.mediamarkt.utils.Texture;
 public class ImageTargetRenderer implements GLSurfaceView.Renderer{
         private static final String LOGTAG = "ImageTargetRenderer";
 
-        private SampleApplicationSession vuforiaAppSession;
+        private ExRoomSession vuforiaAppSession;
         private MainActivity mActivity;
 
         private Vector<Texture> mTextures;
@@ -56,7 +56,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
     private static final float OBJECT_SCALE_FLOAT = 3.0f;
 
         public ImageTargetRenderer(MainActivity activity,
-                                   SampleApplicationSession session , Vector<Texture> texture)
+                                   ExRoomSession session , Vector<Texture> texture)
         {
             mActivity = activity;
             vuforiaAppSession = session;

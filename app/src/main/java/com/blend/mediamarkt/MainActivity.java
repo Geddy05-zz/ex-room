@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.blend.mediamarkt.utils.LoadingDialogHandler;
 import com.blend.mediamarkt.utils.Texture;
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
-import com.vuforia.Matrix44F;
 import com.vuforia.ObjectTracker;
 import com.vuforia.STORAGE_TYPE;
 import com.vuforia.State;
@@ -30,7 +28,7 @@ import com.vuforia.Vuforia;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity  implements SampleApplicationControl{
+public class MainActivity extends AppCompatActivity  implements ExRoomControl {
 
     private static final String LOGTAG = "Media_Markt_Room";
 
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
     private int mCurrentDatasetSelectionIndex = 0;
 
     private boolean mSwitchDatasetAsap = false;
-    private SampleApplicationSession vuforiaAppSession;
+    private ExRoomSession vuforiaAppSession;
     private int mVuforiaFlags = 0;
 
 
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = this;
-        vuforiaAppSession = new SampleApplicationSession(this);
+        vuforiaAppSession = new ExRoomSession(this);
 
         startLoadingAnimation();
         mDatasetStrings.add("StonesAndChips.xml");
@@ -133,7 +131,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         try
         {
             vuforiaAppSession.resumeAR();
-        } catch (SampleApplicationException e)
+        } catch (ExRoomException e)
         {
             Log.e(LOGTAG, e.getString());
         }
@@ -156,7 +154,6 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         vuforiaAppSession.onConfigurationChanged();
     }
 
-
     // Called when the system is about to start resuming a previous activity.
     @Override
     protected void onPause()
@@ -175,7 +172,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         try
         {
             vuforiaAppSession.pauseAR();
-        } catch (SampleApplicationException e)
+        } catch (ExRoomException e)
         {
             Log.e(LOGTAG, e.getString());
         }
@@ -191,7 +188,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
         try
         {
             vuforiaAppSession.stopAR();
-        } catch (SampleApplicationException e)
+        } catch (ExRoomException e)
         {
             Log.e(LOGTAG, e.getString());
         }
@@ -385,7 +382,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
 
         mRenderer = new ImageTargetRenderer(this, vuforiaAppSession,mTextures);
         mRenderer.setTextures(mTextures);
-        mGlView.setRenderer(mRenderer);;
+        mGlView.setRenderer(mRenderer);
 
     }
 
@@ -400,7 +397,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
     }
 
     @Override
-    public void onInitARDone(SampleApplicationException exception) {
+    public void onInitARDone(ExRoomException exception) {
 
         if (exception == null)
         {
@@ -425,7 +422,7 @@ public class MainActivity extends AppCompatActivity  implements SampleApplicatio
             try
             {
                 vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
-            } catch (SampleApplicationException e)
+            } catch (ExRoomException e)
             {
                 Log.e(LOGTAG, e.getString());
             }
