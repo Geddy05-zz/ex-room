@@ -45,13 +45,12 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
     private ExRoomSession vuforiaAppSession;
     private int mVuforiaFlags = 0;
 
-
     private Vector<Texture> mTextures;
 
     // Stores the projection matrix to use for rendering purposes
     private RelativeLayout mUILayout;
     private Activity mActivity;
-    //    private Object mShutdownLock = new Object();
+
     private ExRoomGL mGlView;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
@@ -230,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
     protected void onDestroy() {
         Log.d(LOGTAG, "onDestroy");
         super.onDestroy();
+        mAudio.destroyAudio();
 
         try {
             vuforiaAppSession.stopAR();

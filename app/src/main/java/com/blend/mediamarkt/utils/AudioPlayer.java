@@ -13,10 +13,12 @@ import com.blend.mediamarkt.R;
 public class AudioPlayer {
 
     private MediaPlayer mMediaPlayer;
+    private static Context context;
     private boolean mIsPause =false;
     private int mPausePosition = 0;
 
     public AudioPlayer(Context context){
+        this.context = context;
         mMediaPlayer = MediaPlayer.create(context, R.raw.forest);
         mMediaPlayer.setLooping(true);
     }
@@ -44,5 +46,10 @@ public class AudioPlayer {
     public void destroyAudio(){
         mMediaPlayer.stop();
         mMediaPlayer = null;
+    }
+
+    public void newSong(int song){
+        mMediaPlayer.stop();
+        mMediaPlayer = MediaPlayer.create(context,song);
     }
 }
