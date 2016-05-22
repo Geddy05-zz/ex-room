@@ -117,35 +117,35 @@ public class exampleObject implements GLSurfaceView.Renderer {
             InputStream stream = mActivity.getAssets().open("Coconut Tree.3ds");
 
 //            InputStream stream = new ByteArrayInputStream("coconut_tree".getBytes(StandardCharsets.UTF_8));
-            Object3D[] model = Loader.load3DS(stream, 1.0f);
-            Object3D o3d = new Object3D(0);
+            Object3D[] objects = Loader.load3DS(stream, 1.0f);
+            Object3D mModel3d = new Object3D(0);
             Object3D temp = null;
-            for (int i = 0; i < model.length; i++) {
-                temp = model[i];
-                temp.setCenter(SimpleVector.ORIGIN);
-//                temp.rotateX(90.0f);
+            for (int i = 0; i < objects.length; i++) {
+                temp = objects[i];
+                temp.rotateX(90.0f);
                 temp.rotateMesh();
+                temp.setCenter(SimpleVector.ORIGIN);
                 temp.setRotationMatrix(new Matrix());
-                o3d = Object3D.mergeObjects(o3d, temp);
-//                o3d.setTexture();
-//                o3d.setTexture("texture");
-                o3d.build();
+                mModel3d = Object3D.mergeObjects(mModel3d, temp);
+//                mModel3d.setTexture();
+//                mModel3d.setTexture("texture");
+                mModel3d.build();
 
-                o3d.scale(10.0f);
+                mModel3d.scale(10.0f);
 
-                SimpleVector sv = new SimpleVector();
-        sv.set(o3d.getTransformedCenter());
-        sv.y -= 100;
-        sv.z -= 100;
-        sun.setPosition(sv);
-
-                world.addObject(o3d);
+                world.addObject(mModel3d);
 
                 // activate texture 0, bind it, and pass to shader
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
                         mTextures.get(4).mTextureID[0]);
                 GLES20.glUniform1i(texSampler2DHandle, 0);
+
+                SimpleVector sv = new SimpleVector();
+                sv.set(mModel3d.getTransformedCenter());
+                sv.y += 100;
+                sv.z += 100;
+                sun.setPosition(sv);
             }
 
         }catch (Exception e){
@@ -173,12 +173,6 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         }
         cam = world.getCamera();
-
-//        SimpleVector sv = new SimpleVector();
-//        sv.set(cylinder.getTransformedCenter());
-//        sv.y -= 100;
-//        sv.z -= 100;
-//        sun.setPosition(sv);
 
         // for older Android versions, which had massive problems with garbage collection
         MemoryHelper.compact();
