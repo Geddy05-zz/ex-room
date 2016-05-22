@@ -12,6 +12,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
 
+import com.threed.jpct.Object3D;
+import com.threed.jpct.Primitives;
 import com.vuforia.Matrix44F;
 import com.vuforia.Renderer;
 import com.vuforia.State;
