@@ -21,6 +21,7 @@ import com.vuforia.Tool;
 import com.vuforia.Trackable;
 import com.vuforia.TrackableResult;
 import com.vuforia.VIDEO_BACKGROUND_REFLECTION;
+import com.vuforia.VideoBackgroundConfig;
 import com.vuforia.Vuforia;
 import com.blend.mediamarkt.utils.CubeShaders;
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
@@ -174,15 +175,19 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             // to determine the direction of the culling
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glCullFace(GLES20.GL_BACK);
+            Renderer.getInstance().getVideoBackgroundConfig();
+            VideoBackgroundConfig background= Renderer.getInstance().getVideoBackgroundConfig();
+            background.setEnabled(false);
             if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_ON)
                 GLES20.glFrontFace(GLES20.GL_CW); // Front camera
-            else
-                GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
+//            else
+//                GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
 
             boolean findTrackable = false;
             // did we find any trackables this frame?
             for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
             {
+                System.out.println("find something");
                 findTrackable = true;
                 TrackableResult result = state.getTrackableResult(tIdx);
                 Trackable trackable = result.getTrackable();
