@@ -21,7 +21,6 @@ import com.vuforia.Tool;
 import com.vuforia.Trackable;
 import com.vuforia.TrackableResult;
 import com.vuforia.VIDEO_BACKGROUND_REFLECTION;
-import com.vuforia.VideoBackgroundConfig;
 import com.vuforia.Vuforia;
 import com.blend.mediamarkt.utils.CubeShaders;
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
@@ -163,7 +162,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
 
             State state = mRenderer.begin();
 
-            mRenderer.drawVideoBackground();
+//            mRenderer.drawVideoBackground();
 
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -175,10 +174,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             // to determine the direction of the culling
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glCullFace(GLES20.GL_BACK);
-            Renderer.getInstance().getVideoBackgroundConfig();
-            VideoBackgroundConfig background= Renderer.getInstance().getVideoBackgroundConfig();
-            background.setEnabled(false);
-            if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_ON)
+            if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_OFF)
                 GLES20.glFrontFace(GLES20.GL_CW); // Front camera
 //            else
 //                GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
