@@ -91,29 +91,6 @@ public class exampleObject implements GLSurfaceView.Renderer {
         Object3D mModel3d = new Object3D(0);
         try {
 
-//           for (Texture t : mTextures)
-//            {
-////                GLES20.glGenTextures(1, int[1], 0);
-////                GLES20.glGenTextures(1, t.mTextureID, 0);
-//                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, t.mTextureID[0]);
-//                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-//                        GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-//                        GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA,
-//                        t.mWidth, t.mHeight, 0, GLES20.GL_RGBA,
-//                        GLES20.GL_UNSIGNED_BYTE, t.mData);
-//            }
-
-            // activate texture 0, bind it, and pass to shader
-//            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-//                    mTextures.get(4).mTextureID[0]);
-//            GLES20.glUniform1i(texSampler2DHandle, 0);
-
-
-
-
             System.out.print("We are here");
            InputStream stream = mActivity.getAssets().open("Coconut Tree.3ds");
 
