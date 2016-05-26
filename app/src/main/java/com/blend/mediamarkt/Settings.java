@@ -1,4 +1,4 @@
-package com.blend.mediamarkt.utils;
+package com.blend.mediamarkt;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -15,8 +15,9 @@ public final class Settings {
     private static SharedPreferences getPrefs(Activity activity) {
         // Vullen
         if (prefs == null) {
-            
+
         }
         return prefs;
     }
+
 }
