@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
     private boolean mExtendedTracking = false;
-//    private exampleObject mRenderer;
-    private ImageTargetRenderer mRenderer;
+    private exampleObject mRenderer;
+//    private ImageTargetRenderer mRenderer;
     private GestureDetector mGestureDetector;
 
     public AudioPlayer mAudio;
@@ -413,16 +413,10 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
         mGlView = new ExRoomGL(this);
         mGlView.init(translucent, depthSize, stencilSize);
 
-<<<<<<< HEAD
-//        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-//        mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
-         mRenderer = new exampleObject(this,vuforiaAppSession);
-
-=======
-        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-//        mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
->>>>>>> master
-//        mRenderer.setTextures(mTextures);
+//      mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
+//      mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
+        mRenderer = new exampleObject(this,vuforiaAppSession);
+//      mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
 
     }

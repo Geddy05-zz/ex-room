@@ -111,33 +111,35 @@ public class exampleObject implements GLSurfaceView.Renderer {
 //                    mTextures.get(4).mTextureID[0]);
 //            GLES20.glUniform1i(texSampler2DHandle, 0);
 
-
-
-
             System.out.print("We are here");
-            Texture skinTex=new Texture(mActivity.getDrawable(R.mipmap.asdasdasd));
-//            Texture skinTex=new Texture(mActivity.getAssets().open("asdasdasd-RGB.png"));
-            TextureManager.getInstance().addTexture("asdasdasd-RGB.png", skinTex);
+            InputStream stream = mActivity.getAssets().open("Coconut Tree.3ds");
 
-            InputStream stream = mActivity.getAssets().open("Coconut Tree.obj");
-
-//            InputStream stream = new ByteArrayInputStream("coconut_tree".getBytes(StandardCharsets.UTF_8));
-            Object3D[] objects = Loader.loadOBJ(stream,null,20);
+            Object3D[] model = Loader.load3DS(stream, 1.0f);
+            Object3D o3d = new Object3D(0);
+            Object3D o2d = new Object3D(0);
             Object3D temp = null;
-            for (int i = 0; i < objects.length; i++) {
-                temp = objects[i];
-                temp.rotateX(90.0f);
-                temp.rotateMesh();
+
+            for (int i = 0; i < model.length; i++) {
+                temp = model[i];
                 temp.setCenter(SimpleVector.ORIGIN);
+                //                temp.rotateX(90.0f);
+                temp.rotateMesh();
                 temp.setRotationMatrix(new Matrix());
-                mModel3d = Object3D.mergeObjects(mModel3d, temp);
-//                mModel3d.setTexture();
-//                mModel3d.setTexture("texture");
-                mModel3d.build();
+                o3d = Object3D.mergeObjects(o3d, temp);
+                //                o3d.setTexture();
+                //                o3d.setTexture("texture")
+                //o3d.build();
 
-                mModel3d.scale(10.0f);
+                o3d.scale(5.0f);
 
-                world.addObject(mModel3d);
+                SimpleVector sv = new SimpleVector();
+                sv.set(o3d.getTransformedCenter());
+                sv.y -= 100;
+                sv.z -= 100;
+                sun.setPosition(sv);
+
+                world.addObject(o3d);
+
 
                 // activate texture 0, bind it, and pass to shader
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -145,6 +147,37 @@ public class exampleObject implements GLSurfaceView.Renderer {
 //                        mTextures.get(4).mTextureID[0]);
                 GLES20.glUniform1i(texSampler2DHandle, 0);
             }
+
+            for (int i = 0; i < model.length; i++) {
+                temp = model[i];
+                temp.setCenter(SimpleVector.ORIGIN);
+                //                temp.rotateX(90.0f);
+                temp.rotateMesh();
+                temp.setRotationMatrix(new Matrix());
+                o2d = Object3D.mergeObjects(o2d, temp);
+                //                o3d.setTexture();
+                //                o3d.setTexture("texture")
+                //                o2d.build();
+
+                o2d.scale(10.0f);
+
+                SimpleVector sv = new SimpleVector();
+                sv.set(o2d.getTransformedCenter());
+                sv.y -= 0;
+                sv.z -= 0;
+                sun.setPosition(sv);
+
+                world.addObject(o2d);
+
+
+                // activate texture 0, bind it, and pass to shader
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+//                        mTextures.get(4).mTextureID[0]);
+                GLES20.glUniform1i(texSampler2DHandle, 0);
+            }
+
+            world.buildAllObjects();
 
         }catch (Exception e){
             // Create a texture out of the icon...:-)
