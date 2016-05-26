@@ -415,7 +415,9 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
         mGlView.init(translucent, depthSize, stencilSize);
 
 //        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-        mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
+//        mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
+         mRenderer = new exampleObject(this,vuforiaAppSession);
+
 //        mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
 

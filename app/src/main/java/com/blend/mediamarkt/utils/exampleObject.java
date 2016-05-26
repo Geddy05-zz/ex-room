@@ -25,12 +25,12 @@ import com.threed.jpct.Light;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.Primitives;
 import com.threed.jpct.SimpleVector;
-//import com.threed.jpct.Texture;
+import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
 import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
-import com.blend.mediamarkt.utils.Texture;
+//import com.blend.mediamarkt.utils.Texture;
 
 
 import java.io.ByteArrayInputStream;
@@ -50,7 +50,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
     private MainActivity mActivity;
-    private Vector<com.blend.mediamarkt.utils.Texture> mTextures;
+    private Vector<Texture> mTextures;
 
     private int texSampler2DHandle;
     private int shaderProgramID;
@@ -68,14 +68,14 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private float fovy;
 
 
-    public exampleObject(MainActivity activity, ExRoomSession session,Vector<com.blend.mediamarkt.utils.Texture> texture) {
+    public exampleObject(MainActivity activity, ExRoomSession session) {
         mActivity = activity;
         vuforiaAppSession = session;
 
-        mTextures = texture;
+//        mTextures = texture;
 
         world = new World();
-        world.setAmbientLight(20, 20, 20);
+        world.setAmbientLight(0, 0, 0);
         // set the following value according to your need, so the object won't be disappeared.
         world.setClippingPlanes(2.0f, 3000.0f);
 
@@ -88,37 +88,41 @@ public class exampleObject implements GLSurfaceView.Renderer {
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
 
-
+        Object3D mModel3d = new Object3D(0);
         try {
 
-           for (Texture t : mTextures)
-            {
-                GLES20.glGenTextures(1, t.mTextureID, 0);
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, t.mTextureID[0]);
-                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                        GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
-                        GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA,
-                        t.mWidth, t.mHeight, 0, GLES20.GL_RGBA,
-                        GLES20.GL_UNSIGNED_BYTE, t.mData);
-            }
+//           for (Texture t : mTextures)
+//            {
+////                GLES20.glGenTextures(1, int[1], 0);
+////                GLES20.glGenTextures(1, t.mTextureID, 0);
+//                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, t.mTextureID[0]);
+//                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+//                        GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+//                GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D,
+//                        GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+//                GLES20.glTexImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA,
+//                        t.mWidth, t.mHeight, 0, GLES20.GL_RGBA,
+//                        GLES20.GL_UNSIGNED_BYTE, t.mData);
+//            }
 
             // activate texture 0, bind it, and pass to shader
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                    mTextures.get(4).mTextureID[0]);
-            GLES20.glUniform1i(texSampler2DHandle, 0);
+//            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+//                    mTextures.get(4).mTextureID[0]);
+//            GLES20.glUniform1i(texSampler2DHandle, 0);
 
 
 
 
             System.out.print("We are here");
-            InputStream stream = mActivity.getAssets().open("Coconut Tree.3ds");
+            Texture skinTex=new Texture(mActivity.getDrawable(R.mipmap.asdasdasd));
+//            Texture skinTex=new Texture(mActivity.getAssets().open("asdasdasd-RGB.png"));
+            TextureManager.getInstance().addTexture("asdasdasd-RGB.png", skinTex);
+
+            InputStream stream = mActivity.getAssets().open("Coconut Tree.obj");
 
 //            InputStream stream = new ByteArrayInputStream("coconut_tree".getBytes(StandardCharsets.UTF_8));
-            Object3D[] objects = Loader.load3DS(stream, 1.0f);
-            Object3D mModel3d = new Object3D(0);
+            Object3D[] objects = Loader.loadOBJ(stream,null,20);
             Object3D temp = null;
             for (int i = 0; i < objects.length; i++) {
                 temp = objects[i];
@@ -137,15 +141,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
                 // activate texture 0, bind it, and pass to shader
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                        mTextures.get(4).mTextureID[0]);
+//                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+//                        mTextures.get(4).mTextureID[0]);
                 GLES20.glUniform1i(texSampler2DHandle, 0);
-
-                SimpleVector sv = new SimpleVector();
-                sv.set(mModel3d.getTransformedCenter());
-                sv.y += 100;
-                sv.z += 100;
-                sun.setPosition(sv);
             }
 
         }catch (Exception e){
@@ -173,6 +171,17 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         }
         cam = world.getCamera();
+
+//        if (mModel3d != null){
+//            SimpleVector sv = new SimpleVector();
+//            sv.set(mModel3d.getTransformedCenter());
+//            sv.y += 10;
+//            sv.z -= 10;
+//            sun.setPosition(sv);
+//        }
+
+        sun = new Light(world);
+        sun.setIntensity(250, 250, 250);
 
         // for older Android versions, which had massive problems with garbage collection
         MemoryHelper.compact();

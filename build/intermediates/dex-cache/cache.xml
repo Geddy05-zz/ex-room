@@ -2,88 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-8.1.0_5e6331984389191f9094c0c45ce1ff45b2a079d5/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Library/androidsdk/extras/android/m2repository/com/android/support/support-annotations/23.3.0/support-annotations-23.3.0.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.3.0_bc1868739aac9374240448199ec7da4d8eab3400/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/libs/internal_impl-23.3.0.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.3.0_8eb444f3fea17e673b2f31301f7abdf345887bac/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-appindexing-8.1.0_0af0fcda7c9efbb9f5310d7c452779c8611b3c1a/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.3.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-23.3.0_74a456c5fb8c617226f8ac1668576861e0128c31/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.3.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.3.0_36eabf570abf265a6209cdc1a0271846239fde6b/classes.dex" />
-    </item>
-    <item
         jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="c7c40bde684b59d439d8cc159243c8d1d722cc5f">
+        sha1="e25be0ae6ae8df44031ac50224e7d8cd3bc4d941">
         <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_96615724a85f5bd9d5c9b5819dc597a774fb2ca6/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/jpct_ae.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="c041cea0610a8c1c1b22486e026d519bc7713333">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/2/jpct_ae_30da5e937b0544aa19b81fff456732a3f6f6e69d/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.3.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-23.3.0_9a998f4a034a9591399e93ca2bf015c8ffbb21b1/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/jars/classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.3.0_a06cdf703e7944c59859a3a29d67e45c40f673f6/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/Vuforia.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="f5b9729417d9e86d9bba6068e4a84f05ace53fd4">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/2/Vuforia_294a1fef0787b6955675d0aaef5777f79d715d9f/classes.dex" />
-    </item>
-    <item
-        jar="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="a2617f1cb6aa93e70e54973d0a653b5f2f9209ce">
-        <dex dex="/Users/geddy/Documents/workspace/ex-room/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_32a5c3b17e10cf4f63c8c384b7349adfd5bc84db/classes.dex" />
     </item>
 
 </items>
