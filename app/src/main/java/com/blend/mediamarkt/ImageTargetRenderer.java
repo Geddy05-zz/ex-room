@@ -162,7 +162,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
 
             State state = mRenderer.begin();
 
-            mRenderer.drawVideoBackground();
+//            mRenderer.drawVideoBackground();
 
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -174,15 +174,16 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
             // to determine the direction of the culling
             GLES20.glEnable(GLES20.GL_CULL_FACE);
             GLES20.glCullFace(GLES20.GL_BACK);
-            if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_ON)
+            if (Renderer.getInstance().getVideoBackgroundConfig().getReflection() == VIDEO_BACKGROUND_REFLECTION.VIDEO_BACKGROUND_REFLECTION_OFF)
                 GLES20.glFrontFace(GLES20.GL_CW); // Front camera
-            else
-                GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
+//            else
+//                GLES20.glFrontFace(GLES20.GL_CCW); // Back camera
 
             boolean findTrackable = false;
             // did we find any trackables this frame?
             for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
             {
+                System.out.println("find something");
                 findTrackable = true;
                 TrackableResult result = state.getTrackableResult(tIdx);
                 Trackable trackable = result.getTrackable();
