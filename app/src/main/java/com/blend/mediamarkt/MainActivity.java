@@ -32,7 +32,6 @@ import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
 import java.util.ArrayList;
 import java.util.Vector;
-
 import com.blend.mediamarkt.utils.AudioPlayer;
 
 public class MainActivity extends AppCompatActivity implements ExRoomControl {
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
 
     private boolean mSwitchDatasetAsap = false;
     private ExRoomSession vuforiaAppSession;
-    private int mVuforiaFlags = 0;
     private Vector<Texture> mTextures;
 
     // Stores the projection matrix to use for rendering purposes
@@ -104,13 +102,11 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
+                Action.TYPE_VIEW,
+                "Main Page",
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
                 Uri.parse("android-app://com.blend.mediamarkt/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
@@ -125,13 +121,11 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
+                Action.TYPE_VIEW,
+                "Main Page",
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app URL is correct.
                 Uri.parse("android-app://com.blend.mediamarkt/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
@@ -415,9 +409,7 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
         mGlView.init(translucent, depthSize, stencilSize);
 
 //        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-//        mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
         mRenderer = new exampleObject(this,vuforiaAppSession);
-//        mRenderer.setTextures(mTextures);
 
         mGlView.setRenderer(mRenderer);
 
@@ -425,10 +417,7 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        // Process the Gestures
-//        if (mSampleAppMenu != null && mSampleAppMenu.processEvent(event))
-//            return true;
-
+        // Process the Gestures
         return mGestureDetector.onTouchEvent(event);
     }
 
@@ -460,21 +449,11 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
                 Log.e(LOGTAG, e.getString());
             }
 
-            boolean result = CameraDevice.getInstance().setFocusMode(
+            CameraDevice.getInstance().setFocusMode(
                     CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
-
-//            if (result)
-//                mContAutofocus = true;
-//            else
-//                Log.e(LOGTAG, "Unable to enable continuous autofocus");
-
-//            mSampleAppMenu = new SampleAppMenu(this, this, "Image Targets",
-//                    mGlView, mUILayout, null);
-//            setSampleAppMenuSettings();
 
         } else {
             Log.e(LOGTAG, exception.getString());
-//            showInitializationErrorMessage(exception.getString());
         }
     }
 

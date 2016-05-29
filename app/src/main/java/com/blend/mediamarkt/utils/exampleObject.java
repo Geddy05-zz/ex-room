@@ -243,18 +243,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f : 1.0f);
-
-//        // Hide the Loading Dialog
-//        mActivity.loadingDialogHandler
-//                .sendEmptyMessage(LoadingDialogHandler.HIDE_LOADING_DIALOG);
     }
 
     private void updateRendering(int width, int height) {
-
-        // Update screen dimensions
-//        vuforiaAppSession.setmScreenWidth(width);
-//        vuforiaAppSession.setmScreenHeight(height);
-
         // Reconfigure the video background
         vuforiaAppSession.configureVideoBackground();
 
@@ -264,14 +255,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
         float fovyRadians = (float) (2 * Math.atan(0.5f * size.getData()[1] / focalLength.getData()[1]));
         float fovRadians = (float) (2 * Math.atan(0.5f * size.getData()[0] / focalLength.getData()[0]));
 
-//        if (vuforiaAppSession.mIsPortrait) {
-            setFovy(fovRadians);
-            setFov(fovyRadians);
-//        } else {
-//            setFov(fovRadians);
-//            setFovy(fovyRadians);
-//        }
-
+        setFovy(fovRadians);
+        setFov(fovyRadians);
     }
 
     // The render function.
@@ -329,11 +314,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
             float[] m = modelViewMat;
 
             final SimpleVector camUp;
-//            if (vuforiaAppSession.mIsPortrait) {
-                camUp = new SimpleVector(-m[0], -m[1], -m[2]);
-//            } else {
-//                camUp = new SimpleVector(-m[4], -m[5], -m[6]);
-//            }
+
+            camUp = new SimpleVector(-m[0], -m[1], -m[2]);
 
             final SimpleVector camDirection = new SimpleVector(m[8], m[9], m[10]);
             final SimpleVector camPosition = new SimpleVector(m[12], m[13], m[14]);
