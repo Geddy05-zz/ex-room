@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
     }
 
     private void loadTextures() {
+
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
                 getAssets()));
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
