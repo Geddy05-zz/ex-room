@@ -75,7 +75,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 //        mTextures = texture;
 
         world = new World();
-        world.setAmbientLight(0, 0, 0);
+        world.setAmbientLight(100, 100, 100);
         // set the following value according to your need, so the object won't be disappeared.
         world.setClippingPlanes(2.0f, 3000.0f);
 
@@ -88,34 +88,37 @@ public class exampleObject implements GLSurfaceView.Renderer {
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
 
-        Object3D mModel3d = new Object3D(0);
         try {
 
             System.out.print("We are here");
-           InputStream stream = mActivity.getAssets().open("Coconut Tree.3ds");
+            TextureManager.getInstance().addTexture("texture" ,new Texture(mActivity.getAssets().open("Cottage Texture.jpg")));
+            InputStream streamObj = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
+            InputStream streamMtl = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-//            InputStream stream = new ByteArrayInputStream("coconut_tree".getBytes(StandardCharsets.UTF_8));
-            Object3D[] model = Loader.load3DS(stream, 1.0f);
+            Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.0f);
+
+//            Object3D[] model = Loader.load3DS(stream, 1.0f);
             Object3D o3d = new Object3D(0);
             Object3D temp = null;
             for (int i = 0; i < model.length; i++) {
                 temp = model[i];
                 temp.setCenter(SimpleVector.ORIGIN);
-                //                temp.rotateX(90.0f);
+                temp.rotateY(90.0f);
                 temp.rotateMesh();
+                temp.setTexture("texture");
                 temp.setRotationMatrix(new Matrix());
                 o3d = Object3D.mergeObjects(o3d, temp);
-                //                o3d.setTexture();
-                //                o3d.setTexture("texture")
                 o3d.build();
 
-                o3d.scale(10.0f);
+                if (o3d != null){
+//                    SimpleVector sv = new SimpleVector();
+//                    sv.set(o3d.getTransformedCenter());
+//                    sv.y += 100;
+//                    sv.z += 100;
+//                    sun.setPosition(sv);
+                }
 
-                SimpleVector sv = new SimpleVector();
-                sv.set(o3d.getTransformedCenter());
-                sv.y -= 100;
-                sv.z -= 100;
-                sun.setPosition(sv);
+//                o3d.scale(1.0f);
 
                 world.addObject(o3d);
 
@@ -155,35 +158,30 @@ public class exampleObject implements GLSurfaceView.Renderer {
 //                        mActivity.getResources().getDrawable(R.mipmap.ic_launcher)), 64, 64));
 //                TextureManager.getInstance().addTexture("texture", texture);
 //            }
-            System.out.print(e);
+            System.out.println("Not rendering obj");
+            System.out.println(e);
 
-            cylinder = Primitives.getCylinder(20, 40);
-            cylinder.calcTextureWrapSpherical();
-            cylinder.setTexture("texture");
-            cylinder.strip();
-            cylinder.build();
-
-            // Transform (scale, rotate, translate) the object: Depends on your need.
-//    	cylinder.scale(scale);
-            cylinder.rotateX(90.0f);
-//    	cylinder.rotateY(w); cylinder.rotateZ(w);
-//    	cylinder.translate(x, y, z);
-
-            world.addObject(cylinder);
+//            cylinder = Primitives.getCylinder(20, 40);
+//            cylinder.calcTextureWrapSpherical();
+//            cylinder.setTexture("texture");
+//            cylinder.strip();
+//            cylinder.build();
+//
+//            // Transform (scale, rotate, translate) the object: Depends on your need.
+////    	cylinder.scale(scale);
+//            cylinder.rotateX(90.0f);
+////    	cylinder.rotateY(w); cylinder.rotateZ(w);
+////    	cylinder.translate(x, y, z);
+//
+//            world.addObject(cylinder);
 
         }
         cam = world.getCamera();
 
-//        if (mModel3d != null){
-//            SimpleVector sv = new SimpleVector();
-//            sv.set(mModel3d.getTransformedCenter());
-//            sv.y += 10;
-//            sv.z -= 10;
-//            sun.setPosition(sv);
-//        }
 
-        sun = new Light(world);
-        sun.setIntensity(250, 250, 250);
+
+//        sun = new Light(world);
+//        sun.setIntensity(250, 250, 250);
 
         // for older Android versions, which had massive problems with garbage collection
         MemoryHelper.compact();
