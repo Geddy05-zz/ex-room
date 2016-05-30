@@ -1,8 +1,10 @@
 package com.blend.mediamarkt.utils;
+import android.app.Activity;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.ExRoomSession;
 import com.blend.mediamarkt.MainActivity;
 import com.blend.mediamarkt.R;
@@ -49,7 +51,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
-    private MainActivity mActivity;
+    private Activity mActivity;
     private Vector<Texture> mTextures;
 
     private int texSampler2DHandle;
@@ -68,9 +70,10 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private float fovy;
 
 
-    public exampleObject(MainActivity activity, ExRoomSession session) {
+    public exampleObject(Activity activity) {
         mActivity = activity;
-        vuforiaAppSession = session;
+        App app =(App) mActivity.getApplication();
+        vuforiaAppSession = app.vuforiaSession;
 
 //        mTextures = texture;
 

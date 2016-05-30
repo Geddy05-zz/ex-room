@@ -1,7 +1,11 @@
 package com.blend.mediamarkt;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.util.EventLog;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -14,6 +18,7 @@ import com.vuforia.State;
 import com.vuforia.Trackable;
 import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
+import com.vuforia.Vuforia;
 
 import java.util.ArrayList;
 
@@ -29,6 +34,40 @@ public class VuforiaController implements ExRoomControl {
     private boolean mExtendedTracking = false;
     private exampleObject mRenderer;
     private RelativeLayout mUILayout;
+    private ObjectTracker objectTracker;
+    private Activity mActivity;
+    public ExRoomGL mGlView;
+    private App app;
+
+
+    public VuforiaController(Activity activity){
+        this.mActivity = activity;
+        app =(App) mActivity.getApplication();
+
+        mDatasetStrings.add("StonesAndChips.xml");
+        start();
+    }
+
+    // this function is already build for when we build a new scene
+    public void setmActivity(Activity mActivity) {
+        this.mActivity = mActivity;
+        start();
+    }
+
+    private void start() {
+        mUILayout = (RelativeLayout) View.inflate(mActivity, R.layout.camera_overlay,
+                null);
+
+        app.vuforiaSession.setmSessionControl(this);
+        app.vuforiaSession.initAR(mActivity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        try {
+            app.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
+            doStartTrackers();
+        } catch (Exception e) {
+            EventLog.writeEvent(500, "dotracker failed");
+        }
+    }
 
     @Override
     public boolean doInitTrackers() {
@@ -41,11 +80,12 @@ public class VuforiaController implements ExRoomControl {
         // Trying to initialize the image tracker
         tracker = tManager.initTracker(ObjectTracker.getClassType());
         if (tracker == null) {
-            Log.e(
-                    LOGTAG,
+            Log.e(LOGTAG,
                     "Tracker not initialized. Tracker already initialized or the camera is already started");
             result = false;
         } else {
+            objectTracker = (ObjectTracker) tManager
+                    .getTracker(ObjectTracker.getClassType());
             Log.i(LOGTAG, "Tracker successfully initialized");
         }
         return result;
@@ -53,9 +93,6 @@ public class VuforiaController implements ExRoomControl {
 
     @Override
     public boolean doLoadTrackersData() {
-        TrackerManager tManager = TrackerManager.getInstance();
-        ObjectTracker objectTracker = (ObjectTracker) tManager
-                .getTracker(ObjectTracker.getClassType());
         if (objectTracker == null)
             return false;
 
@@ -83,7 +120,7 @@ public class VuforiaController implements ExRoomControl {
             String name = "Current Dataset : " + trackable.getName();
             trackable.setUserData(name);
             Log.d(LOGTAG, "UserData:Set the following user data "
-                    + (String) trackable.getUserData());
+                    + trackable.getUserData());
         }
 
         return true;
@@ -98,8 +135,6 @@ public class VuforiaController implements ExRoomControl {
         // Indicate if the trackers were started correctly
         boolean result = true;
 
-        Tracker objectTracker = TrackerManager.getInstance().getTracker(
-                ObjectTracker.getClassType());
         if (objectTracker != null)
             objectTracker.start();
 
@@ -111,8 +146,6 @@ public class VuforiaController implements ExRoomControl {
         // Indicate if the trackers were stopped correctly
         boolean result = true;
 
-        Tracker objectTracker = TrackerManager.getInstance().getTracker(
-                ObjectTracker.getClassType());
         if (objectTracker != null)
             objectTracker.stop();
 
@@ -124,9 +157,6 @@ public class VuforiaController implements ExRoomControl {
         // Indicate if the trackers were unloaded correctly
         boolean result = true;
 
-        TrackerManager tManager = TrackerManager.getInstance();
-        ObjectTracker objectTracker = (ObjectTracker) tManager
-                .getTracker(ObjectTracker.getClassType());
         if (objectTracker == null)
             return false;
 
@@ -161,23 +191,14 @@ public class VuforiaController implements ExRoomControl {
             initApplicationAR();
 
             mRenderer.mIsActive = true;
-
-            // Now add the GL surface view. It is important
-            // that the OpenGL ES surface view gets added
-            // BEFORE the camera is started and video
-            // background is configured.
-            addContentView(mGlView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            mActivity.addContentView(mGlView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            // Sets the UILayout to be drawn in front of the camera
             mUILayout.bringToFront();
-
-            // Sets the layout background to transparent
             mUILayout.setBackgroundColor(Color.TRANSPARENT);
 
-
             try {
-                vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
+                app.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
             } catch (ExRoomException e) {
                 Log.e(LOGTAG, e.getString());
             }
@@ -190,8 +211,22 @@ public class VuforiaController implements ExRoomControl {
         }
     }
 
-    @Override
-    public void onVuforiaUpdate(State state) {
+    private void initApplicationAR() {
+        // Create OpenGL ES view:
+        int depthSize = 16;
+        int stencilSize = 0;
+        boolean translucent = Vuforia.requiresAlpha();
+
+        mGlView = new ExRoomGL(mActivity);
+        mGlView.init(translucent, depthSize, stencilSize);
+
+//        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
+        mRenderer = new exampleObject(mActivity);
+
+        mGlView.setRenderer(mRenderer);
 
     }
+
+    @Override
+    public void onVuforiaUpdate(State state) {}
 }
