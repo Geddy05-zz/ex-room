@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
     }
 
     private void loadTextures() {
+
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBrass.png",
                 getAssets()));
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
@@ -413,10 +414,11 @@ public class MainActivity extends AppCompatActivity implements ExRoomControl {
         mGlView = new ExRoomGL(this);
         mGlView.init(translucent, depthSize, stencilSize);
 
-//      mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-//      mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
+//        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
+//        mRenderer = new exampleObject(this,vuforiaAppSession,mTextures);
         mRenderer = new exampleObject(this,vuforiaAppSession);
-//      mRenderer.setTextures(mTextures);
+//        mRenderer.setTextures(mTextures);
+
         mGlView.setRenderer(mRenderer);
 
     }
