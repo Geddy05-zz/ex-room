@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import com.blend.mediamarkt.utils.AudioPlayer;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RequestURL{
 
     private static final String LOGTAG = "Media_Markt_Room";
     private App app;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         mAudio = new AudioPlayer(this.getApplicationContext());
         startLoadingAnimation();
+        new ApiHandler(playSound).execute();
 
         mVuforiaController = new VuforiaController(this);
 
