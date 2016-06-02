@@ -221,7 +221,7 @@ public class VuforiaController implements ExRoomControl {
         mGlView.init(translucent, depthSize, stencilSize);
 
 //        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-        mRenderer = new exampleObject(mActivity);
+        mRenderer = new exampleObject((MainActivity) mActivity);
 
         mGlView.setRenderer(mRenderer);
 

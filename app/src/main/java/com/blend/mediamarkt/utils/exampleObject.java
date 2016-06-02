@@ -48,7 +48,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
-    private Activity mActivity;
+    private MainActivity mActivity;
     private Vector<Texture> mTextures;
 
     private int texSampler2DHandle;
@@ -74,8 +74,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     }
 
-    public exampleObject(Activity activity) {
-        mActivity = activity;
+    public exampleObject(MainActivity activity) {
+        mActivity =  activity;
         App app =(App) mActivity.getApplication();
         vuforiaAppSession = app.vuforiaSession;
 
