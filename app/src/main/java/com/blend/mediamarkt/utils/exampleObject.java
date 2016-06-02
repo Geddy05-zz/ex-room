@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.blend.mediamarkt.ExRoomSession;
 import com.blend.mediamarkt.MainActivity;
-import com.blend.mediamarkt.R;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
 import com.vuforia.CameraCalibration;
@@ -23,20 +22,16 @@ import com.threed.jpct.Config;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Object3D;
-import com.threed.jpct.Primitives;
 import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
-import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
 //import com.blend.mediamarkt.utils.Texture;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -71,6 +66,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private float[] modelViewMat;
     private float fov;
     private float fovy;
+    private boolean findTrackable = false;
 
     public enum objectOBJ{
 
@@ -108,9 +104,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
             InputStream streamObj2 = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl2 = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-            TextureManager.getInstance().addTexture("road" ,new Texture(mActivity.getAssets().open("BrickRound0105_5_S.jpg")));
-            InputStream streamObjRoad = mActivity.getAssets().open("untitled.obj");
-            InputStream streamMtlRoad = mActivity.getAssets().open("untitled.mtl");
+//            TextureManager.getInstance().addTexture("road" ,new Texture(mActivity.getAssets().open("untitled3.png")));
+//            InputStream streamObjRoad = mActivity.getAssets().open("CobbleStones2.obj");
+//            InputStream streamMtlRoad = mActivity.getAssets().open("CobbleStones2.mtl");
 
             home1 = null;
             home2 = null;
@@ -124,12 +120,13 @@ public class exampleObject implements GLSurfaceView.Renderer {
             home2.translate(0.0f, 0.0f, 0.0f);
             home2.rotateX(30.0f);
 
-            road = loadModel("road", streamObjRoad, streamMtlRoad,texSampler2DHandle);
-            home2.translate(0.0f, 50.0f, 0.0f);
+//            road = loadModel("road", streamObjRoad, streamMtlRoad,texSampler2DHandle);
+//            //road.translate(0.0f, 50.0f, 0.0f);
 
             world.addObject(home1);
             world.addObject(home2);
-            world.addObject(road);
+//            world.addObject(road);
+
             world.buildAllObjects();
 
 
@@ -177,7 +174,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 //        InputStream streamObj = mActivity.getAssets().open(obj);
 //        InputStream streamMtl = mActivity.getAssets().open(mtl);
 
-        Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.0f);
+        Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.5f);
         Object3D o3d = new Object3D(0);
         Object3D temp = null;
 
@@ -186,10 +183,11 @@ public class exampleObject implements GLSurfaceView.Renderer {
             temp.setCenter(SimpleVector.ORIGIN);
 //            temp.rotateY(180.0f);
 //            temp.rotateMesh();
-            if (nameObject != "house")
+            if (nameObject == "road")
                 temp.setTexture("road");
             else
                 temp.setTexture("texture");
+
             temp.setRotationMatrix(new Matrix());
             o3d = Object3D.mergeObjects(o3d, temp);
             o3d.strip();
@@ -311,6 +309,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
         // did we find any trackables this frame?
         for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++) {
             // get the trackable
+            findTrackable = true;
             TrackableResult result = state.getTrackableResult(tIdx);
             Trackable trackable = result.getTrackable();
             printUserData(trackable);
@@ -333,6 +332,10 @@ public class exampleObject implements GLSurfaceView.Renderer {
             };
             modelviewArray = m;
             updateModelviewMatrix(modelviewArray);
+        }
+
+        if(findTrackable){
+            mActivity.mAudio.startAudio();
         }
 
         mRenderer.end();

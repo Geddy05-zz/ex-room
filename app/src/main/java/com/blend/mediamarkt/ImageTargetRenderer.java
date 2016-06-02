@@ -54,7 +54,7 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
         private SampleApplication3DModel mBuildingsModel;
 
         private Renderer mRenderer;
-
+        boolean findTracble = false;
         boolean mIsActive = false;
 
     private static final float OBJECT_SCALE_FLOAT = 3.0f;
@@ -276,10 +276,6 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer{
                             mBuildingsModel.getNumObjectVertex());
 
                     SampleUtils.checkGLError("Renderer DrawBuildings");
-                }
-
-                if(findTrackable){
-                    mActivity.mAudio.startAudio();
                 }
                 SampleUtils.checkGLError("Render Frame");
             }
