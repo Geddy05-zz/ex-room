@@ -19,7 +19,7 @@ public class AudioPlayer {
 
     public AudioPlayer(Context context){
         this.context = context;
-        mMediaPlayer = MediaPlayer.create(context, R.raw.forest);
+        mMediaPlayer = MediaPlayer.create(context, R.raw.the_good_the_bad_and_the_ugly);
         mMediaPlayer.setLooping(true);
     }
 

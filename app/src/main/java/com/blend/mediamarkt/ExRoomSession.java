@@ -65,8 +65,12 @@ public class ExRoomSession implements UpdateCallbackInterface
     private boolean mIsPortrait = false;
 
 
-    public ExRoomSession(ExRoomControl sessionControl)
-    {
+//    public ExRoomSession(ExRoomControl sessionControl)
+//    {
+//        mSessionControl = sessionControl;
+//    }
+//
+    public void setmSessionControl(ExRoomControl sessionControl){
         mSessionControl = sessionControl;
     }
 
