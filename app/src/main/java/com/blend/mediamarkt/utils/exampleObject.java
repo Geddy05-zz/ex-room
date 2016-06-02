@@ -7,7 +7,6 @@ import android.util.Log;
 import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.ExRoomSession;
 import com.blend.mediamarkt.MainActivity;
-import com.blend.mediamarkt.R;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
 import com.vuforia.CameraCalibration;
@@ -25,19 +24,16 @@ import com.threed.jpct.Config;
 import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Object3D;
-import com.threed.jpct.Primitives;
 import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
-import com.threed.jpct.util.BitmapHelper;
 import com.threed.jpct.util.MemoryHelper;
 //import com.blend.mediamarkt.utils.Texture;
 
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -46,6 +42,7 @@ import javax.microedition.khronos.opengles.GL10;
 /**
  * Created by geddy on 21/05/16.
  */
+
 public class exampleObject implements GLSurfaceView.Renderer {
 
 
@@ -62,13 +59,20 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     private World world;
     private Light sun;
-    private Object3D cylinder;
+//    private Object3D cylinder;
+    private Object3D home1;
+    private Object3D home2;
+    private Object3D road;
     private Camera cam;
     private FrameBuffer fb;
     private float[] modelViewMat;
     private float fov;
     private float fovy;
+    private boolean findTrackable = false;
 
+    public enum objectOBJ{
+
+    }
 
     public exampleObject(Activity activity) {
         mActivity = activity;
@@ -91,68 +95,43 @@ public class exampleObject implements GLSurfaceView.Renderer {
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
 
-        try {
 
+        try {
             System.out.print("We are here");
+
+            //TODO: Make de streams universel
             TextureManager.getInstance().addTexture("texture" ,new Texture(mActivity.getAssets().open("Cottage Texture.jpg")));
             InputStream streamObj = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-            Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.0f);
+            InputStream streamObj2 = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
+            InputStream streamMtl2 = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-//            Object3D[] model = Loader.load3DS(stream, 1.0f);
-            Object3D o3d = new Object3D(0);
-            Object3D temp = null;
-            for (int i = 0; i < model.length; i++) {
-                temp = model[i];
-                temp.setCenter(SimpleVector.ORIGIN);
-                temp.rotateY(90.0f);
-                temp.rotateMesh();
-                temp.setTexture("texture");
-                temp.setRotationMatrix(new Matrix());
-                o3d = Object3D.mergeObjects(o3d, temp);
-                o3d.build();
+//            TextureManager.getInstance().addTexture("road" ,new Texture(mActivity.getAssets().open("untitled3.png")));
+//            InputStream streamObjRoad = mActivity.getAssets().open("CobbleStones2.obj");
+//            InputStream streamMtlRoad = mActivity.getAssets().open("CobbleStones2.mtl");
 
-                if (o3d != null){
-//                    SimpleVector sv = new SimpleVector();
-//                    sv.set(o3d.getTransformedCenter());
-//                    sv.y += 100;
-//                    sv.z += 100;
-//                    sun.setPosition(sv);
-                }
+            home1 = null;
+            home2 = null;
+            road = null;
 
-//                o3d.scale(1.0f);
+            home1 = loadModel("house", streamObj, streamMtl,texSampler2DHandle);
+            home1.translate(100.0f, 0.0f, 0.0f);
+            home1.rotateX(30.0f);
 
-                world.addObject(o3d);
+            home2 = loadModel("house", streamObj2, streamMtl2,texSampler2DHandle);
+            home2.translate(0.0f, 0.0f, 0.0f);
+            home2.rotateX(30.0f);
 
-                // activate texture 0, bind it, and pass to shader
-                GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-//                        mTextures.get(4).mTextureID[0]);
-                GLES20.glUniform1i(texSampler2DHandle, 0);
-            }
+//            road = loadModel("road", streamObjRoad, streamMtlRoad,texSampler2DHandle);
+//            //road.translate(0.0f, 50.0f, 0.0f);
 
-//            for (int i = 0; i < objects.length; i++) {
-//                temp = objects[i];
-//                temp.rotateX(90.0f);
-//                temp.rotateMesh();
-//                temp.setCenter(new SimpleVector(10.0F, 0.0F, 0.0F));
-//                temp.setRotationMatrix(new Matrix());
-//                mModel3d = Object3D.mergeObjects(mModel3d, temp);
-////                mModel3d.setTexture();
-////                mModel3d.setTexture("coconut_tree.png");
-//                mModel3d.build();
-//
-//                mModel3d.scale(10.0f);
-//
-//                world.addObject(mModel3d);
-//
-//                // activate texture 0, bind it, and pass to shader
-//                GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-////                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-////                        mTextures.get(4).mTextureID[0]);
-//                GLES20.glUniform1i(texSampler2DHandle, 0);
-//            }
+            world.addObject(home1);
+            world.addObject(home2);
+//            world.addObject(road);
+
+            world.buildAllObjects();
+
 
         }catch (Exception e){
             // Create a texture out of the icon...:-)
@@ -191,6 +170,49 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     }
 
+
+    private Object3D loadModel(String nameObject, InputStream streamObj, InputStream streamMtl, int texSampler2DHandle) throws IOException {
+//        mActivity = activity;
+//        TextureManager.getInstance().addTexture("Texture" ,new Texture(mActivity.getAssets().open(jpg)));
+//        InputStream streamObj = mActivity.getAssets().open(obj);
+//        InputStream streamMtl = mActivity.getAssets().open(mtl);
+
+        Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.5f);
+        Object3D o3d = new Object3D(0);
+        Object3D temp = null;
+
+        for (int i = 0; i < model.length; i++) {
+            temp = model[i];
+            temp.setCenter(SimpleVector.ORIGIN);
+//            temp.rotateY(180.0f);
+//            temp.rotateMesh();
+            if (nameObject == "road")
+                temp.setTexture("road");
+            else
+                temp.setTexture("texture");
+
+            temp.setRotationMatrix(new Matrix());
+            o3d = Object3D.mergeObjects(o3d, temp);
+            o3d.strip();
+            o3d.build();
+//            o3d.compile();
+
+            if (o3d != null){
+//                    SimpleVector sv = new SimpleVector();
+//                    sv.set(o3d.getTransformedCenter());
+//                    sv.y += 100;
+//                    sv.z += 100;
+//                    sun.setPosition(sv);
+            }
+
+//          o3d.scale(1.0f);
+            // activate texture 0, bind it, and pass to shader
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//          GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(4).mTextureID[0]);
+            GLES20.glUniform1i(texSampler2DHandle, 0);
+        }
+        return o3d;
+    }
 
     // Called to draw the current frame.
     @Override
@@ -275,6 +297,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
         // did we find any trackables this frame?
         for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++) {
             // get the trackable
+            findTrackable = true;
             TrackableResult result = state.getTrackableResult(tIdx);
             Trackable trackable = result.getTrackable();
             printUserData(trackable);
@@ -297,6 +320,10 @@ public class exampleObject implements GLSurfaceView.Renderer {
             };
             modelviewArray = m;
             updateModelviewMatrix(modelviewArray);
+        }
+
+        if(findTrackable){
+            mActivity.mAudio.startAudio();
         }
 
         mRenderer.end();
