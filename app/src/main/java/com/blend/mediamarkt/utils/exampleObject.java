@@ -99,6 +99,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         try {
             System.out.print("We are here");
+
+            //TODO: Make de streams universel
             TextureManager.getInstance().addTexture("texture" ,new Texture(mActivity.getAssets().open("Cottage Texture.jpg")));
             InputStream streamObj = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
@@ -106,9 +108,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
             InputStream streamObj2 = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl2 = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-            TextureManager.getInstance().addTexture("road" ,new Texture(mActivity.getAssets().open("Roadstraight.jpg")));
-            InputStream streamObjRoad = mActivity.getAssets().open("Roads.obj");
-            InputStream streamMtlRoad = mActivity.getAssets().open("Roads.mtl");
+            TextureManager.getInstance().addTexture("road" ,new Texture(mActivity.getAssets().open("BrickRound0105_5_S.jpg")));
+            InputStream streamObjRoad = mActivity.getAssets().open("untitled.obj");
+            InputStream streamMtlRoad = mActivity.getAssets().open("untitled.mtl");
 
             home1 = null;
             home2 = null;
@@ -123,6 +125,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
             home2.rotateX(30.0f);
 
             road = loadModel("road", streamObjRoad, streamMtlRoad,texSampler2DHandle);
+            home2.translate(0.0f, 50.0f, 0.0f);
 
             world.addObject(home1);
             world.addObject(home2);
