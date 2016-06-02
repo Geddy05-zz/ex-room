@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements RequestURL{
 
         mAudio = new AudioPlayer(this.getApplicationContext());
         startLoadingAnimation();
-        new ApiHandler(playSound).execute();
+        new ApiHandler(playSound,this).execute();
 
         mVuforiaController = new VuforiaController(this);
 

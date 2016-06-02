@@ -23,7 +23,7 @@ public class AudioPlayer {
         mMediaPlayer.setLooping(true);
     }
 
-    public void startAudio(){
+    public  void startAudio(){
         mMediaPlayer.start();
     }
 
