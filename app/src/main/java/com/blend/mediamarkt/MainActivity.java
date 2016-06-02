@@ -183,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements RequestURL{
         mUILayout.setBackgroundColor(Color.BLACK);
 
         // Gets a reference to the loading dialog
-        loadingDialogHandler.mLoadingDialogContainer = mUILayout
-                .findViewById(R.id.loading_indicator);
+        loadingDialogHandler.mLoadingDialogContainer = mUILayout.findViewById(R.id.loading_indicator);
 
         // Shows the loading indicator at start
         loadingDialogHandler
