@@ -18,7 +18,7 @@ import java.net.URL;
 public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
 
     private static  String TAG = "APIHandler";
-    private static String baseUrl = "http://10.0.1.3:5000";
+    private static String baseUrl = "http://localhost:5000";
     private vuforiaActivity activity;
     private com.blend.mediamarkt.enumerations.audioOptions audioOptions;
     private AudioPlayer audio;
@@ -47,7 +47,7 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
         try {
             // Defined URL  where to send data
 //            URL url = new URL(baseUrl+ "/sounds/" + audioOptions.toString());
-            URL url = new URL(baseUrl+ "/sounds/abc");
+            URL url = new URL(baseUrl+ "/sounds/2");
 
 
             // Send POST request
