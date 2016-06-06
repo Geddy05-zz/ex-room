@@ -1,4 +1,4 @@
-package com.blend.mediamarkt;
+package com.blend.mediamarkt.vuforia;
 
 import android.content.Context;
 import android.graphics.PixelFormat;

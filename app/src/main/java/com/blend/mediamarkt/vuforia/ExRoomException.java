@@ -1,4 +1,4 @@
-package com.blend.mediamarkt;
+package com.blend.mediamarkt.vuforia;
 
 /**
  * Created by geddy on 12/05/16.

@@ -3,9 +3,14 @@ package com.blend.mediamarkt;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.blend.mediamarkt.activities.MainActivity;
+import com.blend.mediamarkt.enumerations.audioOptions;
+import com.blend.mediamarkt.utils.AudioPlayer;
+import com.blend.mediamarkt.vuforia.vuforiaActivity;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Created by geddy on 02/06/16.
@@ -13,15 +18,26 @@ import java.net.URLConnection;
 public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
 
     private static  String TAG = "APIHandler";
-    private static String baseUrl = "http://192.168.0.102:5000/";
-    private String params;
-    private Void returnFunction;
-    private MainActivity activity;
+    private static String baseUrl = "http://www.google.com/";
+    private vuforiaActivity activity;
+    private com.blend.mediamarkt.enumerations.audioOptions audioOptions;
+    private AudioPlayer audio;
 
-    public ApiHandler(String params, MainActivity activity){
+
+    public ApiHandler(vuforiaActivity activity, audioOptions option){
         super();
-        this.params = params;
         this.activity = activity;
+        this.audioOptions = option;
+        this.audio = null;
+    }
+
+    public ApiHandler(vuforiaActivity activity, audioOptions option, AudioPlayer audio ){
+        this(activity,option);
+        this.audio = audio;
+    }
+
+    public static int calculate(int a , int b){
+        return a+b;
     }
 
     @Override
@@ -29,17 +45,22 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
         boolean succes = false;
 
         try {
-
             // Defined URL  where to send data
-            URL url = new URL(baseUrl);
+            URL url = new URL(baseUrl + audioOptions.toString());
 
             // Send POST request
-            URLConnection conn;
-            conn = url.openConnection();
+            HttpURLConnection connection;
+            connection =(HttpURLConnection) url.openConnection();
 
-            int responseCode = ((HttpURLConnection)conn).getResponseCode();
+            // set output to true for creating a body in the request
+            connection.setDoOutput( true );
+            connection.setRequestMethod("POST");
+
+            int responseCode = connection.getResponseCode();
             Log.i(TAG,"HTTP response is " + responseCode);
-            succes = true;
+            if(responseCode > 199 &&  responseCode < 300) {
+                succes = true;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,8 +71,8 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
     @Override
     protected void onPostExecute(Boolean result) {
         if(!result){
-            if(activity.mAudio != null) {
-                activity.mAudio.startAudio();
+            if(activity.getAudio() != null) {
+                activity.getAudio().startAudio();
             }
         }
     }

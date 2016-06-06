@@ -1,4 +1,4 @@
-package com.blend.mediamarkt;
+package com.blend.mediamarkt.vuforia;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -9,7 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.blend.mediamarkt.App;
+import com.blend.mediamarkt.R;
+import com.blend.mediamarkt.activities.MainActivity;
 import com.blend.mediamarkt.utils.exampleObject;
+import com.blend.mediamarkt.vuforia.ExRoomControl;
+import com.blend.mediamarkt.vuforia.ExRoomException;
+import com.blend.mediamarkt.vuforia.ExRoomGL;
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
 import com.vuforia.ObjectTracker;
@@ -35,12 +41,12 @@ public class VuforiaController implements ExRoomControl {
     private exampleObject mRenderer;
     private RelativeLayout mUILayout;
     private ObjectTracker objectTracker;
-    private Activity mActivity;
+    private vuforiaActivity mActivity;
     public ExRoomGL mGlView;
     private App app;
 
 
-    public VuforiaController(Activity activity){
+    public VuforiaController(vuforiaActivity activity){
         this.mActivity = activity;
         app =(App) mActivity.getApplication();
 
@@ -49,7 +55,7 @@ public class VuforiaController implements ExRoomControl {
     }
 
     // this function is already build for when we build a new scene
-    public void setmActivity(Activity mActivity) {
+    public void setmActivity(vuforiaActivity mActivity) {
         this.mActivity = mActivity;
         start();
     }
@@ -221,7 +227,7 @@ public class VuforiaController implements ExRoomControl {
         mGlView.init(translucent, depthSize, stencilSize);
 
 //        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-        mRenderer = new exampleObject((MainActivity) mActivity);
+        mRenderer = new exampleObject(mActivity);
 
         mGlView.setRenderer(mRenderer);
 
