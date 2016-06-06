@@ -70,6 +70,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private float fovy;
     private boolean findTrackable = false;
 
+
+    private String sceneName;
     public enum objectOBJ{
 
     }

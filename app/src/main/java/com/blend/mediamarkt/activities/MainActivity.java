@@ -30,6 +30,7 @@ public class MainActivity extends vuforiaActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (App) getApplication();
+        sceneName = "Main";
 
         // create audio Options for this scene
         Sounds sound = Sounds.the_good_the_bad_the_ugly;

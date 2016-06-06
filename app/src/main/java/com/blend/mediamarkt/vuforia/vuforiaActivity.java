@@ -17,6 +17,7 @@ public abstract class vuforiaActivity extends AppCompatActivity {
     protected VuforiaController mVuforiaController;
     protected LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
     protected AudioPlayer mAudio;
+    public String sceneName;
 
     @Override
     public void onStop() {

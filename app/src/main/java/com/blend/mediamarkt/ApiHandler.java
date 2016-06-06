@@ -18,7 +18,7 @@ import java.net.URL;
 public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
 
     private static  String TAG = "APIHandler";
-    private static String baseUrl = "http://www.google.com/";
+    private static String baseUrl = "http://10.0.1.3:5000";
     private vuforiaActivity activity;
     private com.blend.mediamarkt.enumerations.audioOptions audioOptions;
     private AudioPlayer audio;
@@ -46,15 +46,20 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
 
         try {
             // Defined URL  where to send data
-            URL url = new URL(baseUrl + audioOptions.toString());
+//            URL url = new URL(baseUrl+ "/sounds/" + audioOptions.toString());
+            URL url = new URL(baseUrl+ "/sounds/abc");
+
 
             // Send POST request
             HttpURLConnection connection;
             connection =(HttpURLConnection) url.openConnection();
 
             // set output to true for creating a body in the request
-            connection.setDoOutput( true );
-            connection.setRequestMethod("POST");
+//            connection.setDoOutput( true );
+//            connection.setRequestMethod("POST");
+
+            connection.setDoOutput( false );
+            connection.setRequestMethod("GET");
 
             int responseCode = connection.getResponseCode();
             Log.i(TAG,"HTTP response is " + responseCode);
