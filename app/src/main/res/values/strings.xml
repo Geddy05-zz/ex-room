@@ -1,4 +1,13 @@
 <resources>
+    <!-- Settings Values -->
+    <string name="setting_on">On</string>
+    <string name="setting_off">Off</string>
+    <string name="setting_sound_state">Sounds On/Off</string>
+    <string name="play_sound_in_background">Play sound in background</string>
+    <string name="play_sound_via_restapi">Play sounds via API</string>
+    <string name="play_camera_in_background">Play camera in background</string>
+
+
     <string name="app_name">MediaMarkt</string>
 
     <string name="UPDATE_ERROR_AUTHORIZATION_FAILED_TITLE">Authorization Error</string>
