@@ -4,6 +4,8 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -25,6 +27,7 @@ public class MainActivity extends vuforiaActivity {
 
     private static final String LOGTAG = "MainActivity";
     private App app;
+    public static boolean musicEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,38 @@ public class MainActivity extends vuforiaActivity {
             Log.e(LOGTAG, e.getString());
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_toggle_sound) {
+
+            musicEnabled = !musicEnabled;
+            item.setIcon(musicEnabled ? R.drawable.sound_on : R.drawable.sound_off);
+
+            if (musicEnabled) {
+                mAudio.startAudio();
+            } else {
+                mAudio.destroyAudio();
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     // The final call you receive before your activity is destroyed.
     @Override

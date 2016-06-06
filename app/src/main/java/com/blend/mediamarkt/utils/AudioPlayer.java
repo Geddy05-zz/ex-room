@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 import com.blend.mediamarkt.R;
+import com.blend.mediamarkt.activities.MainActivity;
 import com.blend.mediamarkt.enumerations.Sounds;
 
 /**
@@ -24,8 +25,10 @@ public class AudioPlayer {
         this.sound = sound;
     }
 
-    public  void startAudio() {
-        getMediaPlayer().start();
+    public void startAudio() {
+        if(MainActivity.musicEnabled) {
+            getMediaPlayer().start();
+        }
     }
 
     public void pauseAudio() {
