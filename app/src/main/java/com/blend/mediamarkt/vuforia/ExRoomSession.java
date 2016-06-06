@@ -1,4 +1,4 @@
-package com.blend.mediamarkt;
+package com.blend.mediamarkt.vuforia;
 
 /**
  * Created by geddy on 12/05/16.
@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.OrientationEventListener;
 import android.view.WindowManager;
 
+import com.blend.mediamarkt.R;
 import com.vuforia.CameraCalibration;
 import com.vuforia.CameraDevice;
 import com.vuforia.Matrix44F;

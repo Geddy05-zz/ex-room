@@ -1,12 +1,12 @@
 package com.blend.mediamarkt.utils;
-import android.app.Activity;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import com.blend.mediamarkt.App;
-import com.blend.mediamarkt.ExRoomSession;
-import com.blend.mediamarkt.MainActivity;
+import com.blend.mediamarkt.vuforia.ExRoomSession;
+import com.blend.mediamarkt.activities.MainActivity;
+import com.blend.mediamarkt.vuforia.vuforiaActivity;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
 import com.vuforia.CameraCalibration;
@@ -48,7 +48,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
-    private MainActivity mActivity;
+    private vuforiaActivity mActivity;
     private Vector<Texture> mTextures;
 
     private int texSampler2DHandle;
@@ -70,11 +70,13 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private float fovy;
     private boolean findTrackable = false;
 
+
+    private String sceneName;
     public enum objectOBJ{
 
     }
 
-    public exampleObject(MainActivity activity) {
+    public exampleObject(vuforiaActivity activity) {
         mActivity =  activity;
         App app =(App) mActivity.getApplication();
         vuforiaAppSession = app.vuforiaSession;
@@ -323,7 +325,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
         }
 
         if(findTrackable){
-            mActivity.mAudio.startAudio();
+            mActivity.getAudio().startAudio();
         }
 
         mRenderer.end();

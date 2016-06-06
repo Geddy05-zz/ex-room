@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 import com.blend.mediamarkt.R;
+import com.blend.mediamarkt.enumerations.Sounds;
 
 /**
  * Created by geddy on 19/05/16.
@@ -16,14 +17,15 @@ public class AudioPlayer {
     private static Context context;
     private boolean mIsPause =false;
     private int mPausePosition = 0;
+    private Sounds sound;
 
-    public AudioPlayer(Context context){
+    public AudioPlayer(Context context,Sounds sound){
         this.context = context;
-        mMediaPlayer = MediaPlayer.create(context, R.raw.the_good_the_bad_and_the_ugly);
+        mMediaPlayer = MediaPlayer.create(context, sound.getSound());
         mMediaPlayer.setLooping(true);
     }
 
-    public void startAudio(){
+    public  void startAudio(){
         mMediaPlayer.start();
     }
 
