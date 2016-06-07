@@ -33,7 +33,7 @@ public class ForestActivity extends vuforiaActivity {
 
         // create audio Options for this scene
         Sounds sound = Sounds.forest;
-        mAudio = new AudioPlayer(app,sound);
+        audio = new AudioPlayer(app,sound);
         startLoadingAnimation((RelativeLayout) View.inflate(this, R.layout.camera_overlay, null));
 
         mVuforiaController = new VuforiaController(this);
@@ -44,7 +44,7 @@ public class ForestActivity extends vuforiaActivity {
     protected void onResume() {
         Log.d(LOGTAG, "onResume");
         super.onResume();
-        mAudio.resumeAudio();
+        audio.resumeAudio();
 
         try {
             app.vuforiaSession.resumeAR();
@@ -73,7 +73,7 @@ public class ForestActivity extends vuforiaActivity {
     protected void onPause() {
         Log.d(LOGTAG, "onPause");
         super.onPause();
-        mAudio.pauseAudio();
+        audio.pauseAudio();
 //
         if (mVuforiaController.mGlView != null) {
             mVuforiaController.mGlView.setVisibility(View.INVISIBLE);
@@ -93,7 +93,7 @@ public class ForestActivity extends vuforiaActivity {
     protected void onDestroy() {
         Log.d(LOGTAG, "onDestroy");
         super.onDestroy();
-        mAudio.destroyAudio();
+        audio.destroyAudio();
 
         try {
             app.vuforiaSession.stopAR();
