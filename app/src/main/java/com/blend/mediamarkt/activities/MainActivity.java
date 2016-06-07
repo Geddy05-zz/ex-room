@@ -1,6 +1,5 @@
 package com.blend.mediamarkt.activities;
 
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +14,7 @@ import com.blend.mediamarkt.R;
 import com.blend.mediamarkt.vuforia.VuforiaController;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.enumerations.audioOptions;
-import com.blend.mediamarkt.utils.Texture;
 
-import java.util.ArrayList;
-import java.util.Vector;
 import com.blend.mediamarkt.utils.AudioPlayer;
 import com.blend.mediamarkt.vuforia.ExRoomException;
 import com.blend.mediamarkt.vuforia.vuforiaActivity;
@@ -37,19 +33,18 @@ public class MainActivity extends vuforiaActivity {
 
         // create audio Options for this scene
         Sounds sound = Sounds.the_good_the_bad_the_ugly;
-        mAudio = new AudioPlayer(app,sound);
+        audio = new AudioPlayer(app,sound);
 
         startLoadingAnimation( (RelativeLayout) View.inflate(this, R.layout.camera_overlay, null));
 
-        mVuforiaController = new VuforiaController(this);
-        new ApiHandler(this, audioOptions.Play,mAudio).execute();
+        vuforiaController = new VuforiaController(this);
     }
 
     @Override
     protected void onResume() {
         Log.d(LOGTAG, "onResume");
         super.onResume();
-        mAudio.resumeAudio();
+        audio.resumeAudio();
 
         try {
             app.vuforiaSession.resumeAR();
@@ -58,9 +53,9 @@ public class MainActivity extends vuforiaActivity {
         }
 
         // Resume the GL view:
-        if (mVuforiaController.mGlView != null) {
-            mVuforiaController.mGlView.setVisibility(View.VISIBLE);
-            mVuforiaController.mGlView.onResume();
+        if (vuforiaController.mGlView != null) {
+            vuforiaController.mGlView.setVisibility(View.VISIBLE);
+            vuforiaController.mGlView.onResume();
         }
     }
 
@@ -78,11 +73,11 @@ public class MainActivity extends vuforiaActivity {
     protected void onPause() {
         Log.d(LOGTAG, "onPause");
         super.onPause();
-        mAudio.pauseAudio();
+        audio.pauseAudio();
 //
-        if (mVuforiaController.mGlView != null) {
-            mVuforiaController.mGlView.setVisibility(View.INVISIBLE);
-            mVuforiaController.mGlView.onPause();
+        if (vuforiaController.mGlView != null) {
+            vuforiaController.mGlView.setVisibility(View.INVISIBLE);
+            vuforiaController.mGlView.onPause();
         }
 
         // Turn off the flash
@@ -114,9 +109,9 @@ public class MainActivity extends vuforiaActivity {
             item.setIcon(musicEnabled ? R.drawable.sound_on : R.drawable.sound_off);
 
             if (musicEnabled) {
-                mAudio.startAudio();
+                audio.startAudio();
             } else {
-                mAudio.destroyAudio();
+                audio.destroyAudio();
             }
 
         }
@@ -130,7 +125,9 @@ public class MainActivity extends vuforiaActivity {
     protected void onDestroy() {
         Log.d(LOGTAG, "onDestroy");
         super.onDestroy();
-        mAudio.destroyAudio();
+        new ApiHandler(this, audioOptions.Stop).execute();
+
+//        audio.destroyAudio();
 
         try {
             app.vuforiaSession.stopAR();

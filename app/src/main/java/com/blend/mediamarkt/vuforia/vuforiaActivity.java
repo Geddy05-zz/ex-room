@@ -14,16 +14,16 @@ import com.blend.mediamarkt.utils.LoadingDialogHandler;
  * Created by geddy on 06/06/16.
  */
 public abstract class vuforiaActivity extends AppCompatActivity {
-    protected VuforiaController mVuforiaController;
+    protected VuforiaController vuforiaController;
     protected LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
-    protected AudioPlayer mAudio;
+    protected AudioPlayer audio;
     public String sceneName;
 
     @Override
     public void onStop() {
         super.onStop();
 
-        mAudio.pauseAudio();
+        audio.pauseAudio();
     }
 
     protected void startLoadingAnimation(RelativeLayout uiLayout) {
@@ -45,6 +45,6 @@ public abstract class vuforiaActivity extends AppCompatActivity {
     }
 
     public AudioPlayer getAudio() {
-        return mAudio;
+        return audio;
     }
 }

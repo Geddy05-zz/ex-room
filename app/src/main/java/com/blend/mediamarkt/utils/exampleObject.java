@@ -3,7 +3,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import com.blend.mediamarkt.ApiHandler;
 import com.blend.mediamarkt.App;
+import com.blend.mediamarkt.enumerations.audioOptions;
 import com.blend.mediamarkt.vuforia.ExRoomSession;
 import com.blend.mediamarkt.activities.MainActivity;
 import com.blend.mediamarkt.vuforia.vuforiaActivity;
@@ -90,9 +92,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         sun = new Light(world);
         sun.setIntensity(250, 250, 250);
-        shaderProgramID = SampleUtils.createProgramFromShaderSrc(
-                CubeShaders.CUBE_MESH_VERTEX_SHADER,
-                CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
+//        shaderProgramID = SampleUtils.createProgramFromShaderSrc(
+//                CubeShaders.CUBE_MESH_VERTEX_SHADER,
+//                CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
 
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
@@ -325,7 +327,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
         }
 
         if(findTrackable){
-            mActivity.getAudio().startAudio();
+            new ApiHandler(mActivity, audioOptions.Play).execute();
         }
 
         mRenderer.end();
