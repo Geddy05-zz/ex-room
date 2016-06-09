@@ -65,12 +65,6 @@ public class ExRoomSession implements UpdateCallbackInterface
     // Stores orientation
     private boolean mIsPortrait = false;
 
-
-//    public ExRoomSession(ExRoomControl sessionControl)
-//    {
-//        mSessionControl = sessionControl;
-//    }
-//
     public void setmSessionControl(ExRoomControl sessionControl){
         mSessionControl = sessionControl;
     }
@@ -289,19 +283,6 @@ public class ExRoomSession implements UpdateCallbackInterface
         }
 
         Vuforia.onPause();
-    }
-
-
-    // Gets the projection matrix to be used for rendering
-    public Matrix44F getProjectionMatrix()
-    {
-        return mProjectionMatrix;
-    }
-
-    // Gets the viewport to be used fo rendering
-    public int[] getViewport()
-    {
-        return mViewport;
     }
 
     // Callback called every cycle
