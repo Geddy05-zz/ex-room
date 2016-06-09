@@ -8,6 +8,7 @@ import com.blend.mediamarkt.activities.MainActivity;
 import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.enumerations.AudioOptions;
+import com.blend.mediamarkt.vuforia.VuforiaActivity;
 import com.blend.mediamarkt.vuforia.VuforiaController;
 
 import org.junit.Before;
@@ -26,7 +27,7 @@ import java.net.URL;
 @PrepareForTest({android.util.Log.class})
 public class ExampleUnitTest extends AndroidTestCase {
 
-    MainActivity activity;
+    VuforiaActivity activity;
     VuforiaController vuforiaController;
     AudioApiHandler apiHandlerPlay;
     AudioApiHandler apiHandlerStop;
@@ -34,7 +35,6 @@ public class ExampleUnitTest extends AndroidTestCase {
 
     @Before
     public void setUp() {
-
         activity = new MainActivity();
         Context context = new MockContext();
         setContext(context);
@@ -48,13 +48,14 @@ public class ExampleUnitTest extends AndroidTestCase {
     @Test
     public void handleResponse_areCorrect() {
         AudioApiHandler apiHandler = new AudioApiHandler(activity, AudioOptions.Play,Sounds.forest);
-        boolean result199 = apiHandler.handleResponse(199);
-        boolean result200 = apiHandler.handleResponse(200);
-        boolean result201 = apiHandler.handleResponse(201);
 
-        boolean result299 = apiHandler.handleResponse(299);
-        boolean result300 = apiHandler.handleResponse(300);
-        boolean result301 = apiHandler.handleResponse(301);
+        boolean result199 = apiHandler.responseIsSucceed(199);
+        boolean result200 = apiHandler.responseIsSucceed(200);
+        boolean result201 = apiHandler.responseIsSucceed(201);
+
+        boolean result299 = apiHandler.responseIsSucceed(299);
+        boolean result300 = apiHandler.responseIsSucceed(300);
+        boolean result301 = apiHandler.responseIsSucceed(301);
 
         assertEquals(false,result199);
         assertEquals(true ,result200);
@@ -98,7 +99,7 @@ public class ExampleUnitTest extends AndroidTestCase {
     public void urls_areCorrect(){
         if (serverIsOnline) {
 
-            Sounds[] sounds =new Sounds[]{Sounds.forest,Sounds.the_good_the_bad_the_ugly,null};
+            Sounds[] sounds = new Sounds[]{Sounds.forest,Sounds.the_good_the_bad_the_ugly,null};
 
         for (Sounds sound : sounds) {
             apiHandlerPlay = new AudioApiHandler(activity, AudioOptions.Play, sound);

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
+import com.blend.mediamarkt.utils.BaseScene;
 import com.blend.mediamarkt.utils.WesternScene;
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
@@ -32,7 +33,7 @@ public class VuforiaController implements ExRoomControl {
     private int mCurrentDatasetSelectionIndex = 0;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     private boolean mExtendedTracking = false;
-    private WesternScene mRenderer;
+    private BaseScene mRenderer;
     private RelativeLayout mUILayout;
     private ObjectTracker objectTracker;
     private VuforiaActivity mActivity;
@@ -225,6 +226,7 @@ public class VuforiaController implements ExRoomControl {
         mGlView.init(translucent, depthSize, stencilSize);
 
         //TODO: make this more generic
+
         mRenderer = new WesternScene(mActivity);
 
         mGlView.setRenderer(mRenderer);

@@ -45,7 +45,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by geddy on 21/05/16.
  */
 
-public class WesternScene implements GLSurfaceView.Renderer {
+public class WesternScene extends BaseScene {
 
 
     private static final String LOGTAG = "ImageTargetRenderer";
@@ -57,7 +57,7 @@ public class WesternScene implements GLSurfaceView.Renderer {
     private int shaderProgramID;
 
     private Renderer mRenderer;
-    public boolean mIsActive = false;
+//    public boolean mIsActive = false;
 
     private World world;
     private Light sun;
@@ -98,8 +98,6 @@ public class WesternScene implements GLSurfaceView.Renderer {
 
 
         try {
-            System.out.print("We are here");
-
             TextureManager.getInstance().addTexture("texture" ,new Texture(mActivity.getAssets().open("Cottage Texture.jpg")));
             InputStream streamObj = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
