@@ -1,7 +1,7 @@
 package com.blend.mediamarkt;
 
 /**
- * Created by geddy on 26/05/16.
+ * Created by Nimbus on 26/05/16.
  */
 
 public class AppSettings {

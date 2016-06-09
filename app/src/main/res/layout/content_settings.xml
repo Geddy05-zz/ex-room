@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/play_sound_in_background"
+        android:id="@+id/id_setting_sound_state"
+        android:layout_marginBottom="@dimen/settings_list_bottom"
+        android:textOn="@string/setting_on"
+        android:textOff="@string/setting_off" />
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/play_sound_via_restapi"
+        android:id="@+id/id_setting_sound_via_restapi"
+        android:layout_marginBottom="@dimen/settings_list_bottom"
+        android:textOn="@string/setting_on"
+        android:textOff="@string/setting_off" />
+
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/play_camera_in_background"
+        android:id="@+id/id_setting_camera_state"
+        android:layout_marginBottom="@dimen/settings_list_bottom"
+        android:checked="false" />
+
+</LinearLayout>

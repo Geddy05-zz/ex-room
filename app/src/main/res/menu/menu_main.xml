@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.nimbus.blend.MainActivity">
+
+    <item
+        android:id="@+id/action_toggle_sound"
+        android:icon="@drawable/sound_on"
+        android:title="@string/sound_state"
+        app:showAsAction="ifRoom"/>
+
+
+</menu>

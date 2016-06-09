@@ -3,8 +3,12 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.blend.mediamarkt.ExRoomSession;
-import com.blend.mediamarkt.MainActivity;
+import com.blend.mediamarkt.ApiHandler;
+import com.blend.mediamarkt.App;
+import com.blend.mediamarkt.enumerations.audioOptions;
+import com.blend.mediamarkt.vuforia.ExRoomSession;
+import com.blend.mediamarkt.activities.MainActivity;
+import com.blend.mediamarkt.vuforia.vuforiaActivity;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
 import com.vuforia.CameraCalibration;
@@ -46,7 +50,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
-    private MainActivity mActivity;
+    private vuforiaActivity mActivity;
     private Vector<Texture> mTextures;
 
     private int texSampler2DHandle;
@@ -68,13 +72,16 @@ public class exampleObject implements GLSurfaceView.Renderer {
     private float fovy;
     private boolean findTrackable = false;
 
+
+    private String sceneName;
     public enum objectOBJ{
 
     }
 
-    public exampleObject(MainActivity activity, ExRoomSession session) {
-        mActivity = activity;
-        vuforiaAppSession = session;
+    public exampleObject(vuforiaActivity activity) {
+        mActivity =  activity;
+        App app =(App) mActivity.getApplication();
+        vuforiaAppSession = app.vuforiaSession;
 
 //        mTextures = texture;
 
@@ -85,9 +92,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         sun = new Light(world);
         sun.setIntensity(250, 250, 250);
-        shaderProgramID = SampleUtils.createProgramFromShaderSrc(
-                CubeShaders.CUBE_MESH_VERTEX_SHADER,
-                CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
+//        shaderProgramID = SampleUtils.createProgramFromShaderSrc(
+//                CubeShaders.CUBE_MESH_VERTEX_SHADER,
+//                CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
 
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
@@ -265,18 +272,9 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f : 1.0f);
-
-//        // Hide the Loading Dialog
-//        mActivity.loadingDialogHandler
-//                .sendEmptyMessage(LoadingDialogHandler.HIDE_LOADING_DIALOG);
     }
 
     private void updateRendering(int width, int height) {
-
-        // Update screen dimensions
-//        vuforiaAppSession.setmScreenWidth(width);
-//        vuforiaAppSession.setmScreenHeight(height);
-
         // Reconfigure the video background
         vuforiaAppSession.configureVideoBackground();
 
@@ -286,14 +284,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
         float fovyRadians = (float) (2 * Math.atan(0.5f * size.getData()[1] / focalLength.getData()[1]));
         float fovRadians = (float) (2 * Math.atan(0.5f * size.getData()[0] / focalLength.getData()[0]));
 
-//        if (vuforiaAppSession.mIsPortrait) {
-            setFovy(fovRadians);
-            setFov(fovyRadians);
-//        } else {
-//            setFov(fovRadians);
-//            setFovy(fovyRadians);
-//        }
-
+        setFovy(fovRadians);
+        setFov(fovyRadians);
     }
 
     // The render function.
@@ -335,7 +327,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
         }
 
         if(findTrackable){
-            mActivity.mAudio.startAudio();
+            new ApiHandler(mActivity, audioOptions.Play).execute();
         }
 
         mRenderer.end();
@@ -356,11 +348,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
             float[] m = modelViewMat;
 
             final SimpleVector camUp;
-//            if (vuforiaAppSession.mIsPortrait) {
-                camUp = new SimpleVector(-m[0], -m[1], -m[2]);
-//            } else {
-//                camUp = new SimpleVector(-m[4], -m[5], -m[6]);
-//            }
+
+            camUp = new SimpleVector(-m[0], -m[1], -m[2]);
 
             final SimpleVector camDirection = new SimpleVector(m[8], m[9], m[10]);
             final SimpleVector camPosition = new SimpleVector(m[12], m[13], m[14]);

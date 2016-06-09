@@ -26,3 +26,5 @@ app/app.iml
 build/generated/mockable-android-23.jar
 
 build/intermediates/dex-cache/cache.xml
+
+*.properties
