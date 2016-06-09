@@ -7,7 +7,6 @@ import com.blend.mediamarkt.ApiHandler;
 import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.enumerations.audioOptions;
 import com.blend.mediamarkt.vuforia.ExRoomSession;
-import com.blend.mediamarkt.activities.MainActivity;
 import com.blend.mediamarkt.vuforia.vuforiaActivity;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
@@ -45,7 +44,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by geddy on 21/05/16.
  */
 
-public class exampleObject implements GLSurfaceView.Renderer {
+public class WesternScene implements GLSurfaceView.Renderer {
 
 
     private static final String LOGTAG = "ImageTargetRenderer";
@@ -78,7 +77,7 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
     }
 
-    public exampleObject(vuforiaActivity activity) {
+    public WesternScene(vuforiaActivity activity) {
         mActivity =  activity;
         App app =(App) mActivity.getApplication();
         vuforiaAppSession = app.vuforiaSession;
@@ -92,9 +91,6 @@ public class exampleObject implements GLSurfaceView.Renderer {
 
         sun = new Light(world);
         sun.setIntensity(250, 250, 250);
-//        shaderProgramID = SampleUtils.createProgramFromShaderSrc(
-//                CubeShaders.CUBE_MESH_VERTEX_SHADER,
-//                CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
 
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
@@ -307,8 +303,8 @@ public class exampleObject implements GLSurfaceView.Renderer {
             printUserData(trackable);
 
             Matrix44F modelViewMatrix = Tool.convertPose2GLMatrix(result.getPose());
-            Matrix44F inverseMV = SampleMath.Matrix44FInverse(modelViewMatrix);
-            Matrix44F invTranspMV = SampleMath.Matrix44FTranspose(inverseMV);
+            Matrix44F inverseMV = VuforiaMath.Matrix44FInverse(modelViewMatrix);
+            Matrix44F invTranspMV = VuforiaMath.Matrix44FTranspose(inverseMV);
 
             modelviewArray = invTranspMV.getData();
             updateModelviewMatrix(modelviewArray);
