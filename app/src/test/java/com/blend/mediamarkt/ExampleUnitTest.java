@@ -48,8 +48,8 @@ public class ExampleUnitTest extends AndroidTestCase {
 
         activity = new MainActivity();
 
-
         vuforiaController = new VuforiaController(activity);
+
         apiHandlerPlay = new ApiHandler(activity, audioOptions.Play);
         apiHandlerStop = new ApiHandler(activity, audioOptions.Stop);
     }
@@ -64,13 +64,14 @@ public class ExampleUnitTest extends AndroidTestCase {
         boolean result299 = apiHandler.handleResponse(299);
         boolean result300 = apiHandler.handleResponse(300);
         boolean result301 = apiHandler.handleResponse(301);
-        assertEquals(result199,false);
-        assertEquals(result200,true);
-        assertEquals(result201,true);
 
-        assertEquals(result299,true);
-        assertEquals(result300,false);
-        assertEquals(result301,false);
+        assertEquals(result199, false);
+        assertEquals(result200, true);
+        assertEquals(result201, true);
+
+        assertEquals(result299, true);
+        assertEquals(result300, false);
+        assertEquals(result301, false);
     }
 
     @Test
@@ -80,18 +81,18 @@ public class ExampleUnitTest extends AndroidTestCase {
 
         assertEquals(Sounds.the_good_the_bad_the_ugly.getSound(),R.raw.the_good_the_bad_and_the_ugly);
         assertEquals(Sounds.forest.getSound(),R.raw.forest);
-
     }
 
     @Test
     public void urls_areCorrect(){
         apiHandlerPlay = new ApiHandler(activity, audioOptions.Play);
         apiHandlerStop = new ApiHandler(activity, audioOptions.Stop);
+
         boolean responsePlay = apiHandlerPlay.doInBackground();
         boolean responseStop = apiHandlerStop.doInBackground();
         if(serverIsOffline){
-            assertEquals(responsePlay,false);
-            assertEquals(responseStop,false);
+            assertEquals(responsePlay, false);
+            assertEquals(responseStop, false);
         }else {
             assertEquals(responsePlay, true);
             assertEquals(responseStop, true);

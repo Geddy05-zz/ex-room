@@ -1,9 +1,7 @@
 package com.blend.mediamarkt.vuforia;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
-import com.blend.mediamarkt.activities.MainActivity;
-import com.blend.mediamarkt.utils.exampleObject;
-import com.blend.mediamarkt.vuforia.ExRoomControl;
-import com.blend.mediamarkt.vuforia.ExRoomException;
-import com.blend.mediamarkt.vuforia.ExRoomGL;
+import com.blend.mediamarkt.utils.WesternScene;
 import com.vuforia.CameraDevice;
 import com.vuforia.DataSet;
 import com.vuforia.ObjectTracker;
@@ -38,15 +32,19 @@ public class VuforiaController implements ExRoomControl {
     private int mCurrentDatasetSelectionIndex = 0;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     private boolean mExtendedTracking = false;
-    private exampleObject mRenderer;
+    private WesternScene mRenderer;
     private RelativeLayout mUILayout;
     private ObjectTracker objectTracker;
     private vuforiaActivity mActivity;
     public ExRoomGL mGlView;
     private App app;
+    long start;
+    long elapsed;
 
 
     public VuforiaController(vuforiaActivity activity){
+        start = System.currentTimeMillis();
+
         this.mActivity = activity;
         app =(App) mActivity.getApplication();
 
@@ -57,6 +55,7 @@ public class VuforiaController implements ExRoomControl {
                 start();
             }
         }).start();
+
     }
 
 
@@ -227,7 +226,7 @@ public class VuforiaController implements ExRoomControl {
         mGlView.init(translucent, depthSize, stencilSize);
 
 //        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
-        mRenderer = new exampleObject(mActivity);
+        mRenderer = new WesternScene(mActivity);
 
         mGlView.setRenderer(mRenderer);
 
