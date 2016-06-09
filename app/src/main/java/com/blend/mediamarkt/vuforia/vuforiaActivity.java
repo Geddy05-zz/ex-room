@@ -29,8 +29,8 @@ public abstract class VuforiaActivity extends AppCompatActivity {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         app =(App) getApplication();
 
         vuforiaController = new VuforiaController(this);
@@ -42,7 +42,10 @@ public abstract class VuforiaActivity extends AppCompatActivity {
     protected void onResume() {
         Log.d(sceneName, "onResume");
         super.onResume();
-        audio.resumeAudio();
+
+        if(audio != null) {
+            audio.resumeAudio();
+        }
 
         try {
             app.vuforiaSession.resumeAR();
@@ -51,7 +54,7 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         }
 
         // Resume the GL view:
-        if (vuforiaController.mGlView != null) {
+        if (vuforiaController != null && vuforiaController.mGlView != null) {
             vuforiaController.mGlView.setVisibility(View.VISIBLE);
             vuforiaController.mGlView.onResume();
         }
@@ -61,11 +64,15 @@ public abstract class VuforiaActivity extends AppCompatActivity {
     protected void onPause() {
         Log.d(sceneName, "onPause");
         super.onPause();
-        audio.pauseAudio();
+        if(audio != null) {
+            audio.pauseAudio();
+        }
 //
-        if (vuforiaController.mGlView != null) {
-            vuforiaController.mGlView.setVisibility(View.INVISIBLE);
-            vuforiaController.mGlView.onPause();
+        if(vuforiaController != null) {
+            if (vuforiaController.mGlView != null) {
+                vuforiaController.mGlView.setVisibility(View.INVISIBLE);
+                vuforiaController.mGlView.onPause();
+            }
         }
 
         // Turn off the flash
@@ -80,8 +87,9 @@ public abstract class VuforiaActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         // pause the audio if the audio is played from the phone/tablet
-        audio.pauseAudio();
-
+        if(audio != null) {
+            audio.pauseAudio();
+        }
     }
 
     @Override

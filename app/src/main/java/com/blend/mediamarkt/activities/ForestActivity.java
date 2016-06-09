@@ -26,8 +26,8 @@ public class ForestActivity extends VuforiaActivity {
     private App app;
     private static final String LOGTAG = "ForestActivity";
 
-
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (App) getApplication();
 

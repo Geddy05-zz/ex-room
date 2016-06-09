@@ -26,7 +26,7 @@ public class MainActivity extends VuforiaActivity {
     public static boolean musicEnabled = true;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sceneName = "Main";
 
