@@ -22,7 +22,7 @@ public abstract class vuforiaActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-
+        // pause the audio if the audio is played from the phone/tablet
         audio.pauseAudio();
     }
 

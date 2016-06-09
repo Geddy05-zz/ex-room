@@ -51,27 +51,25 @@ public class VuforiaController implements ExRoomControl {
         app =(App) mActivity.getApplication();
 
         mDatasetStrings.add("StonesAndChips.xml");
-        start();
+
+        new Thread(new Runnable() {
+            public void run() {
+                start();
+            }
+        }).start();
     }
 
-    // this function is already build for when we build a new scene
-    public void setmActivity(vuforiaActivity mActivity) {
-        this.mActivity = mActivity;
-        start();
-    }
 
     private void start() {
         mUILayout = (RelativeLayout) View.inflate(mActivity, R.layout.camera_overlay,
                 null);
 
-        app.vuforiaSession.setmSessionControl(this);
-        app.vuforiaSession.initAR(mActivity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         try {
+            app.vuforiaSession.setmSessionControl(this);
+            app.vuforiaSession.initAR(mActivity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             app.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
             doStartTrackers();
         } catch (Exception e) {
-            EventLog.writeEvent(500, "dotracker failed");
         }
     }
 
@@ -139,10 +137,12 @@ public class VuforiaController implements ExRoomControl {
     @Override
     public boolean doStartTrackers() {
         // Indicate if the trackers were started correctly
-        boolean result = true;
+        boolean result = false;
 
-        if (objectTracker != null)
+        if (objectTracker != null) {
+            result = true;
             objectTracker.start();
+        }
 
         return result;
     }
