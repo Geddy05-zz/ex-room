@@ -23,13 +23,8 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
     private com.blend.mediamarkt.enumerations.audioOptions audioOptions;
 
     public ApiHandler(vuforiaActivity activity, audioOptions option){
-        super();
         this.activity = activity;
         this.audioOptions = option;
-    }
-
-    public static int calculate(int a , int b){
-        return a+b;
     }
 
     @Override
@@ -39,7 +34,6 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
         try {
             // Defined URL  where to send data
             URL url = new URL(baseUrl+ audioOptions.toString());
-            Log.i(TAG,"URL is " + url.toString());
 
             // Send POST request
             HttpURLConnection connection;
@@ -48,25 +42,30 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
             // set output to true for creating a body in the request
             connection.setDoOutput( false );
             connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
 
             // Handle response
-            int responseCode = connection.getResponseCode();
-            Log.i(TAG,"HTTP response is " + responseCode);
-            if(responseCode > 199 &&  responseCode < 300) {
-                succes = true;
-            }
+            succes = handleResponse(connection.getResponseCode());
 
-        } catch (Exception e) {
+        } catch (java.net.SocketTimeoutException e) {
+            return false;
+        }catch (Exception e) {
             e.printStackTrace();
         }
         return succes;
+    }
+
+    public boolean handleResponse(int responseCode){
+        if(responseCode > 199 &&  responseCode < 300) {
+            return true;
+        }
+        return  false;
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
         if(!result){
             if(activity.getAudio() != null) {
-
                 if (audioOptions == audioOptions.Play) {
                     activity.getAudio().startAudio();
                 }else {

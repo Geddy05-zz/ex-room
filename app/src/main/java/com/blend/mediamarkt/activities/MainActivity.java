@@ -1,5 +1,6 @@
 package com.blend.mediamarkt.activities;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,12 @@ public class MainActivity extends vuforiaActivity {
         startLoadingAnimation( (RelativeLayout) View.inflate(this, R.layout.camera_overlay, null));
 
         vuforiaController = new VuforiaController(this);
+    }
+
+    // only used for testing
+    public void setAudioOptions(Context context){
+        Sounds sound = Sounds.the_good_the_bad_the_ugly;
+        audio = new AudioPlayer(context,sound);
     }
 
     @Override
