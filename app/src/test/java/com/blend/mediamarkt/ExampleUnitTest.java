@@ -1,34 +1,24 @@
 package com.blend.mediamarkt;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
 import android.test.mock.MockContext;
-import android.util.Log;
 
 import com.blend.mediamarkt.activities.MainActivity;
+import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.enumerations.audioOptions;
-import com.blend.mediamarkt.utils.AudioPlayer;
-import com.blend.mediamarkt.vuforia.ExRoomSession;
+import com.blend.mediamarkt.enumerations.AudioOptions;
+import com.blend.mediamarkt.vuforia.VuforiaActivity;
 import com.blend.mediamarkt.vuforia.VuforiaController;
-import com.blend.mediamarkt.vuforia.vuforiaActivity;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-
-import static org.junit.Assert.*;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -37,64 +27,90 @@ import static org.junit.Assert.*;
 @PrepareForTest({android.util.Log.class})
 public class ExampleUnitTest extends AndroidTestCase {
 
-    MainActivity activity;
+    VuforiaActivity activity;
     VuforiaController vuforiaController;
-    ApiHandler apiHandlerPlay;
-    ApiHandler apiHandlerStop;
-    boolean serverIsOffline = true;
+    AudioApiHandler apiHandlerPlay;
+    AudioApiHandler apiHandlerStop;
+    boolean serverIsOnline = false;
 
     @Before
     public void setUp() {
-
         activity = new MainActivity();
-
+        Context context = new MockContext();
+        setContext(context);
 
         vuforiaController = new VuforiaController(activity);
-        apiHandlerPlay = new ApiHandler(activity, audioOptions.Play);
-        apiHandlerStop = new ApiHandler(activity, audioOptions.Stop);
+
+        apiHandlerPlay = new AudioApiHandler(activity, AudioOptions.Play,Sounds.forest);
+        apiHandlerStop = new AudioApiHandler(activity, AudioOptions.Stop,Sounds.forest);
     }
 
     @Test
     public void handleResponse_areCorrect() {
-        ApiHandler apiHandler = new ApiHandler(activity, audioOptions.Play);
-        boolean result199 = apiHandler.handleResponse(199);
-        boolean result200 = apiHandler.handleResponse(200);
-        boolean result201 = apiHandler.handleResponse(201);
+        AudioApiHandler apiHandler = new AudioApiHandler(activity, AudioOptions.Play,Sounds.forest);
 
-        boolean result299 = apiHandler.handleResponse(299);
-        boolean result300 = apiHandler.handleResponse(300);
-        boolean result301 = apiHandler.handleResponse(301);
-        assertEquals(result199,false);
-        assertEquals(result200,true);
-        assertEquals(result201,true);
+        boolean result199 = apiHandler.responseIsSucceed(199);
+        boolean result200 = apiHandler.responseIsSucceed(200);
+        boolean result201 = apiHandler.responseIsSucceed(201);
 
-        assertEquals(result299,true);
-        assertEquals(result300,false);
-        assertEquals(result301,false);
+        boolean result299 = apiHandler.responseIsSucceed(299);
+        boolean result300 = apiHandler.responseIsSucceed(300);
+        boolean result301 = apiHandler.responseIsSucceed(301);
+
+        assertEquals(false,result199);
+        assertEquals(true ,result200);
+        assertEquals(true ,result201);
+
+        assertEquals(true ,result299);
+        assertEquals(false,result300);
+        assertEquals(false,result301);
     }
 
     @Test
     public void SoundsEnum_isCorrect(){
-        assertEquals(Sounds.the_good_the_bad_the_ugly.getId(),1);
-        assertEquals(Sounds.forest.getId(),2);
+        assertEquals(1,Sounds.the_good_the_bad_the_ugly.getId());
+        assertEquals(2,Sounds.forest.getId());
 
-        assertEquals(Sounds.the_good_the_bad_the_ugly.getSound(),R.raw.the_good_the_bad_and_the_ugly);
-        assertEquals(Sounds.forest.getSound(),R.raw.forest);
+        assertEquals(R.raw.the_good_the_bad_and_the_ugly,Sounds.the_good_the_bad_the_ugly.getSound());
+        assertEquals(R.raw.forest,Sounds.forest.getSound());
+    }
 
+    @Test
+    public void AudioEnum_isCorrect(){
+        assertEquals("/sounds/"     ,    AudioOptions.Play.toString());
+        assertEquals("/sounds/stop" ,    AudioOptions.Stop.toString());
+    }
+
+    @Test
+    public void createURL_isCorrect() throws MalformedURLException {
+        Sounds[] sounds =new Sounds[]{Sounds.the_good_the_bad_the_ugly,Sounds.forest};
+        String url = apiHandlerPlay.baseUrl+"/sounds/";
+        int count = 1;
+        for (Sounds sound : sounds) {
+            apiHandlerPlay = new AudioApiHandler(activity, AudioOptions.Play, sound);
+            URL response = apiHandlerPlay.createURL();
+            URL expectedURl =  new URL(url+count);
+            assertEquals(expectedURl,response);
+            count++;
+        }
     }
 
     @Test
     public void urls_areCorrect(){
-        apiHandlerPlay = new ApiHandler(activity, audioOptions.Play);
-        apiHandlerStop = new ApiHandler(activity, audioOptions.Stop);
-        boolean responsePlay = apiHandlerPlay.doInBackground();
-        boolean responseStop = apiHandlerStop.doInBackground();
-        if(serverIsOffline){
-            assertEquals(responsePlay,false);
-            assertEquals(responseStop,false);
-        }else {
-            assertEquals(responsePlay, true);
-            assertEquals(responseStop, true);
+        if (serverIsOnline) {
+
+            Sounds[] sounds = new Sounds[]{Sounds.forest,Sounds.the_good_the_bad_the_ugly,null};
+
+        for (Sounds sound : sounds) {
+            apiHandlerPlay = new AudioApiHandler(activity, AudioOptions.Play, sound);
+            apiHandlerStop = new AudioApiHandler(activity, AudioOptions.Stop, null);
+
+            boolean responsePlay = apiHandlerPlay.doInBackground();
+            boolean responseStop = apiHandlerStop.doInBackground();
+
+            assertEquals(true   ,responsePlay);
+            assertEquals(true   ,responseStop);
+            }
         }
     }
 }

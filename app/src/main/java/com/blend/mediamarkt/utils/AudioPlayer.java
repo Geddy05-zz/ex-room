@@ -58,7 +58,7 @@ public class AudioPlayer {
     }
 
     public MediaPlayer getMediaPlayer() {
-        if(mMediaPlayer == null) {
+        if(mMediaPlayer == null && context != null) {
             mMediaPlayer = MediaPlayer.create(context, sound.getSound());
             mMediaPlayer.setLooping(true);
         }

@@ -8,7 +8,6 @@
     <string name="play_sound_via_restapi">Play sounds via API</string>
     <string name="play_camera_in_background">Play camera in background</string>
 
-
     <string name="app_name">MediaMarkt</string>
 
     <string name="UPDATE_ERROR_AUTHORIZATION_FAILED_TITLE">Authorization Error</string>
