@@ -38,9 +38,13 @@ public class VuforiaController implements ExRoomControl {
     private vuforiaActivity mActivity;
     public ExRoomGL mGlView;
     private App app;
+    long start;
+    long elapsed;
 
 
     public VuforiaController(vuforiaActivity activity){
+        start = System.currentTimeMillis();
+
         this.mActivity = activity;
         app =(App) mActivity.getApplication();
 
@@ -51,6 +55,7 @@ public class VuforiaController implements ExRoomControl {
                 start();
             }
         }).start();
+
     }
 
 
