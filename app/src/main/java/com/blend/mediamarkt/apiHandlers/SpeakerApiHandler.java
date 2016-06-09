@@ -1,39 +1,48 @@
-package com.blend.mediamarkt;
+package com.blend.mediamarkt.apiHandlers;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.blend.mediamarkt.activities.MainActivity;
-import com.blend.mediamarkt.enumerations.audioOptions;
-import com.blend.mediamarkt.utils.AudioPlayer;
-import com.blend.mediamarkt.vuforia.vuforiaActivity;
+import com.blend.mediamarkt.enumerations.AudioOptions;
+import com.blend.mediamarkt.enumerations.Sounds;
+import com.blend.mediamarkt.vuforia.VuforiaActivity;
 
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by geddy on 02/06/16.
+ * Created by geddy on 09/06/16.
  */
-public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
+
+public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
 
     private static  String TAG = "APIHandler";
-    private static String baseUrl = "http://10.0.1.3:5000";
-    private vuforiaActivity activity;
-    private com.blend.mediamarkt.enumerations.audioOptions audioOptions;
+    public static String baseUrl = "http://10.0.1.3:5000";
+    private VuforiaActivity activity;
+    private AudioOptions audioOptions;
+    private Sounds sound;
 
-    public ApiHandler(vuforiaActivity activity, audioOptions option){
+    public SpeakerApiHandler(VuforiaActivity activity, AudioOptions option, Sounds sound){
         this.activity = activity;
         this.audioOptions = option;
+        this.sound = sound;
+    }
+
+    public URL createURL() throws MalformedURLException {
+        if(sound != null) {
+            return new URL(baseUrl + audioOptions.toString() + sound.getId());
+        }else{
+            return new URL(baseUrl + audioOptions.toString());
+        }
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
+    public Boolean doInBackground(Void... voids) {
         boolean succes = false;
 
         try {
             // Defined URL  where to send data
-            URL url = new URL(baseUrl+ audioOptions.toString());
+            URL url = createURL();
 
             // Send POST request
             HttpURLConnection connection;
@@ -52,6 +61,7 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
         }catch (Exception e) {
             e.printStackTrace();
         }
+
         return succes;
     }
 
@@ -59,11 +69,13 @@ public class ApiHandler extends AsyncTask<Void, Void, Boolean>{
         if(responseCode > 199 &&  responseCode < 300) {
             return true;
         }
+
         return  false;
     }
 
     @Override
     protected void onPostExecute(Boolean result) {
+        // play audio on device when server isn't available
         if(!result){
             if(activity.getAudio() != null) {
                 if (audioOptions == audioOptions.Play) {

@@ -35,18 +35,17 @@ public class VuforiaController implements ExRoomControl {
     private WesternScene mRenderer;
     private RelativeLayout mUILayout;
     private ObjectTracker objectTracker;
-    private vuforiaActivity mActivity;
+    private VuforiaActivity mActivity;
     public ExRoomGL mGlView;
     private App app;
     long start;
     long elapsed;
 
 
-    public VuforiaController(vuforiaActivity activity){
+    public VuforiaController(VuforiaActivity activity){
         start = System.currentTimeMillis();
 
         this.mActivity = activity;
-        app =(App) mActivity.getApplication();
 
         mDatasetStrings.add("StonesAndChips.xml");
 
@@ -225,7 +224,7 @@ public class VuforiaController implements ExRoomControl {
         mGlView = new ExRoomGL(mActivity);
         mGlView.init(translucent, depthSize, stencilSize);
 
-//        mRenderer = new ImageTargetRenderer(this, vuforiaAppSession, mTextures);
+        //TODO: make this more generic
         mRenderer = new WesternScene(mActivity);
 
         mGlView.setRenderer(mRenderer);

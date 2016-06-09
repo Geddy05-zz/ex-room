@@ -3,11 +3,12 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.blend.mediamarkt.ApiHandler;
 import com.blend.mediamarkt.App;
-import com.blend.mediamarkt.enumerations.audioOptions;
+import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
+import com.blend.mediamarkt.enumerations.AudioOptions;
+import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.vuforia.ExRoomSession;
-import com.blend.mediamarkt.vuforia.vuforiaActivity;
+import com.blend.mediamarkt.vuforia.VuforiaActivity;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
 import com.vuforia.CameraCalibration;
@@ -49,7 +50,7 @@ public class WesternScene implements GLSurfaceView.Renderer {
 
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
-    private vuforiaActivity mActivity;
+    private VuforiaActivity mActivity;
     private Vector<Texture> mTextures;
 
     private int texSampler2DHandle;
@@ -77,7 +78,7 @@ public class WesternScene implements GLSurfaceView.Renderer {
 
     }
 
-    public WesternScene(vuforiaActivity activity) {
+    public WesternScene(VuforiaActivity activity) {
         mActivity =  activity;
         App app =(App) mActivity.getApplication();
         vuforiaAppSession = app.vuforiaSession;
@@ -269,7 +270,7 @@ public class WesternScene implements GLSurfaceView.Renderer {
         }
 
         if(findTrackable){
-            new ApiHandler(mActivity, audioOptions.Play).execute();
+            new AudioApiHandler(mActivity, AudioOptions.Play, Sounds.the_good_the_bad_the_ugly).execute();
         }
 
         mRenderer.end();
