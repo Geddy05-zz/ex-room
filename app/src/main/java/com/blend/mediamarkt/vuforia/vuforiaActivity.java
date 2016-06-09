@@ -24,7 +24,6 @@ public abstract class VuforiaActivity extends AppCompatActivity {
     protected LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
     protected AudioPlayer audio;
     protected App app;
-
     protected String sceneName;
 
 
@@ -67,7 +66,7 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         if(audio != null) {
             audio.pauseAudio();
         }
-//
+
         if(vuforiaController != null) {
             if (vuforiaController.mGlView != null) {
                 vuforiaController.mGlView.setVisibility(View.INVISIBLE);
@@ -123,7 +122,6 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         // Adds the inflated layout to the view
         addContentView(uiLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-
     }
 
     public AudioPlayer getAudio() {

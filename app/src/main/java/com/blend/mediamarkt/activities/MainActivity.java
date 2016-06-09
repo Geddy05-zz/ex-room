@@ -1,23 +1,13 @@
 package com.blend.mediamarkt.activities;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
-
-import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
-import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
-import com.blend.mediamarkt.vuforia.VuforiaController;
 import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.enumerations.AudioOptions;
-
 import com.blend.mediamarkt.utils.AudioPlayer;
-import com.blend.mediamarkt.vuforia.ExRoomException;
 import com.blend.mediamarkt.vuforia.VuforiaActivity;
 
 public class MainActivity extends VuforiaActivity {

@@ -33,7 +33,7 @@ public class VuforiaController implements ExRoomControl {
     private int mCurrentDatasetSelectionIndex = 0;
     private ArrayList<String> mDatasetStrings = new ArrayList<String>();
     private boolean mExtendedTracking = false;
-    private BaseScene mRenderer;
+    private BaseScene mScene;
     private RelativeLayout mUILayout;
     private ObjectTracker objectTracker;
     private VuforiaActivity mActivity;
@@ -195,7 +195,7 @@ public class VuforiaController implements ExRoomControl {
         if (exception == null) {
             initApplicationAR();
 
-            mRenderer.mIsActive = true;
+            mScene.mIsActive = true;
             mActivity.addContentView(mGlView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
@@ -225,12 +225,20 @@ public class VuforiaController implements ExRoomControl {
         mGlView = new ExRoomGL(mActivity);
         mGlView.init(translucent, depthSize, stencilSize);
 
-        //TODO: make this more generic
+        mScene = initScene();
 
-        mRenderer = new WesternScene(mActivity);
+        mGlView.setRenderer(mScene);
 
-        mGlView.setRenderer(mRenderer);
+    }
 
+    private BaseScene initScene(){
+        switch (mActivity.sceneName){
+            case "Western":
+                return new WesternScene(mActivity);
+            default:
+                return new WesternScene(mActivity);
+
+        }
     }
 
     @Override
