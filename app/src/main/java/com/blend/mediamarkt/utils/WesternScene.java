@@ -99,7 +99,6 @@ public class WesternScene implements GLSurfaceView.Renderer {
         try {
             System.out.print("We are here");
 
-            //TODO: Make de streams universel
             TextureManager.getInstance().addTexture("texture" ,new Texture(mActivity.getAssets().open("Cottage Texture.jpg")));
             InputStream streamObj = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
@@ -107,13 +106,8 @@ public class WesternScene implements GLSurfaceView.Renderer {
             InputStream streamObj2 = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
             InputStream streamMtl2 = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-//            TextureManager.getInstance().addTexture("road" ,new Texture(mActivity.getAssets().open("untitled3.png")));
-//            InputStream streamObjRoad = mActivity.getAssets().open("CobbleStones2.obj");
-//            InputStream streamMtlRoad = mActivity.getAssets().open("CobbleStones2.mtl");
-
             home1 = null;
             home2 = null;
-            road = null;
 
             home1 = loadModel("house", streamObj, streamMtl,texSampler2DHandle);
             home1.translate(100.0f, 0.0f, 0.0f);
@@ -123,44 +117,17 @@ public class WesternScene implements GLSurfaceView.Renderer {
             home2.translate(0.0f, 0.0f, 0.0f);
             home2.rotateX(30.0f);
 
-//            road = loadModel("road", streamObjRoad, streamMtlRoad,texSampler2DHandle);
-//            //road.translate(0.0f, 50.0f, 0.0f);
-
             world.addObject(home1);
             world.addObject(home2);
-//            world.addObject(road);
 
             world.buildAllObjects();
 
 
         }catch (Exception e){
-            // Create a texture out of the icon...:-)
-//            if ( !TextureManager.getInstance().containsTexture("texture") ) {
-//                Texture texture = new Texture(BitmapHelper.rescale(BitmapHelper.convert(
-//                        mActivity.getResources().getDrawable(R.mipmap.ic_launcher)), 64, 64));
-//                TextureManager.getInstance().addTexture("texture", texture);
-//            }
             System.out.println("Not rendering obj");
             System.out.println(e);
-
-//            cylinder = Primitives.getCylinder(20, 40);
-//            cylinder.calcTextureWrapSpherical();
-//            cylinder.setTexture("texture");
-//            cylinder.strip();
-//            cylinder.build();
-//
-//            // Transform (scale, rotate, translate) the object: Depends on your need.
-////    	cylinder.scale(scale);
-//            cylinder.rotateX(90.0f);
-////    	cylinder.rotateY(w); cylinder.rotateZ(w);
-////    	cylinder.translate(x, y, z);
-//
-//            world.addObject(cylinder);
-
         }
         cam = world.getCamera();
-
-
 
 //        sun = new Light(world);
 //        sun.setIntensity(250, 250, 250);
@@ -172,11 +139,6 @@ public class WesternScene implements GLSurfaceView.Renderer {
 
 
     private Object3D loadModel(String nameObject, InputStream streamObj, InputStream streamMtl, int texSampler2DHandle) throws IOException {
-//        mActivity = activity;
-//        TextureManager.getInstance().addTexture("Texture" ,new Texture(mActivity.getAssets().open(jpg)));
-//        InputStream streamObj = mActivity.getAssets().open(obj);
-//        InputStream streamMtl = mActivity.getAssets().open(mtl);
-
         Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.5f);
         Object3D o3d = new Object3D(0);
         Object3D temp = null;
@@ -184,28 +146,12 @@ public class WesternScene implements GLSurfaceView.Renderer {
         for (int i = 0; i < model.length; i++) {
             temp = model[i];
             temp.setCenter(SimpleVector.ORIGIN);
-//            temp.rotateY(180.0f);
-//            temp.rotateMesh();
-            if (nameObject == "road")
-                temp.setTexture("road");
-            else
-                temp.setTexture("texture");
-
+            temp.setTexture("texture");
             temp.setRotationMatrix(new Matrix());
             o3d = Object3D.mergeObjects(o3d, temp);
             o3d.strip();
             o3d.build();
-//            o3d.compile();
 
-            if (o3d != null){
-//                    SimpleVector sv = new SimpleVector();
-//                    sv.set(o3d.getTransformedCenter());
-//                    sv.y += 100;
-//                    sv.z += 100;
-//                    sun.setPosition(sv);
-            }
-
-//          o3d.scale(1.0f);
             // activate texture 0, bind it, and pass to shader
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 //          GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(4).mTextureID[0]);
