@@ -21,7 +21,7 @@ public class AudioPlayer {
     private final Sounds sound;
 
     public AudioPlayer(Context context,Sounds sound){
-        this.context = context;
+        AudioPlayer.context = context;
         this.sound = sound;
     }
 

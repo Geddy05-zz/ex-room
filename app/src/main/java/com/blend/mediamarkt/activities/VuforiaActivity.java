@@ -1,8 +1,7 @@
-package com.blend.mediamarkt.vuforia;
+package com.blend.mediamarkt.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,16 +14,19 @@ import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.utils.AudioPlayer;
 import com.blend.mediamarkt.utils.LoadingDialogHandler;
+import com.blend.mediamarkt.vuforia.ExRoomException;
+import com.blend.mediamarkt.vuforia.VuforiaController;
 
 /**
  * Created by geddy on 06/06/16.
  */
+
 public abstract class VuforiaActivity extends AppCompatActivity {
     protected VuforiaController vuforiaController;
     protected LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
     protected AudioPlayer audio;
     protected App app;
-    protected String sceneName;
+    public String sceneName;
 
 
     @Override
@@ -47,15 +49,15 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         }
 
         try {
-            app.vuforiaSession.resumeAR();
+            App.vuforiaSession.resumeAR();
         } catch (ExRoomException e) {
             Log.e(sceneName, e.getString());
         }
 
         // Resume the GL view:
-        if (vuforiaController != null && vuforiaController.mGlView != null) {
-            vuforiaController.mGlView.setVisibility(View.VISIBLE);
-            vuforiaController.mGlView.onResume();
+        if (vuforiaController != null && vuforiaController.glView != null) {
+            vuforiaController.glView.setVisibility(View.VISIBLE);
+            vuforiaController.glView.onResume();
         }
     }
 
@@ -68,15 +70,15 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         }
 
         if(vuforiaController != null) {
-            if (vuforiaController.mGlView != null) {
-                vuforiaController.mGlView.setVisibility(View.INVISIBLE);
-                vuforiaController.mGlView.onPause();
+            if (vuforiaController.glView != null) {
+                vuforiaController.glView.setVisibility(View.INVISIBLE);
+                vuforiaController.glView.onPause();
             }
         }
 
         // Turn off the flash
         try {
-            app.vuforiaSession.pauseAR();
+            App.vuforiaSession.pauseAR();
         } catch (ExRoomException e) {
             Log.e(sceneName, e.getString());
         }
@@ -97,10 +99,8 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         super.onDestroy();
         new AudioApiHandler(this, AudioOptions.Stop,null).execute();
 
-//        audio.destroyAudio();
-
         try {
-            app.vuforiaSession.stopAR();
+            App.vuforiaSession.stopAR();
         } catch (ExRoomException e) {
             Log.e(sceneName, e.getString());
         }

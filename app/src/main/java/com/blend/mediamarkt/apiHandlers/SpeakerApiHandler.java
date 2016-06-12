@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
+import com.blend.mediamarkt.activities.VuforiaActivity;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -66,11 +66,8 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
     }
 
     public boolean handleResponse(int responseCode){
-        if(responseCode > 199 &&  responseCode < 300) {
-            return true;
-        }
+        return responseCode > 199 && responseCode < 300;
 
-        return  false;
     }
 
     @Override
@@ -78,7 +75,7 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
         // play audio on device when server isn't available
         if(!result){
             if(activity.getAudio() != null) {
-                if (audioOptions == audioOptions.Play) {
+                if (audioOptions == AudioOptions.Play) {
                     activity.getAudio().startAudio();
                 }else {
                     activity.getAudio().destroyAudio();

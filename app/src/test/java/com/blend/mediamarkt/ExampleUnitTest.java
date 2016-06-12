@@ -8,7 +8,7 @@ import com.blend.mediamarkt.activities.MainActivity;
 import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.enumerations.AudioOptions;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
+import com.blend.mediamarkt.activities.VuforiaActivity;
 import com.blend.mediamarkt.vuforia.VuforiaController;
 
 import org.junit.Before;
@@ -84,7 +84,7 @@ public class ExampleUnitTest extends AndroidTestCase {
     @Test
     public void createURL_isCorrect() throws MalformedURLException {
         Sounds[] sounds =new Sounds[]{Sounds.the_good_the_bad_the_ugly,Sounds.forest};
-        String url = apiHandlerPlay.baseUrl+"/sounds/";
+        String url = AudioApiHandler.baseUrl +"/sounds/";
         int count = 1;
         for (Sounds sound : sounds) {
             apiHandlerPlay = new AudioApiHandler(activity, AudioOptions.Play, sound);

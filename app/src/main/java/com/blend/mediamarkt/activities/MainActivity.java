@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.utils.AudioPlayer;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
 
 public class MainActivity extends VuforiaActivity {
 
@@ -31,7 +32,7 @@ public class MainActivity extends VuforiaActivity {
         Log.d(LOGTAG, "onConfigurationChanged");
         super.onConfigurationChanged(config);
 
-        app.vuforiaSession.onConfigurationChanged();
+        App.vuforiaSession.onConfigurationChanged();
     }
 
     @Override

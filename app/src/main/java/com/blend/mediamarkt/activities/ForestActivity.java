@@ -14,7 +14,6 @@ import com.blend.mediamarkt.vuforia.VuforiaController;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.utils.AudioPlayer;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
 
 /**
  * Created by geddy on 06/06/16.
@@ -47,15 +46,15 @@ public class ForestActivity extends VuforiaActivity {
         audio.resumeAudio();
 
         try {
-            app.vuforiaSession.resumeAR();
+            App.vuforiaSession.resumeAR();
         } catch (ExRoomException e) {
             Log.e(LOGTAG, e.getString());
         }
 
         // Resume the GL view:
-        if (mVuforiaController.mGlView != null) {
-            mVuforiaController.mGlView.setVisibility(View.VISIBLE);
-            mVuforiaController.mGlView.onResume();
+        if (mVuforiaController.glView != null) {
+            mVuforiaController.glView.setVisibility(View.VISIBLE);
+            mVuforiaController.glView.onResume();
         }
     }
 
@@ -65,7 +64,7 @@ public class ForestActivity extends VuforiaActivity {
         Log.d(LOGTAG, "onConfigurationChanged");
         super.onConfigurationChanged(config);
 
-        app.vuforiaSession.onConfigurationChanged();
+        App.vuforiaSession.onConfigurationChanged();
     }
 
     // Called when the system is about to start resuming a previous activity.
@@ -75,14 +74,14 @@ public class ForestActivity extends VuforiaActivity {
         super.onPause();
         audio.pauseAudio();
 //
-        if (mVuforiaController.mGlView != null) {
-            mVuforiaController.mGlView.setVisibility(View.INVISIBLE);
-            mVuforiaController.mGlView.onPause();
+        if (mVuforiaController.glView != null) {
+            mVuforiaController.glView.setVisibility(View.INVISIBLE);
+            mVuforiaController.glView.onPause();
         }
 
         // Turn off the flash
         try {
-            app.vuforiaSession.pauseAR();
+            App.vuforiaSession.pauseAR();
         } catch (ExRoomException e) {
             Log.e(LOGTAG, e.getString());
         }
@@ -96,7 +95,7 @@ public class ForestActivity extends VuforiaActivity {
         audio.destroyAudio();
 
         try {
-            app.vuforiaSession.stopAR();
+            App.vuforiaSession.stopAR();
         } catch (ExRoomException e) {
             Log.e(LOGTAG, e.getString());
         }

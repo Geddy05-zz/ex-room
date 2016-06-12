@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
+import com.blend.mediamarkt.activities.VuforiaActivity;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -15,7 +15,6 @@ import java.net.URL;
  */
 public class AudioApiHandler extends AsyncTask<Void, Void, Boolean> {
 
-    private static  String TAG = "APIHandler";
     public static String baseUrl = "http://10.0.1.3:5000";
     public static final int succesCodeUnderline = 199;
     public static final int succesCodeTopline = 300;
@@ -78,7 +77,7 @@ public class AudioApiHandler extends AsyncTask<Void, Void, Boolean> {
         // play audio on device when server isn't available
         if(!responseIsSucceed){
             if(activity.getAudio() != null) {
-                if (audioOptions == audioOptions.Play) {
+                if (audioOptions == AudioOptions.Play) {
                     activity.getAudio().startAudio();
                 }else {
                     activity.getAudio().destroyAudio();
