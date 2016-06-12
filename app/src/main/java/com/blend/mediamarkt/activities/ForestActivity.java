@@ -21,9 +21,9 @@ import com.blend.mediamarkt.utils.AudioPlayer;
 
 public class ForestActivity extends VuforiaActivity {
 
-    private VuforiaController mVuforiaController;
-    private App app;
     private static final String LOGTAG = "ForestActivity";
+    private VuforiaController vuforiaController;
+    private App app;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class ForestActivity extends VuforiaActivity {
         audio = new AudioPlayer(app,sound);
         startLoadingAnimation((RelativeLayout) View.inflate(this, R.layout.camera_overlay, null));
 
-        mVuforiaController = new VuforiaController(this);
+        vuforiaController = new VuforiaController(this);
         new AudioApiHandler(this, AudioOptions.Play,Sounds.forest).execute();
     }
 
@@ -52,9 +52,9 @@ public class ForestActivity extends VuforiaActivity {
         }
 
         // Resume the GL view:
-        if (mVuforiaController.glView != null) {
-            mVuforiaController.glView.setVisibility(View.VISIBLE);
-            mVuforiaController.glView.onResume();
+        if (vuforiaController.glView != null) {
+            vuforiaController.glView.setVisibility(View.VISIBLE);
+            vuforiaController.glView.onResume();
         }
     }
 
@@ -74,9 +74,9 @@ public class ForestActivity extends VuforiaActivity {
         super.onPause();
         audio.pauseAudio();
 //
-        if (mVuforiaController.glView != null) {
-            mVuforiaController.glView.setVisibility(View.INVISIBLE);
-            mVuforiaController.glView.onPause();
+        if (vuforiaController.glView != null) {
+            vuforiaController.glView.setVisibility(View.INVISIBLE);
+            vuforiaController.glView.onPause();
         }
 
         // Turn off the flash

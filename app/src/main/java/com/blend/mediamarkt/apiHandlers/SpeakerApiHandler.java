@@ -44,13 +44,15 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
             // Defined URL  where to send data
             URL url = createURL();
 
-            // Send POST request
             HttpURLConnection connection;
             connection =(HttpURLConnection) url.openConnection();
 
             // set output to true for creating a body in the request
             connection.setDoOutput( false );
             connection.setRequestMethod("GET");
+
+            /* We set the timeout to 5 sec. because of the user experience
+               If this is to height the user missed important sounds */
             connection.setConnectTimeout(5000);
 
             // Handle response

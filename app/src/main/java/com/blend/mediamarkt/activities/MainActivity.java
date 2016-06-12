@@ -21,7 +21,6 @@ public class MainActivity extends VuforiaActivity {
         super.onCreate(savedInstanceState);
         sceneName = "Main";
 
-        // create audio Options for this scene
         Sounds sound = Sounds.the_good_the_bad_the_ugly;
         audio = new AudioPlayer(app,sound);
     }
@@ -44,9 +43,6 @@ public class MainActivity extends VuforiaActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
