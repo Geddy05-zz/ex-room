@@ -311,20 +311,6 @@ public class ExRoomSession implements UpdateCallbackInterface
 
     }
 
-
-    // Methods to be called to handle lifecycle
-    public void onResume()
-    {
-        Vuforia.onResume();
-    }
-
-
-    public void onPause()
-    {
-        Vuforia.onPause();
-    }
-
-
     public void onSurfaceChanged(int width, int height)
     {
         Vuforia.onSurfaceChanged(width, height);
