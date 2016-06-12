@@ -29,44 +29,44 @@ import com.vuforia.Vuforia.UpdateCallbackInterface;
 public class ExRoomSession implements UpdateCallbackInterface
 {
     // Reference to the current activity
-    private Activity mActivity;
-    private ExRoomControl mSessionControl;
+    private Activity activity;
+    private ExRoomControl exRoomControl;
 
     // Flags
-    private boolean mStarted = false;
-    private boolean mCameraRunning = false;
+    private boolean started = false;
+    private boolean cameraRunning = false;
 
     // Display size of the device:
-    private int mScreenWidth = 0;
-    private int mScreenHeight = 0;
+    private int screenWidth = 0;
+    private int screenHeight = 0;
 
     // The async tasks to initialize the Vuforia SDK:
-    private InitVuforiaTask mInitVuforiaTask;
-    private LoadTrackerTask mLoadTrackerTask;
+    private InitVuforiaTask initVuforiaTask;
+    private LoadTrackerTask loadTrackerTask;
 
     // An object used for synchronizing Vuforia initialization, dataset loading
     // and the Android onDestroy() life cycle event. If the application is
     // destroyed while a data set is still being loaded, then we wait for the
     // loading operation to finish before shutting down Vuforia:
-    private Object mShutdownLock = new Object();
+    private Object shutdownLock = new Object();
 
     // Vuforia initialization flags:
-    private int mVuforiaFlags = 0;
+    private int vuforiaFlags = 0;
 
     // Holds the camera configuration to use upon resuming
-    private int mCamera = CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT;
+    private int camera = CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT;
 
     // Stores the projection matrix to use for rendering purposes
-    private Matrix44F mProjectionMatrix;
+    private Matrix44F projectionMatrix;
 
     // Stores viewport to be used for rendering purposes
-    private int[] mViewport;
+    private int[] viewport;
 
     // Stores orientation
-    private boolean mIsPortrait = false;
+    private boolean isPortrait = false;
 
-    public void setmSessionControl(ExRoomControl sessionControl){
-        mSessionControl = sessionControl;
+    public void setExRoomControl(ExRoomControl sessionControl){
+        exRoomControl = sessionControl;
     }
 
 
@@ -74,7 +74,7 @@ public class ExRoomSession implements UpdateCallbackInterface
     public void initAR(Activity activity, int screenOrientation)
     {
         ExRoomException vuforiaException = null;
-        mActivity = activity;
+        this.activity = activity;
 
         if ((screenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
                 && (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO))
@@ -84,10 +84,10 @@ public class ExRoomSession implements UpdateCallbackInterface
         // will not send an Activity.onConfigurationChanged() callback on a 180 degree rotation,
         // ie: Left Landscape to Right Landscape.  Vuforia needs to react to this change and the
         // ExRoomSession needs to update the Projection Matrix.
-        OrientationEventListener orientationEventListener = new OrientationEventListener(mActivity) {
+        OrientationEventListener orientationEventListener = new OrientationEventListener(ExRoomSession.this.activity) {
             @Override
             public void onOrientationChanged(int i) {
-                int activityRotation = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+                int activityRotation = ExRoomSession.this.activity.getWindowManager().getDefaultDisplay().getRotation();
                 if(mLastRotation != activityRotation)
                 {
                     // Signal the ApplicationSession to refresh the projection matrix
@@ -103,7 +103,7 @@ public class ExRoomSession implements UpdateCallbackInterface
             orientationEventListener.enable();
 
         // Apply screen orientation
-        mActivity.setRequestedOrientation(screenOrientation);
+        this.activity.setRequestedOrientation(screenOrientation);
 
         updateActivityOrientation();
 
@@ -112,18 +112,18 @@ public class ExRoomSession implements UpdateCallbackInterface
 
         // As long as this window is visible to the user, keep the device's
         // screen turned on and bright:
-        mActivity.getWindow().setFlags(
+        this.activity.getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        mVuforiaFlags = Vuforia.GL_20;
+        vuforiaFlags = Vuforia.GL_20;
 
         // Initialize Vuforia SDK asynchronously to avoid blocking the
         // main (UI) thread.
         //
         // NOTE: This task instance must be created and invoked on the
         // UI thread and it can be executed only once!
-        if (mInitVuforiaTask != null)
+        if (initVuforiaTask != null)
         {
             String logMessage = "Cannot initialize SDK twice";
             vuforiaException = new ExRoomException(
@@ -135,8 +135,8 @@ public class ExRoomSession implements UpdateCallbackInterface
         {
             try
             {
-                mInitVuforiaTask = new InitVuforiaTask();
-                mInitVuforiaTask.execute();
+                initVuforiaTask = new InitVuforiaTask();
+                initVuforiaTask.execute();
             } catch (Exception e)
             {
                 String logMessage = "Initializing Vuforia SDK failed";
@@ -147,7 +147,7 @@ public class ExRoomSession implements UpdateCallbackInterface
         }
 
         if (vuforiaException != null)
-            mSessionControl.onInitARDone(vuforiaException);
+            exRoomControl.onInitARDone(vuforiaException);
     }
 
 
@@ -155,7 +155,7 @@ public class ExRoomSession implements UpdateCallbackInterface
     public void startAR(int camera) throws ExRoomException
     {
         String error;
-        if(mCameraRunning)
+        if(cameraRunning)
         {
             error = "Camera already running, unable to open again";
 //        	Log.e(LOGTAG, error);
@@ -163,7 +163,7 @@ public class ExRoomSession implements UpdateCallbackInterface
                     ExRoomException.CAMERA_INITIALIZATION_FAILURE, error);
         }
 
-        mCamera = camera;
+        this.camera = camera;
         if (!CameraDevice.getInstance().init(camera))
         {
             error = "Unable to open camera device: " + camera;
@@ -193,9 +193,9 @@ public class ExRoomSession implements UpdateCallbackInterface
 
         setProjectionMatrix();
 
-        mSessionControl.doStartTrackers();
+        exRoomControl.doStartTrackers();
 
-        mCameraRunning = true;
+        cameraRunning = true;
 
         if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO))
         {
@@ -209,40 +209,40 @@ public class ExRoomSession implements UpdateCallbackInterface
     public void stopAR() throws ExRoomException
     {
         // Cancel potentially running tasks
-        if (mInitVuforiaTask != null
-                && mInitVuforiaTask.getStatus() != InitVuforiaTask.Status.FINISHED)
+        if (initVuforiaTask != null
+                && initVuforiaTask.getStatus() != InitVuforiaTask.Status.FINISHED)
         {
-            mInitVuforiaTask.cancel(true);
-            mInitVuforiaTask = null;
+            initVuforiaTask.cancel(true);
+            initVuforiaTask = null;
         }
 
-        if (mLoadTrackerTask != null
-                && mLoadTrackerTask.getStatus() != LoadTrackerTask.Status.FINISHED)
+        if (loadTrackerTask != null
+                && loadTrackerTask.getStatus() != LoadTrackerTask.Status.FINISHED)
         {
-            mLoadTrackerTask.cancel(true);
-            mLoadTrackerTask = null;
+            loadTrackerTask.cancel(true);
+            loadTrackerTask = null;
         }
 
-        mInitVuforiaTask = null;
-        mLoadTrackerTask = null;
+        initVuforiaTask = null;
+        loadTrackerTask = null;
 
-        mStarted = false;
+        started = false;
 
         stopCamera();
 
         // Ensure that all asynchronous operations to initialize Vuforia
         // and loading the tracker datasets do not overlap:
-        synchronized (mShutdownLock)
+        synchronized (shutdownLock)
         {
 
             boolean unloadTrackersResult;
             boolean deinitTrackersResult;
 
             // Destroy the tracking data set:
-            unloadTrackersResult = mSessionControl.doUnloadTrackersData();
+            unloadTrackersResult = exRoomControl.doUnloadTrackersData();
 
             // Deinitialize the trackers:
-            deinitTrackersResult = mSessionControl.doDeinitTrackers();
+            deinitTrackersResult = exRoomControl.doDeinitTrackers();
 
             // Deinitialize Vuforia SDK:
             Vuforia.deinit();
@@ -267,9 +267,9 @@ public class ExRoomSession implements UpdateCallbackInterface
         // Vuforia-specific resume operation
         Vuforia.onResume();
 
-        if (mStarted)
+        if (started)
         {
-            startAR(mCamera);
+            startAR(camera);
         }
     }
 
@@ -277,7 +277,7 @@ public class ExRoomSession implements UpdateCallbackInterface
     // Pauses Vuforia and stops the camera
     public void pauseAR() throws ExRoomException
     {
-        if (mStarted)
+        if (started)
         {
             stopCamera();
         }
@@ -289,7 +289,7 @@ public class ExRoomSession implements UpdateCallbackInterface
     @Override
     public void Vuforia_onUpdate(State s)
     {
-        mSessionControl.onVuforiaUpdate(s);
+        exRoomControl.onVuforiaUpdate(s);
     }
 
 
@@ -346,9 +346,9 @@ public class ExRoomSession implements UpdateCallbackInterface
         protected Boolean doInBackground(Void... params)
         {
             // Prevent the onDestroy() method to overlap with initialization:
-            synchronized (mShutdownLock)
+            synchronized (shutdownLock)
             {
-                Vuforia.setInitParameters(mActivity, mVuforiaFlags, "AerVtbn/////AAAAAZoEtTkaNUFVt33brNSVmuYLvikZecNvutuFTLvzPex9wdCATTeTtNn8XugB5UnFe/MHzBLjNMHZ4Bp2B6zI9AjTZkZYJtRUchvU25Xddk48nPvIm5Yk33wDdHl38IDGvh/J+SDy9GW64sWSbh8YYV3nCmC3KW0JHXRsBXy8OcSignR3Ede3xSQACCvLQynoY4NkHvm2VC0uDU83XBu3BFeyPk0Xp/c05CCkTgOtGycShbLdDavkCC3Vwmrm2u2NoaUkgfFCXDV2Dkbk5Uqr8dcJccGWJk3fZVs2orrZ5p4YenorSiDKXZMc4NFSxq4WmR/Vwx8XlqgCc3vzvLdvaZZ/+DgUhFNhQylAHuFyJtpO");
+                Vuforia.setInitParameters(activity, vuforiaFlags, "AerVtbn/////AAAAAZoEtTkaNUFVt33brNSVmuYLvikZecNvutuFTLvzPex9wdCATTeTtNn8XugB5UnFe/MHzBLjNMHZ4Bp2B6zI9AjTZkZYJtRUchvU25Xddk48nPvIm5Yk33wDdHl38IDGvh/J+SDy9GW64sWSbh8YYV3nCmC3KW0JHXRsBXy8OcSignR3Ede3xSQACCvLQynoY4NkHvm2VC0uDU83XBu3BFeyPk0Xp/c05CCkTgOtGycShbLdDavkCC3Vwmrm2u2NoaUkgfFCXDV2Dkbk5Uqr8dcJccGWJk3fZVs2orrZ5p4YenorSiDKXZMc4NFSxq4WmR/Vwx8XlqgCc3vzvLdvaZZ/+DgUhFNhQylAHuFyJtpO");
 
                 do
                 {
@@ -393,21 +393,21 @@ public class ExRoomSession implements UpdateCallbackInterface
             if (result)
             {
                 boolean initTrackersResult;
-                initTrackersResult = mSessionControl.doInitTrackers();
+                initTrackersResult = exRoomControl.doInitTrackers();
 
                 if (initTrackersResult)
                 {
                     try
                     {
-                        mLoadTrackerTask = new LoadTrackerTask();
-                        mLoadTrackerTask.execute();
+                        loadTrackerTask = new LoadTrackerTask();
+                        loadTrackerTask.execute();
                     } catch (Exception e)
                     {
                         String logMessage = "Loading tracking data set failed";
                         vuforiaException = new ExRoomException(
                                 ExRoomException.LOADING_TRACKERS_FAILURE,
                                 logMessage);
-                        mSessionControl.onInitARDone(vuforiaException);
+                        exRoomControl.onInitARDone(vuforiaException);
                     }
 
                 } else
@@ -415,7 +415,7 @@ public class ExRoomSession implements UpdateCallbackInterface
                     vuforiaException = new ExRoomException(
                             ExRoomException.TRACKERS_INITIALIZATION_FAILURE,
                             "Failed to initialize trackers");
-                    mSessionControl.onInitARDone(vuforiaException);
+                    exRoomControl.onInitARDone(vuforiaException);
                 }
             } else
             {
@@ -431,7 +431,7 @@ public class ExRoomSession implements UpdateCallbackInterface
                 vuforiaException = new ExRoomException(
                         ExRoomException.INITIALIZATION_FAILURE,
                         logMessage);
-                mSessionControl.onInitARDone(vuforiaException);
+                exRoomControl.onInitARDone(vuforiaException);
             }
         }
     }
@@ -442,10 +442,10 @@ public class ExRoomSession implements UpdateCallbackInterface
         protected Boolean doInBackground(Void... params)
         {
             // Prevent the onDestroy() method to overlap:
-            synchronized (mShutdownLock)
+            synchronized (shutdownLock)
             {
                 // Load the tracker data set:
-                return mSessionControl.doLoadTrackersData();
+                return exRoomControl.doLoadTrackersData();
             }
         }
 
@@ -472,12 +472,12 @@ public class ExRoomSession implements UpdateCallbackInterface
 
                 Vuforia.registerCallback(ExRoomSession.this);
 
-                mStarted = true;
+                started = true;
             }
 
             // Done loading the tracker, update application status, send the
             // exception to check errors
-            mSessionControl.onInitARDone(vuforiaException);
+            exRoomControl.onInitARDone(vuforiaException);
         }
     }
 
@@ -486,24 +486,24 @@ public class ExRoomSession implements UpdateCallbackInterface
     private String getInitializationErrorString(int code)
     {
         if (code == Vuforia.INIT_DEVICE_NOT_SUPPORTED)
-            return mActivity.getString(R.string.INIT_ERROR_DEVICE_NOT_SUPPORTED);
+            return activity.getString(R.string.INIT_ERROR_DEVICE_NOT_SUPPORTED);
         if (code == Vuforia.INIT_NO_CAMERA_ACCESS)
-            return mActivity.getString(R.string.INIT_ERROR_NO_CAMERA_ACCESS);
+            return activity.getString(R.string.INIT_ERROR_NO_CAMERA_ACCESS);
         if (code == Vuforia.INIT_LICENSE_ERROR_MISSING_KEY)
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_MISSING_KEY);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_MISSING_KEY);
         if (code == Vuforia.INIT_LICENSE_ERROR_INVALID_KEY)
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_INVALID_KEY);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_INVALID_KEY);
         if (code == Vuforia.INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT)
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT);
         if (code == Vuforia.INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT)
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT);
         if (code == Vuforia.INIT_LICENSE_ERROR_CANCELED_KEY)
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_CANCELED_KEY);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_CANCELED_KEY);
         if (code == Vuforia.INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH)
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH);
         else
         {
-            return mActivity.getString(R.string.INIT_LICENSE_ERROR_UNKNOWN_ERROR);
+            return activity.getString(R.string.INIT_LICENSE_ERROR_UNKNOWN_ERROR);
         }
     }
 
@@ -513,24 +513,24 @@ public class ExRoomSession implements UpdateCallbackInterface
     {
         // Query display dimensions:
         DisplayMetrics metrics = new DisplayMetrics();
-        mActivity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        mScreenWidth = metrics.widthPixels;
-        mScreenHeight = metrics.heightPixels;
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
     }
 
 
     // Stores the orientation depending on the current resources configuration
     private void updateActivityOrientation()
     {
-        Configuration config = mActivity.getResources().getConfiguration();
+        Configuration config = activity.getResources().getConfiguration();
 
         switch (config.orientation)
         {
             case Configuration.ORIENTATION_PORTRAIT:
-                mIsPortrait = true;
+                isPortrait = true;
                 break;
             case Configuration.ORIENTATION_LANDSCAPE:
-                mIsPortrait = false;
+                isPortrait = false;
                 break;
             case Configuration.ORIENTATION_UNDEFINED:
             default:
@@ -545,18 +545,18 @@ public class ExRoomSession implements UpdateCallbackInterface
     {
         CameraCalibration camCal = CameraDevice.getInstance()
                 .getCameraCalibration();
-        mProjectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
+        projectionMatrix = Tool.getProjectionGL(camCal, 10.0f, 5000.0f);
     }
 
 
     public void stopCamera()
     {
-        if(mCameraRunning)
+        if(cameraRunning)
         {
-            mSessionControl.doStopTrackers();
+            exRoomControl.doStopTrackers();
             CameraDevice.getInstance().stop();
             CameraDevice.getInstance().deinit();
-            mCameraRunning = false;
+            cameraRunning = false;
         }
     }
 
@@ -572,29 +572,29 @@ public class ExRoomSession implements UpdateCallbackInterface
         config.setPosition(new Vec2I(0, 0));
 
         int xSize = 0, ySize = 0;
-        if (mIsPortrait)
+        if (isPortrait)
         {
-            xSize = (int) (vm.getHeight() * (mScreenHeight / (float) vm
+            xSize = (int) (vm.getHeight() * (screenHeight / (float) vm
                     .getWidth()));
-            ySize = mScreenHeight;
+            ySize = screenHeight;
 
-            if (xSize < mScreenWidth)
+            if (xSize < screenWidth)
             {
-                xSize = mScreenWidth;
-                ySize = (int) (mScreenWidth * (vm.getWidth() / (float) vm
+                xSize = screenWidth;
+                ySize = (int) (screenWidth * (vm.getWidth() / (float) vm
                         .getHeight()));
             }
         } else
         {
-            xSize = mScreenWidth;
-            ySize = (int) (vm.getHeight() * (mScreenWidth / (float) vm
+            xSize = screenWidth;
+            ySize = (int) (vm.getHeight() * (screenWidth / (float) vm
                     .getWidth()));
 
-            if (ySize < mScreenHeight)
+            if (ySize < screenHeight)
             {
-                xSize = (int) (mScreenHeight * (vm.getWidth() / (float) vm
+                xSize = (int) (screenHeight * (vm.getWidth() / (float) vm
                         .getHeight()));
-                ySize = mScreenHeight;
+                ySize = screenHeight;
             }
         }
 
@@ -603,11 +603,11 @@ public class ExRoomSession implements UpdateCallbackInterface
         // The Vuforia VideoBackgroundConfig takes the position relative to the
         // centre of the screen, where as the OpenGL glViewport call takes the
         // position relative to the lower left corner
-        mViewport = new int[4];
-        mViewport[0] = ((mScreenWidth - xSize) / 2) + config.getPosition().getData()[0];
-        mViewport[1] = ((mScreenHeight - ySize) / 2) + config.getPosition().getData()[1];
-        mViewport[2] = xSize;
-        mViewport[3] = ySize;
+        viewport = new int[4];
+        viewport[0] = ((screenWidth - xSize) / 2) + config.getPosition().getData()[0];
+        viewport[1] = ((screenHeight - ySize) / 2) + config.getPosition().getData()[1];
+        viewport[2] = xSize;
+        viewport[3] = ySize;
 
         Renderer.getInstance().setVideoBackgroundConfig(config);
 
@@ -617,7 +617,7 @@ public class ExRoomSession implements UpdateCallbackInterface
     // tracker data loaded
     private boolean isARRunning()
     {
-        return mStarted;
+        return started;
     }
 
 }

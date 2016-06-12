@@ -13,25 +13,16 @@ import com.blend.mediamarkt.utils.AudioPlayer;
 
 public class MainActivity extends VuforiaActivity {
 
-    private static final String LOGTAG = "MainActivity";
     public static boolean musicEnabled = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sceneName = "Main";
+
+        sceneName = "Western";
 
         Sounds sound = Sounds.the_good_the_bad_the_ugly;
         audio = new AudioPlayer(app,sound);
-    }
-
-    // Callback for configuration changes the activity handles itself
-    @Override
-    public void onConfigurationChanged(Configuration config) {
-        Log.d(LOGTAG, "onConfigurationChanged");
-        super.onConfigurationChanged(config);
-
-        App.vuforiaSession.onConfigurationChanged();
     }
 
     @Override

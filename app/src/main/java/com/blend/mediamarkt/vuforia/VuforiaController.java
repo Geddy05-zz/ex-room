@@ -61,7 +61,7 @@ public class VuforiaController implements ExRoomControl {
                 null);
 
         try {
-            App.vuforiaSession.setmSessionControl(this);
+            App.vuforiaSession.setExRoomControl(this);
             App.vuforiaSession.initAR(activity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             App.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
             doStartTrackers();
@@ -233,6 +233,7 @@ public class VuforiaController implements ExRoomControl {
             case "Western":
                 return new WesternScene(activity);
             default:
+                // We are working on more scenes.
                 return new WesternScene(activity);
 
         }

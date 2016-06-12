@@ -1,5 +1,6 @@
 package com.blend.mediamarkt.activities;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +36,6 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         app =(App) getApplication();
 
         vuforiaController = new VuforiaController(this);
-
-        startLoadingAnimation( (RelativeLayout) View.inflate(this, R.layout.camera_overlay, null));
     }
 
     @Override
@@ -54,7 +53,6 @@ public abstract class VuforiaActivity extends AppCompatActivity {
             Log.e(sceneName, e.getString());
         }
 
-        // Resume the GL view:
         if (vuforiaController != null && vuforiaController.glView != null) {
             vuforiaController.glView.setVisibility(View.VISIBLE);
             vuforiaController.glView.onResume();
@@ -105,6 +103,15 @@ public abstract class VuforiaActivity extends AppCompatActivity {
             Log.e(sceneName, e.getString());
         }
         System.gc();
+    }
+
+    // Callback for configuration changes the activity handles itself
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        Log.d(sceneName, "onConfigurationChanged");
+        super.onConfigurationChanged(config);
+
+        App.vuforiaSession.onConfigurationChanged();
     }
 
     protected void startLoadingAnimation(RelativeLayout uiLayout) {

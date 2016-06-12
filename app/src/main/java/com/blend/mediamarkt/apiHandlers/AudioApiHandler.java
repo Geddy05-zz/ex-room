@@ -43,7 +43,6 @@ public class AudioApiHandler extends AsyncTask<Void, Void, Boolean> {
         boolean success;
 
         try {
-            // Defined URL  where to send data
             URL url = createURL();
 
             HttpURLConnection connection;
