@@ -1,6 +1,5 @@
 package com.blend.mediamarkt.utils;
 import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import com.blend.mediamarkt.App;
@@ -8,7 +7,7 @@ import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.vuforia.ExRoomSession;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
+import com.blend.mediamarkt.activities.VuforiaActivity;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
 import com.vuforia.CameraCalibration;
@@ -36,7 +35,6 @@ import com.threed.jpct.util.MemoryHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -50,13 +48,12 @@ public class WesternScene extends BaseScene {
 
     private static final String LOGTAG = "ImageTargetRenderer";
     private ExRoomSession vuforiaAppSession;
-    private VuforiaActivity mActivity;
-    private Vector<Texture> mTextures;
+    private VuforiaActivity activity;
 
     private int texSampler2DHandle;
     private int shaderProgramID;
 
-    private Renderer mRenderer;
+    private Renderer renderer;
 //    public boolean mIsActive = false;
 
     private World world;
@@ -72,18 +69,9 @@ public class WesternScene extends BaseScene {
     private float fovy;
     private boolean findTrackable = false;
 
-
-    private String sceneName;
-    public enum objectOBJ{
-
-    }
-
     public WesternScene(VuforiaActivity activity) {
-        mActivity =  activity;
-        App app =(App) mActivity.getApplication();
-        vuforiaAppSession = app.vuforiaSession;
-
-//        mTextures = texture;
+        this.activity =  activity;
+        vuforiaAppSession = App.vuforiaSession;
 
         world = new World();
         world.setAmbientLight(100, 100, 100);
@@ -98,12 +86,12 @@ public class WesternScene extends BaseScene {
 
 
         try {
-            TextureManager.getInstance().addTexture("texture" ,new Texture(mActivity.getAssets().open("Cottage Texture.jpg")));
-            InputStream streamObj = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
-            InputStream streamMtl = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
+            TextureManager.getInstance().addTexture("texture" ,new Texture(this.activity.getAssets().open("Cottage Texture.jpg")));
+            InputStream streamObj = this.activity.getAssets().open("Snow covered CottageOBJ.obj");
+            InputStream streamMtl = this.activity.getAssets().open("Snow covered CottageOBJ.mtl");
 
-            InputStream streamObj2 = mActivity.getAssets().open("Snow covered CottageOBJ.obj");
-            InputStream streamMtl2 = mActivity.getAssets().open("Snow covered CottageOBJ.mtl");
+            InputStream streamObj2 = this.activity.getAssets().open("Snow covered CottageOBJ.obj");
+            InputStream streamMtl2 = this.activity.getAssets().open("Snow covered CottageOBJ.mtl");
 
             home1 = null;
             home2 = null;
@@ -209,7 +197,7 @@ public class WesternScene extends BaseScene {
 
     // Function for initializing the renderer.
     private void initRendering() {
-        mRenderer = Renderer.getInstance();
+        renderer = Renderer.getInstance();
 
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f : 1.0f);
@@ -234,9 +222,9 @@ public class WesternScene extends BaseScene {
         // clear color and depth buffer
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         // get the state, and mark the beginning of a rendering section
-        State state = mRenderer.begin();
+        State state = renderer.begin();
         // explicitly render the video background
-        mRenderer.drawVideoBackground();
+        renderer.drawVideoBackground();
 
         float[] modelviewArray = new float[16];
         // did we find any trackables this frame?
@@ -268,10 +256,10 @@ public class WesternScene extends BaseScene {
         }
 
         if(findTrackable){
-            new AudioApiHandler(mActivity, AudioOptions.Play, Sounds.the_good_the_bad_the_ugly).execute();
+            new AudioApiHandler(activity, AudioOptions.Play, Sounds.the_good_the_bad_the_ugly).execute();
         }
 
-        mRenderer.end();
+        renderer.end();
     }
 
 

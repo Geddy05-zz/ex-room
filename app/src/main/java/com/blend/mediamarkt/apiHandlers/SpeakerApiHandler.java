@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
+import com.blend.mediamarkt.activities.VuforiaActivity;
 
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -44,13 +44,15 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
             // Defined URL  where to send data
             URL url = createURL();
 
-            // Send POST request
             HttpURLConnection connection;
             connection =(HttpURLConnection) url.openConnection();
 
             // set output to true for creating a body in the request
             connection.setDoOutput( false );
             connection.setRequestMethod("GET");
+
+            /* We set the timeout to 5 sec. because of the user experience
+               If this is to height the user missed important sounds */
             connection.setConnectTimeout(5000);
 
             // Handle response
@@ -66,11 +68,8 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
     }
 
     public boolean handleResponse(int responseCode){
-        if(responseCode > 199 &&  responseCode < 300) {
-            return true;
-        }
+        return responseCode > 199 && responseCode < 300;
 
-        return  false;
     }
 
     @Override
@@ -78,7 +77,7 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
         // play audio on device when server isn't available
         if(!result){
             if(activity.getAudio() != null) {
-                if (audioOptions == audioOptions.Play) {
+                if (audioOptions == AudioOptions.Play) {
                     activity.getAudio().startAudio();
                 }else {
                     activity.getAudio().destroyAudio();

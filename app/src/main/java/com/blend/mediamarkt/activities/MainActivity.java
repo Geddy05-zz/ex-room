@@ -1,47 +1,28 @@
 package com.blend.mediamarkt.activities;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
-import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
-import com.blend.mediamarkt.vuforia.VuforiaController;
 import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.enumerations.AudioOptions;
-
 import com.blend.mediamarkt.utils.AudioPlayer;
-import com.blend.mediamarkt.vuforia.ExRoomException;
-import com.blend.mediamarkt.vuforia.VuforiaActivity;
 
 public class MainActivity extends VuforiaActivity {
 
-    private static final String LOGTAG = "MainActivity";
     public static boolean musicEnabled = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sceneName = "Main";
 
-        // create audio Options for this scene
+        sceneName = "Western";
+
         Sounds sound = Sounds.the_good_the_bad_the_ugly;
         audio = new AudioPlayer(app,sound);
-    }
-
-    // Callback for configuration changes the activity handles itself
-    @Override
-    public void onConfigurationChanged(Configuration config) {
-        Log.d(LOGTAG, "onConfigurationChanged");
-        super.onConfigurationChanged(config);
-
-        app.vuforiaSession.onConfigurationChanged();
     }
 
     @Override
@@ -53,9 +34,6 @@ public class MainActivity extends VuforiaActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

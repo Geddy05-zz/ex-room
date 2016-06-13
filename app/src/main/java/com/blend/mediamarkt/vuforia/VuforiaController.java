@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
+import com.blend.mediamarkt.activities.VuforiaActivity;
 import com.blend.mediamarkt.utils.BaseScene;
 import com.blend.mediamarkt.utils.WesternScene;
 import com.vuforia.CameraDevice;
@@ -29,26 +30,22 @@ import java.util.ArrayList;
 public class VuforiaController implements ExRoomControl {
 
     private static final String LOGTAG = "Media_Markt_Room";
-    private DataSet mCurrentDataset;
-    private int mCurrentDatasetSelectionIndex = 0;
-    private ArrayList<String> mDatasetStrings = new ArrayList<String>();
-    private boolean mExtendedTracking = false;
-    private BaseScene mRenderer;
-    private RelativeLayout mUILayout;
+    private DataSet currentDataset;
+    private int currentDatasetSelectionIndex = 0;
+    private ArrayList<String> datasetStrings = new ArrayList<String>();
+    private boolean extendedTracking = false;
+    private BaseScene scene;
+    private RelativeLayout uiLayout;
     private ObjectTracker objectTracker;
-    private VuforiaActivity mActivity;
-    public ExRoomGL mGlView;
-    private App app;
-    long start;
-    long elapsed;
+    private VuforiaActivity activity;
+    public ExRoomGL glView;
 
 
     public VuforiaController(VuforiaActivity activity){
-        start = System.currentTimeMillis();
 
-        this.mActivity = activity;
+        this.activity = activity;
 
-        mDatasetStrings.add("StonesAndChips.xml");
+        datasetStrings.add("StonesAndChips.xml");
 
         new Thread(new Runnable() {
             public void run() {
@@ -60,13 +57,13 @@ public class VuforiaController implements ExRoomControl {
 
 
     private void start() {
-        mUILayout = (RelativeLayout) View.inflate(mActivity, R.layout.camera_overlay,
+        uiLayout = (RelativeLayout) View.inflate(activity, R.layout.camera_overlay,
                 null);
 
         try {
-            app.vuforiaSession.setmSessionControl(this);
-            app.vuforiaSession.initAR(mActivity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            app.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
+            App.vuforiaSession.setExRoomControl(this);
+            App.vuforiaSession.initAR(activity, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            App.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_BACK);
             doStartTrackers();
         } catch (Exception e) {
         }
@@ -99,23 +96,23 @@ public class VuforiaController implements ExRoomControl {
         if (objectTracker == null)
             return false;
 
-        if (mCurrentDataset == null)
-            mCurrentDataset = objectTracker.createDataSet();
+        if (currentDataset == null)
+            currentDataset = objectTracker.createDataSet();
 
-        if (mCurrentDataset == null)
+        if (currentDataset == null)
             return false;
 
-        if (!mCurrentDataset.load(
-                mDatasetStrings.get(mCurrentDatasetSelectionIndex),
+        if (!currentDataset.load(
+                datasetStrings.get(currentDatasetSelectionIndex),
                 STORAGE_TYPE.STORAGE_APPRESOURCE))
             return false;
 
-        if (!objectTracker.activateDataSet(mCurrentDataset))
+        if (!objectTracker.activateDataSet(currentDataset))
             return false;
 
-        int numTrackables = mCurrentDataset.getNumTrackables();
+        int numTrackables = currentDataset.getNumTrackables();
         for (int count = 0; count < numTrackables; count++) {
-            Trackable trackable = mCurrentDataset.getTrackable(count);
+            Trackable trackable = currentDataset.getTrackable(count);
             if (isExtendedTrackingActive()) {
                 trackable.startExtendedTracking();
             }
@@ -130,7 +127,7 @@ public class VuforiaController implements ExRoomControl {
     }
 
     boolean isExtendedTrackingActive() {
-        return mExtendedTracking;
+        return extendedTracking;
     }
 
     @Override
@@ -165,15 +162,15 @@ public class VuforiaController implements ExRoomControl {
         if (objectTracker == null)
             return false;
 
-        if (mCurrentDataset != null && mCurrentDataset.isActive()) {
-            if (objectTracker.getActiveDataSet().equals(mCurrentDataset)
-                    && !objectTracker.deactivateDataSet(mCurrentDataset)) {
+        if (currentDataset != null && currentDataset.isActive()) {
+            if (objectTracker.getActiveDataSet().equals(currentDataset)
+                    && !objectTracker.deactivateDataSet(currentDataset)) {
                 result = false;
-            } else if (!objectTracker.destroyDataSet(mCurrentDataset)) {
+            } else if (!objectTracker.destroyDataSet(currentDataset)) {
                 result = false;
             }
 
-            mCurrentDataset = null;
+            currentDataset = null;
         }
 
         return result;
@@ -195,15 +192,15 @@ public class VuforiaController implements ExRoomControl {
         if (exception == null) {
             initApplicationAR();
 
-            mRenderer.mIsActive = true;
-            mActivity.addContentView(mGlView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            scene.mIsActive = true;
+            activity.addContentView(glView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
 
-            mUILayout.bringToFront();
-            mUILayout.setBackgroundColor(Color.TRANSPARENT);
+            uiLayout.bringToFront();
+            uiLayout.setBackgroundColor(Color.TRANSPARENT);
 
             try {
-                app.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
+                App.vuforiaSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
             } catch (ExRoomException e) {
                 Log.e(LOGTAG, e.getString());
             }
@@ -222,15 +219,24 @@ public class VuforiaController implements ExRoomControl {
         int stencilSize = 0;
         boolean translucent = Vuforia.requiresAlpha();
 
-        mGlView = new ExRoomGL(mActivity);
-        mGlView.init(translucent, depthSize, stencilSize);
+        glView = new ExRoomGL(activity);
+        glView.init(translucent, depthSize, stencilSize);
 
-        //TODO: make this more generic
+        scene = initScene();
 
-        mRenderer = new WesternScene(mActivity);
+        glView.setRenderer(scene);
 
-        mGlView.setRenderer(mRenderer);
+    }
 
+    private BaseScene initScene(){
+        switch (activity.sceneName){
+            case "Western":
+                return new WesternScene(activity);
+            default:
+                // We are working on more scenes.
+                return new WesternScene(activity);
+
+        }
     }
 
     @Override

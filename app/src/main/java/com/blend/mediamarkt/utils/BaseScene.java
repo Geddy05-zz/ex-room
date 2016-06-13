@@ -11,7 +11,6 @@ import javax.microedition.khronos.opengles.GL10;
 abstract public class BaseScene implements GLSurfaceView.Renderer{
     public boolean mIsActive = false;
 
-
     public abstract void onSurfaceCreated(GL10 gl, EGLConfig config);
     public abstract void onDrawFrame(GL10 gl);
 
