@@ -1,4 +1,4 @@
-package com.blend.mediamarkt.utils;
+package com.blend.mediamarkt.scenes;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -8,6 +8,7 @@ import com.blend.mediamarkt.activities.VuforiaActivity;
 import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.enumerations.Sounds;
+import com.blend.mediamarkt.utils.VuforiaMath;
 import com.blend.mediamarkt.vuforia.ExRoomSession;
 import com.threed.jpct.Camera;
 import com.threed.jpct.Config;

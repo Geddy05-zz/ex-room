@@ -1,28 +1,12 @@
-package com.blend.mediamarkt.utils;
+package com.blend.mediamarkt.scenes;
 import android.opengl.GLES20;
-import android.util.Log;
 
 import com.blend.mediamarkt.App;
-import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
-import com.blend.mediamarkt.enumerations.AudioOptions;
-import com.blend.mediamarkt.enumerations.Sounds;
-import com.blend.mediamarkt.vuforia.ExRoomSession;
+import com.blend.mediamarkt.scenes.BaseScene;
 import com.blend.mediamarkt.activities.VuforiaActivity;
 import com.threed.jpct.Loader;
 import com.threed.jpct.Matrix;
-import com.vuforia.CameraCalibration;
-import com.vuforia.Matrix44F;
-import com.vuforia.Renderer;
-import com.vuforia.State;
-import com.vuforia.Tool;
-import com.vuforia.Trackable;
-import com.vuforia.TrackableResult;
-import com.vuforia.Vec2F;
-import com.vuforia.Vuforia;
 
-import com.threed.jpct.Camera;
-import com.threed.jpct.Config;
-import com.threed.jpct.FrameBuffer;
 import com.threed.jpct.Light;
 import com.threed.jpct.Object3D;
 import com.threed.jpct.SimpleVector;
@@ -35,9 +19,6 @@ import com.threed.jpct.util.MemoryHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
 
 /**
  * Created by geddy on 21/05/16.
@@ -53,7 +34,7 @@ public class WesternScene extends BaseScene {
 
     public WesternScene(VuforiaActivity activity) {
         this.activity =  activity;
-        
+
         vuforiaAppSession = App.vuforiaSession;
 
         world = new World();
