@@ -45,32 +45,15 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class WesternScene extends BaseScene {
 
-
-    private static final String LOGTAG = "ImageTargetRenderer";
-    private ExRoomSession vuforiaAppSession;
-    private VuforiaActivity activity;
-
     private int texSampler2DHandle;
-    private int shaderProgramID;
 
-    private Renderer renderer;
-//    public boolean mIsActive = false;
-
-    private World world;
     private Light sun;
-//    private Object3D cylinder;
     private Object3D home1;
     private Object3D home2;
-    private Object3D road;
-    private Camera cam;
-    private FrameBuffer fb;
-    private float[] modelViewMat;
-    private float fov;
-    private float fovy;
-    private boolean findTrackable = false;
 
     public WesternScene(VuforiaActivity activity) {
         this.activity =  activity;
+        
         vuforiaAppSession = App.vuforiaSession;
 
         world = new World();
@@ -145,157 +128,5 @@ public class WesternScene extends BaseScene {
             GLES20.glUniform1i(texSampler2DHandle, 0);
         }
         return o3d;
-    }
-
-    // Called to draw the current frame.
-    @Override
-    public void onDrawFrame(GL10 gl) {
-        if (!mIsActive)
-            return;
-
-        // Call our function to render content
-        renderFrame();
-
-        updateCamera();
-        world.renderScene(fb);
-        world.draw(fb);
-        fb.display();
-
-    }
-
-
-    // Called when the surface is created or recreated.
-    @Override
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        Log.d(LOGTAG, "GLRenderer.onSurfaceCreated");
-
-        initRendering(); // NOTE: Cocokin sama cpp - DONE
-
-        // Call Vuforia function to (re)initialize rendering after first use
-        // or after OpenGL ES context was lost (e.g. after onPause/onResume):
-        vuforiaAppSession.onSurfaceCreated();
-    }
-
-
-    // Called when the surface changed size.
-    @Override
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
-        Log.d(LOGTAG, "GLRenderer.onSurfaceChanged");
-
-        if (fb != null) {
-            fb.dispose();
-        }
-        fb = new FrameBuffer(width, height);
-        Config.viewportOffsetAffectsRenderTarget = true;
-
-        updateRendering(width, height);
-
-        // Call Vuforia function to handle render surface size changes:
-        vuforiaAppSession.onSurfaceChanged(width, height);
-    }
-
-
-    // Function for initializing the renderer.
-    private void initRendering() {
-        renderer = Renderer.getInstance();
-
-        // Define clear color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f : 1.0f);
-    }
-
-    private void updateRendering(int width, int height) {
-        // Reconfigure the video background
-        vuforiaAppSession.configureVideoBackground();
-
-        CameraCalibration camCalibration = com.vuforia.CameraDevice.getInstance().getCameraCalibration();
-        Vec2F size = camCalibration.getSize();
-        Vec2F focalLength = camCalibration.getFocalLength();
-        float fovyRadians = (float) (2 * Math.atan(0.5f * size.getData()[1] / focalLength.getData()[1]));
-        float fovRadians = (float) (2 * Math.atan(0.5f * size.getData()[0] / focalLength.getData()[0]));
-
-        setFovy(fovRadians);
-        setFov(fovyRadians);
-    }
-
-    // The render function.
-    private void renderFrame() {
-        // clear color and depth buffer
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-        // get the state, and mark the beginning of a rendering section
-        State state = renderer.begin();
-        // explicitly render the video background
-        renderer.drawVideoBackground();
-
-        float[] modelviewArray = new float[16];
-        // did we find any trackables this frame?
-        for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++) {
-            // get the trackable
-            findTrackable = true;
-            TrackableResult result = state.getTrackableResult(tIdx);
-            Trackable trackable = result.getTrackable();
-            printUserData(trackable);
-
-            Matrix44F modelViewMatrix = Tool.convertPose2GLMatrix(result.getPose());
-            Matrix44F inverseMV = VuforiaMath.Matrix44FInverse(modelViewMatrix);
-            Matrix44F invTranspMV = VuforiaMath.Matrix44FTranspose(inverseMV);
-
-            modelviewArray = invTranspMV.getData();
-            updateModelviewMatrix(modelviewArray);
-
-        }
-        // hide the objects when the targets are not detected
-        if (state.getNumTrackableResults() == 0) {
-            float m [] = {
-                    1,0,0,0,
-                    0,1,0,0,
-                    0,0,1,0,
-                    0,0,-10000,1
-            };
-            modelviewArray = m;
-            updateModelviewMatrix(modelviewArray);
-        }
-
-        if(findTrackable){
-            new AudioApiHandler(activity, AudioOptions.Play, Sounds.the_good_the_bad_the_ugly).execute();
-        }
-
-        renderer.end();
-    }
-
-
-    private void printUserData(Trackable trackable) {
-        String userData = (String) trackable.getUserData();
-        Log.d(LOGTAG, "UserData:Retreived User Data	\"" + userData + "\"");
-    }
-
-    private void updateModelviewMatrix(float mat[]) {
-        modelViewMat = mat;
-    }
-
-    private void updateCamera() {
-        if (modelViewMat != null) {
-            float[] m = modelViewMat;
-
-            final SimpleVector camUp;
-
-            camUp = new SimpleVector(-m[0], -m[1], -m[2]);
-
-            final SimpleVector camDirection = new SimpleVector(m[8], m[9], m[10]);
-            final SimpleVector camPosition = new SimpleVector(m[12], m[13], m[14]);
-
-            cam.setOrientation(camDirection, camUp);
-            cam.setPosition(camPosition);
-
-            cam.setFOV(fov);
-            cam.setYFOV(fovy);
-        }
-    }
-
-    private void setFov(float fov) {
-        this.fov = fov;
-    }
-
-    private void setFovy(float fovy) {
-        this.fovy = fovy;
     }
 }
