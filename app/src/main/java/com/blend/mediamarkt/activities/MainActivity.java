@@ -1,12 +1,8 @@
 package com.blend.mediamarkt.activities;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.blend.mediamarkt.App;
 import com.blend.mediamarkt.R;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.utils.AudioPlayer;

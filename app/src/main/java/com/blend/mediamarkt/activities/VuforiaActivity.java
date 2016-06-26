@@ -114,23 +114,6 @@ public abstract class VuforiaActivity extends AppCompatActivity {
         App.vuforiaSession.onConfigurationChanged();
     }
 
-    protected void startLoadingAnimation(RelativeLayout uiLayout) {
-
-        uiLayout.setVisibility(View.VISIBLE);
-        uiLayout.setBackgroundColor(Color.BLACK);
-
-        // Gets a reference to the loading dialog
-        loadingDialogHandler.mLoadingDialogContainer = uiLayout.findViewById(R.id.loading_indicator);
-
-        // Shows the loading indicator at start
-        loadingDialogHandler
-                .sendEmptyMessage(LoadingDialogHandler.SHOW_LOADING_DIALOG);
-
-        // Adds the inflated layout to the view
-        addContentView(uiLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-    }
-
     public AudioPlayer getAudio() {
         return audio;
     }

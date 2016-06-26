@@ -2,6 +2,8 @@ package com.blend.mediamarkt.apiHandlers;
 
 import android.os.AsyncTask;
 
+import com.blend.mediamarkt.Constants;
+import com.blend.mediamarkt.R;
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.activities.VuforiaActivity;
@@ -17,7 +19,8 @@ import java.net.URL;
 public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
 
     private static  String TAG = "APIHandler";
-    public static String baseUrl = "http://10.0.1.3:5000";
+    // i put the url in the constants interface. So i can use it everywhere in the app.
+//    public static final String baseUrl = "http://10.0.1.3:5000";
     private VuforiaActivity activity;
     private AudioOptions audioOptions;
     private Sounds sound;
@@ -30,9 +33,9 @@ public class SpeakerApiHandler extends AsyncTask<Void, Void, Boolean> {
 
     public URL createURL() throws MalformedURLException {
         if(sound != null) {
-            return new URL(baseUrl + audioOptions.toString() + sound.getId());
+            return new URL(Constants.baseUrl + audioOptions.toString() + sound.getId());
         }else{
-            return new URL(baseUrl + audioOptions.toString());
+            return new URL(Constants.baseUrl + audioOptions.toString());
         }
     }
 

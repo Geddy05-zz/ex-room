@@ -36,7 +36,6 @@ abstract public class BaseScene implements GLSurfaceView.Renderer{
     public boolean mIsActive = false;
     protected static final String LOGTAG = "BaseScene";
 
-    protected Object3D road;
     protected Camera cam;
     protected FrameBuffer fb;
     protected float[] modelViewMat;
@@ -67,7 +66,6 @@ abstract public class BaseScene implements GLSurfaceView.Renderer{
 
     }
 
-
     // Called when the surface is created or recreated.
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -96,7 +94,6 @@ abstract public class BaseScene implements GLSurfaceView.Renderer{
         // Call Vuforia function to handle render surface size changes:
         vuforiaAppSession.onSurfaceChanged(width, height);
     }
-
 
     // Function for initializing the renderer.
     private void initRendering() {
@@ -165,7 +162,6 @@ abstract public class BaseScene implements GLSurfaceView.Renderer{
         renderer.end();
     }
 
-
     private void printUserData(Trackable trackable) {
         String userData = (String) trackable.getUserData();
         Log.d(LOGTAG, "UserData:Retreived User Data	\"" + userData + "\"");
@@ -201,5 +197,4 @@ abstract public class BaseScene implements GLSurfaceView.Renderer{
     private void setFovy(float fovy) {
         this.fovy = fovy;
     }
-
 }

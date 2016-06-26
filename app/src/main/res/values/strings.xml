@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Settings Values -->
     <string name="setting_on">On</string>
     <string name="setting_off">Off</string>
@@ -10,6 +11,7 @@
 
     <string name="app_name">MediaMarkt</string>
 
+    <!-- ERROR MESSAGES VUFORIA -->
     <string name="UPDATE_ERROR_AUTHORIZATION_FAILED_TITLE">Authorization Error</string>
     <string name="UPDATE_ERROR_PROJECT_SUSPENDED_TITLE">Authorization Error</string>
     <string name="UPDATE_ERROR_NO_NETWORK_CONNECTION_TITLE">Network Unavailable</string>
@@ -42,4 +44,5 @@
     <string name="INIT_LICENSE_ERROR_UNKNOWN_ERROR">Failed to initialize Vuforia.</string>
     <string name="INIT_OBJECT_DATASET_NOT_FOUND_TITLE">Database not found</string>
     <string name="INIT_OBJECT_DATASET_NOT_FOUND">Please scan an object and load a database</string>
+
 </resources>
