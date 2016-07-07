@@ -48,25 +48,28 @@ public class WesternScene extends BaseScene {
         texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
                 "texSampler2D");
 
-
         try {
-            TextureManager.getInstance().addTexture("texture" ,new Texture(this.activity.getAssets().open("Cottage Texture.jpg")));
-            InputStream streamObj = this.activity.getAssets().open("Snow covered CottageOBJ.obj");
-            InputStream streamMtl = this.activity.getAssets().open("Snow covered CottageOBJ.mtl");
+            TextureManager.getInstance().addTexture("texturePhone" ,new Texture(this.activity.getAssets().open("IPhone/Iphone_texture.jpg")));
+            InputStream streamObj = this.activity.getAssets().open("IPhone/IPhone 4Gs _5.obj");
+            InputStream streamMtl = this.activity.getAssets().open("IPhone/IPhone 4Gs _5.mtl");
 
-            InputStream streamObj2 = this.activity.getAssets().open("Snow covered CottageOBJ.obj");
-            InputStream streamMtl2 = this.activity.getAssets().open("Snow covered CottageOBJ.mtl");
+            TextureManager.getInstance().addTexture("textureTable" ,new Texture(this.activity.getAssets().open("Table/Sehpa Texture.png")));
+            InputStream streamObj2 = this.activity.getAssets().open("Table/Modelleme.obj");
+            InputStream streamMtl2 = this.activity.getAssets().open("Table/Modelleme.mtl");
 
             home1 = null;
             home2 = null;
 
-            home1 = loadModel("house", streamObj, streamMtl,texSampler2DHandle);
-            home1.translate(100.0f, 0.0f, 0.0f);
+            home1 = loadModel("IPhone", streamObj, streamMtl,texSampler2DHandle);
+            home1.scale(20.0f);
+            home1.translate(10.0f, 0.0f, 120.0f);
+            home1.rotateY(8.0f);
             home1.rotateX(30.0f);
 
-            home2 = loadModel("house", streamObj2, streamMtl2,texSampler2DHandle);
-            home2.translate(0.0f, 0.0f, 0.0f);
+
+            home2 = loadModel("Table", streamObj2, streamMtl2,texSampler2DHandle);
             home2.rotateX(30.0f);
+            home2.scale(25.0f);
 
             world.addObject(home1);
             world.addObject(home2);
@@ -80,34 +83,38 @@ public class WesternScene extends BaseScene {
         }
         cam = world.getCamera();
 
-//        sun = new Light(world);
-//        sun.setIntensity(250, 250, 250);
-
-        // for older Android versions, which had massive problems with garbage collection
         MemoryHelper.compact();
-
     }
 
 
-    private Object3D loadModel(String nameObject, InputStream streamObj, InputStream streamMtl, int texSampler2DHandle) throws IOException {
+    public static Object3D loadModel(String nameObject, InputStream streamObj, InputStream streamMtl, int texSampler2DHandle) {
         Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.5f);
         Object3D o3d = new Object3D(0);
+
+        o3d = Object3D.mergeObjects(o3d, createObject(nameObject, model));
+        o3d.strip();
+        o3d.build();
+
+        // Activate texture 0, bind it, and pass to shader
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glUniform1i(texSampler2DHandle, 0);
+
+        return o3d;
+    }
+
+    public static Object3D createObject(String nameObject, Object3D[] model) {
         Object3D temp = null;
 
         for (int i = 0; i < model.length; i++) {
             temp = model[i];
             temp.setCenter(SimpleVector.ORIGIN);
-            temp.setTexture("texture");
+            if(nameObject != "IPhone") {
+                temp.setTexture("textureTable");
+            }else {
+                temp.setTexture("texturePhone");
+            }
             temp.setRotationMatrix(new Matrix());
-            o3d = Object3D.mergeObjects(o3d, temp);
-            o3d.strip();
-            o3d.build();
-
-            // activate texture 0, bind it, and pass to shader
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//          GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextures.get(4).mTextureID[0]);
-            GLES20.glUniform1i(texSampler2DHandle, 0);
         }
-        return o3d;
+        return temp;
     }
 }
