@@ -9,7 +9,10 @@ import com.blend.mediamarkt.apiHandlers.AudioApiHandler;
 import com.blend.mediamarkt.enumerations.Sounds;
 import com.blend.mediamarkt.enumerations.AudioOptions;
 import com.blend.mediamarkt.activities.VuforiaActivity;
+import com.blend.mediamarkt.scenes.WesternScene;
 import com.blend.mediamarkt.vuforia.VuforiaController;
+import com.threed.jpct.Loader;
+import com.threed.jpct.Object3D;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +20,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -111,6 +116,36 @@ public class ExampleUnitTest extends AndroidTestCase {
             assertEquals(true   ,responsePlay);
             assertEquals(true   ,responseStop);
             }
+        }
+    }
+
+    @Test
+    public void loadObjects_Correct() {
+        //WesternScene west = new WesternScene(activity);
+
+        try {
+            InputStream streamObj = activity.getAssets().open("Snow covered CottageOBJ.obj");
+            InputStream streamMtl = activity.getAssets().open("Snow covered CottageOBJ.mtl");
+            //Object3D object = WesternScene.loadModel("house", streamObj,streamMtl);
+            //assertEquals(object != null, true);
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+    }
+
+    @Test
+    public void createObjects_Correct() {
+        try {
+            InputStream streamObj = activity.getAssets().open("Snow covered CottageOBJ.obj");
+            InputStream streamMtl = activity.getAssets().open("Snow covered CottageOBJ.mtl");
+            Object3D[] model = Loader.loadOBJ(streamObj,streamMtl, 1.5f);
+
+            Object3D object = WesternScene.createObject("house", model);
+            assertEquals(object != null, true);
+        }
+        catch (IOException e){
+            System.out.println(e);
         }
     }
 }

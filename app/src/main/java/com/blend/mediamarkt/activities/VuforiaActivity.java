@@ -95,7 +95,10 @@ public abstract class VuforiaActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d(sceneName, "onDestroy");
         super.onDestroy();
-        new AudioApiHandler(this, AudioOptions.Stop,null).execute();
+        //new AudioApiHandler(this, AudioOptions.Stop,null).execute();
+        if(audio != null) {
+            audio.destroyAudio();
+        }
 
         try {
             App.vuforiaSession.stopAR();
