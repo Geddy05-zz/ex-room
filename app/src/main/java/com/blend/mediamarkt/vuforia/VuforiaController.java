@@ -55,7 +55,6 @@ public class VuforiaController implements ExRoomControl {
 
     }
 
-
     private void start() {
         uiLayout = (RelativeLayout) View.inflate(activity, R.layout.camera_overlay,
                 null);
@@ -69,6 +68,21 @@ public class VuforiaController implements ExRoomControl {
         }
     }
 
+    private BaseScene initScene(){
+        switch (activity.sceneName){
+            case "Western":
+                return new WesternScene(activity);
+            default:
+                // We are working on more scenes.
+                return new WesternScene(activity);
+
+        }
+    }
+
+    @Override
+    public void onVuforiaUpdate(State state) {}
+
+    //region Trackers
     @Override
     public boolean doInitTrackers() {
         // Indicate if the trackers were initialized correctly
@@ -186,7 +200,9 @@ public class VuforiaController implements ExRoomControl {
 
         return result;
     }
+    //endregion
 
+    //region Augmented Reality
     @Override
     public void onInitARDone(ExRoomException exception) {
         if (exception == null) {
@@ -227,18 +243,5 @@ public class VuforiaController implements ExRoomControl {
         glView.setRenderer(scene);
 
     }
-
-    private BaseScene initScene(){
-        switch (activity.sceneName){
-            case "Western":
-                return new WesternScene(activity);
-            default:
-                // We are working on more scenes.
-                return new WesternScene(activity);
-
-        }
-    }
-
-    @Override
-    public void onVuforiaUpdate(State state) {}
+    //endregion
 }

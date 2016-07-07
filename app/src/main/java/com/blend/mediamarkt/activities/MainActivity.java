@@ -21,6 +21,7 @@ public class MainActivity extends VuforiaActivity {
         audio = new AudioPlayer(app,sound);
     }
 
+    //region Sound Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -47,4 +48,5 @@ public class MainActivity extends VuforiaActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    //endregion
 }

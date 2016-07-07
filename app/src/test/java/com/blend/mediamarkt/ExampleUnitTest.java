@@ -84,7 +84,7 @@ public class ExampleUnitTest extends AndroidTestCase {
     @Test
     public void createURL_isCorrect() throws MalformedURLException {
         Sounds[] sounds =new Sounds[]{Sounds.the_good_the_bad_the_ugly,Sounds.forest};
-        String url = AudioApiHandler.baseUrl +"/sounds/";
+        String url = Constants.baseUrl +"/sounds/";
         int count = 1;
         for (Sounds sound : sounds) {
             apiHandlerPlay = new AudioApiHandler(activity, AudioOptions.Play, sound);
